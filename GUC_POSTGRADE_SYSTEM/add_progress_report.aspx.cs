@@ -16,7 +16,12 @@ namespace GUC_POSTGRADE_SYSTEM
 
         protected void AddFillProgressReport(object sender, EventArgs e)
         {
-            Response.Write("hello");
+            DateTime today = date.SelectedDate;
+
+          
+
+
+            Response.Write(today);
         }
     }
 }

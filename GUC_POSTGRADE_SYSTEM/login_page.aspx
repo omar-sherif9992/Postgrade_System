@@ -17,13 +17,7 @@
             <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
 
     <form id="form1" runat="server">
-        <div id="error" class="">
-
-        </div>
-
-
-        <div>
-        </div><p style="text-align:left">
+       <p style="text-align:left">
         Enter your Email :</p><p>
             <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your Email" ></asp:TextBox>
         </p>

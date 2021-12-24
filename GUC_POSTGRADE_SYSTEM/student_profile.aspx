@@ -15,6 +15,13 @@
         td {
         color: grey;
   font-size: 150%;
+      border-bottom: 1px solid #ddd;
+
+        }
+        table {
+            width:50%;
+            position:relative;
+            left:25%;
         }
     </style>
     <title>PostGrade Office</title>

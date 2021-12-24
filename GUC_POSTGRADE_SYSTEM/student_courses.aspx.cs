@@ -19,8 +19,7 @@ namespace GUC_POSTGRADE_SYSTEM
             String type =Session["type"].ToString();
             if (type == "NonGucianStudent")
             {
-                String username = Session["user"].ToString();
-                pageTitle.Text =username.ToString()+"'s Courses";
+                pageTitle.Text ="Courses";
 
                 String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
                 SqlConnection conn = new SqlConnection(connStr);

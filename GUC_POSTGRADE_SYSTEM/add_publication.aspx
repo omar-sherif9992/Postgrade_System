@@ -10,9 +10,28 @@
     <title>PostGrade Office</title>
 </head>
 <body>
+   <main class="form-signin">
+             <h1 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline">Add Publo</h1> 
+
+            <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
+
     <form id="form1" runat="server">
-        <div>
-        </div>
+       <p style="text-align:left">
+        Enter your Email :</p><p>
+            <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your Email" ></asp:TextBox>
+        </p>
+        <p style="text-align:left">
+            Enter your Password :</p>
+        <p>
+            <asp:TextBox class="form-control" ID="password" runat="server"  type="password"  placeholder="Enter Your Password" ></asp:TextBox>
+        </p>
+            <p>
+                <asp:Button  ID="signin"  runat="server" OnClick="login" Text="log in" class="btn btn-outline-primary btn-lg" />
+        </p>          
+      
+   
     </form>
+                </div>
+        </main>
 </body>
 </html>

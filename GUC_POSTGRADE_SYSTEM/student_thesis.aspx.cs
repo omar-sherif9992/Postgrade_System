@@ -17,7 +17,7 @@ namespace GUC_POSTGRADE_SYSTEM
         
             String type = Session["type"].ToString();
             String username = Session["user"].ToString();
-            pageTitle.Text = username.ToString() + "'s Thesises";
+            pageTitle.Text="Thesises";
 
             TableHeaderRow tableHeaderRow = new TableHeaderRow();
             TableHeaderCell headerCell = new TableHeaderCell();
