@@ -1,0 +1,826 @@
+﻿
+
+
+USE GUC_POSTGRADE_SYSTEM
+GO
+select *
+from NonGucianStudent N inner join PostGradUser P on N.id =P.id
+go
+
+-- 1a.1 Registering Student in the System
+create PROCEDURE StudentRegister 
+@first_name VARCHAR(20), @last_name VARCHAR(20), @password VARCHAR(20),
+@faculty VARCHAR(20), @Gucian BIT, @email VARCHAR(50), @address VARCHAR(50)
+AS
+IF(@first_name is null or @last_name is null or @password is null or @faculty is null or @Gucian is null or @email is null or @address is null)
+PRINT('Error Missing Input Data in StudentRegister');
+ELSE
+BEGIN
+INSERT INTO PostGradUser (email,password) VALUES(@email,@password);
+DECLARE @lastID INT;
+SELECT @lastID = max(id) 
+FROM PostGradUser  
+IF(@Gucian = '1')
+INSERT INTO GucianStudent (id,firstName,lastName,type,faculty,address,GPA,undergradID)
+VALUES (@lastID,@first_name,@last_name,'-1',@faculty,@address,-1,-1);
+ELSE INSERT INTO NonGucianStudent (id,firstName,lastName,type,faculty,address,GPA)
+VALUES (@lastID,@first_name,@last_name,'-1',@faculty,@address,-1);
+END
+GO
+
+--1a.2 Registering a new Supervisor to the System
+create PROCEDURE SupervisorRegister
+@first_name VARCHAR(20),@last_name VARCHAR(20),@password VARCHAR(20),@faculty VARCHAR(20),
+@email VARCHAR(50)
+AS
+IF(@first_name IS NULL OR @last_name IS NULL OR @password IS NULL OR @faculty IS NULL OR @email IS NULL)
+PRINT('Error Missing Input Data in SupervisorRegister');
+ELSE
+BEGIN
+INSERT INTO PostGradUser (email,password) VALUES(@email,@password);
+DECLARE @lastID INT;
+SELECT @lastID = max(id) 
+FROM PostGradUser
+INSERT INTO Supervisor (id,name,faculty) VALUES(@lastID,@first_name+' '+@last_name,@faculty);
+END
+GO
+
+--2a Login the User into the System
+create PROCEDURE userLogin
+@email VARCHAR(50),
+@password VARCHAR(20),
+@Success_bit BIT OUTPUT,
+@TYPE VARCHAR(40) OUTPUT,
+@id int OUTPUT
+AS
+DECLARE @TEMP_ID INT
+IF( EXISTS(
+SELECT *
+FROM PostGradUser
+WHERE email=@email AND password=@password))
+BEGIN
+SELECT @TEMP_ID=id
+FROM PostGradUser
+WHERE email=@email AND password=@password
+SET @Success_bit = '1';
+SET @id=@TEMP_ID;
+IF(EXISTS(
+SELECT *
+FROM GucianStudent
+WHERE id=@TEMP_ID))
+SET @TYPE='GucianStudent'
+ELSE IF(EXISTS(
+SELECT *
+FROM Admin
+WHERE id=@TEMP_ID ))
+SET @TYPE='Admin'
+ELSE IF(EXISTS(
+SELECT *
+FROM NonGucianStudent
+WHERE id=@TEMP_ID ))
+SET @TYPE='NonGucianStudent'
+ELSE IF(EXISTS(
+SELECT *
+FROM Supervisor
+WHERE id=@TEMP_ID ))
+SET @TYPE='Supervisor'
+END
+ELSE
+begin
+SET @TYPE=null;
+SET @Success_bit =  '0';
+SET @id=null;
+end
+go
+
+declare @sBit bit
+declare @type varchar(50)
+declare @id int 
+exec userlogin 'husseinyasser38@yahoo.com','hussein2150',@sBit out,@type out,@id out
+print(@type)
+--2b add mobile numbers to the student according 
+GO
+CREATE PROCEDURE addMobile
+@ID INT ,
+@mobile_number VARCHAR(20)
+AS
+IF(EXISTS(SELECT *
+FROM NonGUCStudentPhoneNumber 
+WHERE id=@ID AND phone=@mobile_number ) OR EXISTS(
+SELECT *
+FROM GUCStudentPhoneNumber 
+WHERE id=@ID AND phone=@mobile_number) )
+PRINT ('The Phone Number already exists')
+
+ELSE IF(EXISTS(
+		SELECT *
+		FROM NonGucianStudent
+		WHERE id=@ID))
+	INSERT INTO NonGUCStudentPhoneNumber (id,phone) VALUES (@ID,@mobile_number)
+ELSE IF(EXISTS(
+		SELECT *
+		FROM GucianStudent
+		WHERE id=@ID))
+			INSERT INTO GUCStudentPhoneNumber (id,phone) VALUES (@ID,@mobile_number)
+
+ELSE
+PRINT('Error the ID is not registered as a Student addMobile')
+
+go
+
+--3a List all SuperVisors in The System
+CREATE PROCEDURE AdminListSup
+AS
+SELECT *
+FROM Supervisor
+
+go
+
+--missing admin id  to check if he have the privilage
+--3b Admin views the Supervisor Profile
+CREATE PROCEDURE AdminViewSupervisorProfile
+@supId INT
+AS
+SELECT *
+FROM Supervisor
+WHERE id=@supId
+
+go
+--3c Viewing All Thesis in The System
+CREATE PROCEDURE AdminViewAllTheses
+AS
+SELECT *
+FROM  Thesis
+
+GO
+--3d Listing the the number of ongoing Thesis in CurrentDate
+CREATE PROCEDURE AdminViewOnGoingTheses 
+@thesesCount int out
+AS
+SELECT @thesesCount = COUNT(*)
+FROM THESIS
+WHERE CURRENT_TIMESTAMP < endDate AND CURRENT_TIMESTAMP >startDate
+
+GO
+
+--3e Getting Supervisors supervising specific student in an ongoing Thesis(currently Thesis) 
+CREATE PROCEDURE AdminViewStudentThesisBySupervisor
+AS
+(SELECT S.name AS 'SuperVisor Name',T.title as 'Thesis Title',NonGUC.firstName+' '+NonGUC.lastName AS 'Student name'
+FROM Supervisor S INNER JOIN NonGUCianStudentRegisterThesis NonGUCTHESIS ON S.id = NonGUCTHESIS.supid
+INNER JOIN NonGucianStudent NonGUC on NonGUC.id = NonGUCTHESIS.sid 
+INNER JOIN Thesis T ON T.serialNumber = NonGUCTHESIS.serial_no
+where 
+CURRENT_TIMESTAMP > T.startDate AND CURRENT_TIMESTAMP < T.endDate)
+UNION
+(SELECT S.name AS 'SuperVisor Name',T.title as 'Thesis Title',GUC.firstName+' '+GUC.lastName AS 'Student name'
+FROM Supervisor S INNER JOIN GUCianStudentRegisterThesis GUCTHESIS ON S.id = GUCTHESIS.supid
+INNER JOIN GucianStudent GUC on GUC.id = GUCTHESIS.sid 
+INNER JOIN Thesis T ON T.serialNumber = GUCTHESIS.serial_no
+where 
+CURRENT_TIMESTAMP > T.startDate AND CURRENT_TIMESTAMP < T.endDate);
+
+GO
+
+--3f List nonGucians names, course code, and respective grade
+CREATE PROCEDURE AdminListNonGucianCourse
+@courseID int
+AS
+SELECT NonGUC.firstName + ' ' + NonGUC.lastName AS 'NonGUCIAN Student Name',COR.code AS 'Course Code',
+C.grade AS 'Course Grade'
+FROM NonGucianStudent NonGUC INNER JOIN NonGucianStudentTakeCourse C ON C.sid = NonGUC.id
+INNER JOIN Course COR ON COR.id = C.cid
+WHERE COR.code IS NOT NULL and COR.id = @courseID
+
+GO
+
+--3g ADMIN UPDATES THE EXTENSION BY THESIS SERIAL NUMBER
+CREATE PROCEDURE AdminUpdateExtension
+@ThesisSerialNo INT
+AS
+UPDATE Thesis SET noExtension=noExtension+1 WHERE serialNumber=@ThesisSerialNo
+
+GO
+
+--3h Issue a thesis payment
+CREATE PROCEDURE AdminIssueThesisPayment
+@ThesisSerialNo INT ,
+@amount DECIMAL,
+@noOfInstallments INT ,
+@fundPercentage DECIMAL,
+@Success_bit BIT OUTPUT
+AS
+if(exists(SELECT *
+FROM Thesis 
+WHERE serialNumber=@ThesisSerialNo))
+BEGIN
+INSERT INTO PAYMENT(amount,no_Installments,fundPercentage) values(@amount,@noOfInstallments,@fundPercentage);
+DECLARE @PAY_ID INT
+
+SELECT @PAY_ID=MAX(id) FROM Payment
+UPDATE Thesis SET payment_id=@PAY_ID WHERE serialNumber=@ThesisSerialNo
+
+SET @Success_bit = '1'
+END
+ELSE SET @Success_bit = '0'
+
+GO
+
+--3i view the profile of any student that contains all his/her information
+GO
+CREATE PROCEDURE AdminViewStudentProfile
+@sid int
+AS
+if (exists(
+SELECT *
+FROM GucianStudent S
+WHERE S.id = @sid))
+select *
+from GucianStudent S
+where id = @sid                                      
+else if(exists(
+SELECT *
+FROM NonGucianStudent S
+WHERE S.id = @sid))
+SELECT *
+FROM NonGucianStudent
+where id = @sid
+else
+print ('This is not a student ID')
+GO
+
+--3j Issue installments as per the number of installments for a certain payment every six months starting from the entered date.
+create procedure AdminIssueInstallPayment
+@paymentID int,@InstallStartDate date
+AS
+declare @counter int
+set @counter = 1
+declare @num int
+select @num = no_Installments
+from Payment
+where @paymentID = id
+declare @val decimal
+declare @amnt decimal
+select @amnt = amount
+from Payment
+where @paymentID = id
+if(@amnt is not null and @num is not null)
+begin
+set @val = @amnt/@num
+while(@counter <= @num)
+BEGIN
+insert into Installment (date,paymentId,amount,done)
+values (@InstallStartDate,@paymentID,@val,0)
+set @counter = @counter+1
+select @InstallStartDate = DATEADD(month,6,@InstallStartDate) 
+END
+end
+
+
+GO
+
+--3k List the title(s) of accepted publication(s) per thesis
+create PROCEDURE AdminListAcceptPublication
+AS
+SELECT TP.serialNo AS 'thesisNo', P.title AS 'Accepted title'
+FROM ThesisHasPublication TP
+INNER JOIN
+Publication P ON TP.pubid=P.id
+WHERE  P.accepted = '1'
+ORDER BY TP.serialNo ASC
+
+go
+
+--3l.1 Add Course to the System
+create procedure AddCourse
+@courseCode varchar(10),@creditHrs int,@fees decimal
+AS
+if(exists(select *
+          from Course C
+		  where C.code = @courseCode and C.creditHours = @creditHrs and C.fees = @fees))
+		  print ('You cant Add Duplicate Courses')
+else insert into Course(fees,creditHours,code) values(@fees,@creditHrs,@courseCode);
+
+GO
+
+--3l.2 Link a Course with a Student
+create procedure linkCourseStudent
+@courseId int , @studentID int
+AS
+insert into NonGucianStudentTakeCourse(sid,cid,grade) values(@studentID,@courseId,null)
+GO
+
+--3l.3 add student course grade 
+create procedure addStudentCourseGrade
+@courseID int,@studentID int,@grade decimal
+AS
+update NonGucianStudentTakeCourse SET grade = @grade where sid = @studentID and cid = @courseID
+GO
+
+
+--3m View examiners and supervisor(s) names attending a thesis defense taking place on a certain date
+CREATE PROCEDURE ViewExamSupDefense
+@defenseDate datetime
+AS
+SELECT DISTINCT E.name as 'Examiner name',S.name AS 'Supervisor name'
+FROM thesis T 
+LEFT OUTER JOIN ExaminerEvaluateDefense EED on EED.serialNo=T.serialNumber
+LEFT OUTER JOIN Examiner E on EED.examinerId=E.id
+LEFT OUTER JOIN GUCianStudentRegisterThesis GSRT ON T.serialNumber=GSRT.serial_no
+LEFT OUTER JOIN NonGUCianStudentRegisterThesis NGSRT ON T.serialNumber=NGSRT.serial_no
+LEFT OUTER JOIN SUPERVISOR S on (S.id=GSRT.supid OR S.id=NGSRT.supid)
+WHERE T.defenceDate=@defenseDate AND (E.NAME IS NOT NULL OR S.NAME IS NOT NULL )
+
+go
+
+--Part 4 a evaluationg a progress report
+CREATE PROCEDURE EvaluateProgressReport
+@supervisorID int,
+@thesisSerialNo int,
+@progressReportNo int,
+@evaluation int --give evaluation value 0 to 3.
+AS
+IF(@evaluation >=0 and @evaluation<=3)
+BEGIN
+UPDATE NonGUCianProgressReport SET eval = @evaluation
+WHERE supid=@supervisorID 
+AND thesisSerialNumber = @thesisSerialNo AND no = @progressReportNo
+UPDATE GUCianProgressReport SET eval = @evaluation
+WHERE supid=@supervisorID
+AND thesisSerialNumber = @thesisSerialNo AND no = @progressReportNo
+END
+ELSE PRINT('You cant insert evaluation of of the range 0 to 3')
+GO
+
+--4b View all my students’s names and years spent in the thesis.
+create procedure ViewSupStudentsYears
+@supervisorID int
+AS
+select GUC.firstName + ' ' + GUC.lastName AS 'Student Name',T.years AS 'years spent'
+from GUCianStudentRegisterThesis GUCTHESIS INNER JOIN GucianStudent GUC
+ON GUCTHESIS.sid = GUC.id
+INNER JOIN Thesis T ON T.serialNumber = GUCTHESIS.serial_no
+WHERE GUCTHESIS.supid = @supervisorID
+Union
+select NONGUC.firstName + ' ' + NONGUC.lastName AS 'Student Name',T.years
+from NonGUCianStudentRegisterThesis NONGUCTHESIS INNER JOIN NonGucianStudent NONGUC
+ON NONGUCTHESIS.sid = NONGUC.id
+INNER JOIN Thesis T ON T.serialNumber = NONGUCTHESIS.serial_no
+WHERE NONGUCTHESIS.supid = @supervisorID
+
+GO
+select * from PostGradUser U Inner Join Supervisor S on U.id = S.id
+go
+--4c.1 View Supervisor profile
+CREATE PROCEDURE SupViewProfile
+@supervisorID int
+AS
+SELECT *
+FROM Supervisor S
+WHERE S.id = @supervisorID
+GO
+
+--4c.2 supervisor updates his/her profile
+CREATE PROCEDURE UpdateSupProfile
+@supervisorID int,
+@name varchar(20),
+@faculty varchar(20)
+AS
+UPDATE SUPERVISOR SET name=@name ,faculty=@faculty  WHERE id = @supervisorID
+
+
+GO
+
+--4d supervisor views all the publications of a student
+CREATE PROCEDURE ViewAStudentPublications
+@StudentID INT
+AS
+SELECT *
+FROM ThesisHasPublication TP INNER JOIN Publication P  ON TP.pubid=P.id
+INNER JOIN NonGUCianStudentRegisterThesis S ON  S.serial_no=TP.serialNo
+WHERE S.SID = @StudentID
+UNION
+SELECT *
+FROM ThesisHasPublication TP INNER JOIN Publication P  ON TP.pubid=P.id
+INNER JOIN GUCianStudentRegisterThesis S ON  S.serial_no=TP.serialNo
+WHERE S.SID = @StudentID
+
+GO
+
+--4e1 Add defense for a thesis for gucian students
+create procedure AddDefenseGucian
+@ThesisSerialNo int,
+@DefenseDate datetime,
+@DefenseLocation varchar(15)
+as
+if (not exists(
+	select * 
+	from Thesis inner join GUCianStudentRegisterThesis on serialNumber = serial_no
+	where serialNumber = @ThesisSerialNo))
+print 'This serial number number is not found'
+
+else if(not exists(
+select	* 
+from Thesis inner join GUCianStudentRegisterThesis on serialNumber = serial_no
+where defenceDate = @DefenseDate))
+print 'Enter a correct defense date'
+
+else
+insert into Defense values(@ThesisSerialNo,@DefenseDate,@DefenseLocation,null)
+
+GO
+--4e2 Add defense for a thesis, for nonGucian students all courses’ grades should be greater than 50 percent.
+create procedure AddDefenseNonGucian
+@ThesisSerialNo int,
+@DefenseDate datetime,
+@DefenseLocation varchar(15)
+as
+if (not exists(
+	select * 
+	from Thesis inner join NonGUCianStudentRegisterThesis on serialNumber = serial_no
+	where serialNumber = @ThesisSerialNo))
+print ('This serial number number is not found')
+
+else if(not exists(
+select	* 
+from Thesis inner join NonGUCianStudentRegisterThesis on serialNumber = serial_no
+where defenceDate = @DefenseDate))
+print ('Enter a correct defense date')
+
+else if(50 < (select NGSTC.grade
+from Thesis T inner join NonGUCianStudentRegisterThesis NGSRT on T.serialNumber = NGSRT.serial_no
+inner join NonGucianStudentTakeCourse NGSTC on NGSRT.sid = NGSTC.sid))
+insert into Defense values(@ThesisSerialNo,@DefenseDate,@DefenseLocation,null)
+
+else
+print ('The grade must be greater than 50')
+
+go
+
+
+--4f the examiner password and email is missing in the inputs so we inserted null
+--it is supposed to have the examiner id as an input becuase it is treated as a postgrad user
+--so this is clarification why the procedure looks like this
+--Add examiner(s) for a defense.
+create proc AddExaminer
+@ThesisSerialNo int,
+@DefenseDate Datetime,
+@ExaminerName varchar(20),
+@National bit,
+@fieldOfWork varchar(20)
+AS
+declare @xD int
+if(exists(select * from Examiner where name = @ExaminerName and isNational = @National
+and fieldOfWork = @fieldOfWork))
+BEGIN 
+select @xD = id from Examiner where name = @ExaminerName and isNational = @National
+and fieldOfWork = @fieldOfWork
+insert into ExaminerEvaluateDefense (date,serialNo,examinerId,comment)
+values(@DefenseDate,@ThesisSerialNo,@xD,NULL)
+END
+ELSE
+BEGIN
+insert into PostGradUser(email,password) values(null,null) --i inserted the email and the password with null values
+select @xD =max(id)
+from PostGradUser
+insert into Examiner (id,name,fieldOfWork,isNational)
+values(@xD,@ExaminerName,@fieldOfWork,@National)
+insert into ExaminerEvaluateDefense values(@DefenseDate,@ThesisSerialNo,@xD,NULL)
+END
+GO
+
+--4 G
+--Cancel a Thesis if the evaluation of the last progress report is zero.
+create PROCEDURE CancelThesis
+@ThesisSerialNo int
+AS
+DECLARE @RESULT DECIMAL
+IF(EXISTS(
+	SELECT *
+	FROM GUCianProgressReport
+	WHERE thesisSerialNumber=@ThesisSerialNo))
+BEGIN 
+
+SELECT @RESULT=eval
+FROM GUCianProgressReport
+WHERE thesisSerialNumber = @ThesisSerialNo and no in (
+SELECT max(no)
+ FROM GUCianProgressReport
+WHERE thesisSerialNumber=@ThesisSerialNo );
+END
+ELSE IF (EXISTS(
+	SELECT *
+	FROM NonGUCianProgressReport
+	WHERE thesisSerialNumber=@ThesisSerialNo))
+
+BEGIN
+SELECT @RESULT=eval
+FROM NonGUCianProgressReport
+WHERE thesisSerialNumber = @ThesisSerialNo and no in (
+SELECT max(no)
+ FROM NonGUCianProgressReport
+WHERE thesisSerialNumber=@ThesisSerialNo );
+END
+if(@RESULT=0)
+DELETE FROM THESIS WHERE serialNumber=@ThesisSerialNo
+GO
+
+--4.h) Add a grade for a thesis
+--we Added a grade input becuase it is not logic to AddGrade without a grade as an input
+GO
+create proc AddGrade 
+@ThesisSerialNo int ,@grade decimal
+AS
+update Thesis set grade =@grade where serialNumber = @ThesisSerialNo
+GO
+
+--5 As an examiner I should be able to:
+
+-- 5a) Add grade for a defense.
+CREATE PROCEDURE AddDefenseGrade
+@ThesisSerialNo int ,
+@DefenseDate Datetime ,
+@grade decimal
+AS
+UPDATE Defense
+SET grade=@grade
+WHERE serialNumber=@ThesisSerialNo AND date=@DefenseDate
+GO
+
+-- 5b) Add comments for a defense.
+CREATE PROCEDURE AddCommentsGrade
+@ThesisSerialNo int ,
+@DefenseDate Datetime ,
+@comments varchar(300)
+AS
+UPDATE ExaminerEvaluateDefense
+SET comment = @comments
+WHERE serialNo = @ThesisSerialNo AND date = @DefenseDate
+
+GO
+
+--6 As a registered student I should be able to:
+
+--6a) View my profile that contains all my information.
+CREATE PROCEDURE viewMyProfile
+@studentId int
+AS
+IF(EXISTS(
+	SELECT *
+	FROM GucianStudent S 
+	WHERE S.id = @studentId
+))
+
+SELECT *
+FROM PostGradUser U INNER JOIN GucianStudent S ON U.id = S.id
+WHERE U.id = @studentId
+ELSE IF (
+EXISTS(
+	SELECT *
+	FROM NonGucianStudent S 
+	WHERE S.id = @studentId
+))
+SELECT *
+FROM PostGradUser U INNER JOIN NonGucianStudent S ON U.id = S.id
+WHERE U.id = @studentId
+ELSE
+PRINT('Student doesnt exist in the system' )
+
+GO
+--6b  Edit my profile (change any of my personal information).
+-- I gave him/her the accessbility to just update what is not null
+CREATE PROCEDURE editMyProfile
+@studentID int ,
+@firstName varchar(10), 
+@lastName varchar(10), 
+@password varchar(10),
+@email varchar(10), 
+@address varchar(10), 
+@type varchar(10)
+AS
+IF(@password is not null)
+UPDATE PostGradUser SET password=@password WHERE id=@studentID
+IF(@email is not null)
+UPDATE PostGradUser SET email=@email WHERE id=@studentID
+IF(@firstName is not null)
+BEGIN
+UPDATE GucianStudent SET firstName=@firstName WHERE id=@studentID
+UPDATE NonGucianStudent SET firstName=@firstName WHERE id=@studentID
+END
+IF(@address is not null)
+BEGIN
+UPDATE GucianStudent SET address=@address WHERE id=@studentID
+UPDATE NonGucianStudent SET address=@address WHERE id=@studentID
+END
+
+IF(@lastName is not null)
+BEGIN
+UPDATE GucianStudent SET lastName=@lastName WHERE id=@studentID
+UPDATE NonGucianStudent SET lastName=@lastName WHERE id=@studentID
+END
+IF(@type is not null)
+BEGIN
+UPDATE GucianStudent SET type=@type WHERE id=@studentID
+UPDATE NonGucianStudent SET type=@type WHERE id=@studentID
+END
+GO
+
+
+--6.c) As a Gucian graduate, add my undergarduate ID.
+CREATE PROCEDURE addUndergradID
+@studentID int,
+@undergradID varchar(10)
+AS
+UPDATE GucianStudent SET undergradID=@undergradID WHERE id=@studentID
+GO
+
+--6d As a nonGucian student, view my courses’ grades
+CREATE PROCEDURE ViewCoursesGrades
+@studentID int
+AS
+IF(EXISTS(SELECT *
+from NonGucianStudentTakeCourse
+WHERE sid=@studentID))
+SELECT C.code as 'Course_Code',G.grade as 'Grade', C.creditHours
+FROM NonGucianStudentTakeCourse  G INNER JOIN COURSE C ON G.cid=C.id
+WHERE sid=@studentID
+ELSE
+PRINT('There is no a student with that ID')
+
+GO
+
+--6.e) Student  Views his/her Course payments and installments.
+--6e.1 View all my payments and installments.
+CREATE PROCEDURE ViewCoursePaymentsInstall
+@studentID int
+AS
+SELECT C.code as "Course_Code" ,P.amount as "Payment_Amount",P.fundPercentage as "Payment_fund_percentage",P.no_installments as "Number_of_installments",I.amount as "Installment_amount",I.date as "Installment_Date",I.done as "Installment_Payed"
+FROM Payment P INNER JOIN Installment I ON P.id=I.paymentId
+INNER JOIN NonGucianStudentPayForCourse G ON I.paymentId=G.paymentNo 
+INNER JOIN Course C ON G.cid=C.id
+WHERE sid=@studentID
+
+GO
+
+--6e.2 view Thesis Payment
+create proc ViewThesisPaymentsInstall
+@studentID int
+AS
+if(exists(select * from GucianStudent where id = @studentID))
+begin
+select P.id as 'Payment ID',P.amount AS 'Thesis Payment Amount' , P.fundPercentage as 'Payment Fund Percentage',
+P.no_Installments as 'Payment number of Installments',I.paymentId as 'Instalmment belonging to',
+I.amount as 'Installment Amount',I.date as 'Installment date', I.done as 'Installment Done or Not'
+from GucianStudent GUC Inner Join GUCianStudentRegisterThesis GUCTHESIS 
+on GUC.id = GUCTHESIS.sid Inner Join Thesis T on GUCTHESIS.serial_no = T.serialNumber
+Inner Join Payment P on T.payment_id = P.id Inner Join Installment I on P.id = I.paymentId
+where GUC.id = @studentID
+end
+else if(exists(select * from NonGucianStudent where id=@studentID) )
+begin
+select P.id as 'Payment ID',P.amount AS 'Thesis Payment Amount' , P.fundPercentage as 'Payment Fund Percentage',
+P.no_Installments as 'Payment number of Installments',I.paymentId as 'Instalmment belonging to',
+I.amount as 'Installment Amount',I.date as 'Installment date', I.done as 'Installment Done or Not'
+from NonGucianStudent NONGUC Inner Join NonGUCianStudentRegisterThesis NONGUCTHESIS 
+on NONGUC.id = NONGUCTHESIS.sid Inner Join Thesis T on NONGUCTHESIS.serial_no = T.serialNumber
+Inner Join Payment P on T.payment_id = P.id Inner Join Installment I on P.id = I.paymentId
+where NONGUC.id = @studentID
+end
+else print('You can not view Payments for Non existing ID');
+
+GO
+
+--6e.3 view upcoming installment
+create proc ViewUpcomingInstallments
+@studentID int
+AS
+if(exists(select * from GucianStudent where id = @studentID))
+begin
+select I.*
+from GucianStudent GUC Inner Join GUCianStudentRegisterThesis GUCTHESIS 
+on GUC.id = GUCTHESIS.sid Inner Join Thesis T on GUCTHESIS.serial_no = T.serialNumber
+Inner Join Payment P on T.payment_id = P.id Inner Join Installment I on P.id = I.paymentId
+where I.date >= CURRENT_TIMESTAMP and GUC.id = @studentID
+order by I.date
+end
+else if(exists(select * from NonGucianStudent where id = @studentID))
+begin
+select I.*
+from NonGucianStudent NONGUC Inner Join NonGUCianStudentRegisterThesis NONGUCTHESIS 
+on NONGUC.id = NONGUCTHESIS.sid Inner Join Thesis T on NONGUCTHESIS.serial_no = T.serialNumber
+Inner Join Payment P on T.payment_id = P.id Inner Join Installment I on P.id = I.paymentId
+where NONGUC.id = @studentID and I.date >= CURRENT_TIMESTAMP
+Union
+select I.*
+from NonGucianStudentPayForCourse COR Inner Join Payment P on COR.paymentNo = P.id
+Inner Join Installment I on P.id = I.paymentId
+where COR.sid = @studentID and I.date >= CURRENT_TIMESTAMP
+end
+else print('You Can not View UpComing Installments for Non Existing StundetID') 
+
+GO
+--6e.4 view missed Installments
+create proc ViewMissedInstallments
+@studentID int
+AS
+if(exists(select * from GucianStudent where id=@studentID))
+begin
+select I.*
+from GUCianStudentRegisterThesis GUCTHESIS Inner Join Thesis T on GUCTHESIS.serial_no = T.serialNumber
+Inner Join Payment P on T.payment_id = P.id Inner Join Installment I on P.id = I.paymentId
+where I.done = '0' and GUCTHESIS.sid = @studentID
+end
+else if(exists(select * from NonGucianStudent where id = @studentID))
+begin 
+select I.*
+from NonGUCianStudentRegisterThesis NONGUCTHESIS Inner Join Thesis T on NONGUCTHESIS.serial_no = T.serialNumber
+Inner Join  Payment P on T.payment_id = P.id Inner Join Installment I on P.id = I.paymentId
+where NONGUCTHESIS.sid = @studentID and I.done = '0'
+end
+else print('You Can not Show Non paid installments of wrong Student ID')
+
+GO
+--6f.1 Add and fill my progress report(s).
+create proc AddProgressReport
+@thesisSerialNo int,@progressReportDate date
+AS
+declare @prgNUM int
+declare @StdID int
+declare @SupID int
+declare @prgNUM1 int
+if(exists(select * from GUCianStudentRegisterThesis where serial_no = @thesisSerialNo))
+begin
+select @StdID = sid,@SupID = supid
+from GUCianStudentRegisterThesis
+where serial_no = @thesisSerialNo
+
+select @prgNUM=max(no) from GUCianProgressReport where sid = @StdID and supid = @SupID
+
+set @prgNUM1 = @prgNUM + 1
+
+insert into GUCianProgressReport (sid,no,date,eval,state,thesisSerialNumber,supid)
+values (@StdID,@prgNUM1,@progressReportDate,NULL,NULL,@thesisSerialNo,@SupID)
+end
+else if(exists(select * from NonGUCianStudentRegisterThesis where serial_no = @thesisSerialNo))
+begin
+select @StdID = sid , @SupID = supid
+from NonGUCianStudentRegisterThesis
+where serial_no = @thesisSerialNo
+select @prgNUM = max(no) from NonGUCianProgressReport where sid = @StdID and supid = @SupID
+set @prgNUM1 = @prgNUM+1
+insert into NonGUCianProgressReport (sid,no,date,eval,state,thesisSerialNumber,supid)
+values (@StdID,@prgNUM1,@progressReportDate,NULL,NULL,@thesisSerialNo,@SupID)
+end
+else print('You Can not add a progress report for non Registered Thesis')
+
+GO
+
+--6f.2 Fill the progress Report
+--ProgressReport has a missing attribute description varchar(200)
+--we added description in the table 
+create proc FillProgressReport
+@thesisSerialNo int,@progressReportNo int,@state int,@description varchar(200)
+AS
+declare @StdID int
+declare @SupID int
+if(exists(select * from GUCianProgressReport where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo))
+update GUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo
+and no = @progressReportNo
+else
+update NonGUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo
+and no = @progressReportNo
+GO
+--6g  View my progress report(s) evaluations.
+create proc ViewEvalProgressReport
+@thesisSerialNo int,@progressReportNo int
+AS 
+if(exists(select * from GUCianProgressReport where no = @progressReportNo and thesisSerialNumber = @thesisSerialNo))
+select eval from GUCianProgressReport where no = @progressReportNo and thesisSerialNumber = @thesisSerialNo
+else if(exists(select * from NonGUCianProgressReport where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo))
+select eval from NonGUCianProgressReport where no = @progressReportNo and thesisSerialNumber = @thesisSerialNo
+else print('You can not view evaluation of non existing progress report')
+
+GO
+--6h Add publication.
+create proc addPublication
+@title varchar(50),@pubDate datetime,@host varchar(50),@place varchar(50),@accepted bit
+AS
+insert into Publication (title,date,place,accepted,host)
+values(@title,@pubDate,@place,@accepted,@host)
+
+go
+--6i Link publication to my thesis.
+create proc linkPubThesis
+@PubID int,@thesisSerialNo int
+AS
+if(not exists(select * from Thesis where serialNumber = @thesisSerialNo)
+or
+not exists(select * from Publication where id = @PubID) )
+print('Wrong Input Values which Dont Exist')
+else 
+begin
+insert into ThesisHasPublication (serialNo,pubid)
+values (@thesisSerialNo,@PubID)
+end
+GO
+

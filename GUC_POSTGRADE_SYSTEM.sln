@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUC_POSTGRADE_SYSTEM", "GUC_POSTGRADE_SYSTEM\GUC_POSTGRADE_SYSTEM.csproj", "{861DABFC-9A71-47C6-9E01-1D7455E7AB89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{45118F2B-E655-49D1-A192-D6B796C5EB3B}"
+	ProjectSection(SolutionItems) = preProject
+		GUC_POSTGRADE_SYSTEM\BefLast.DataInsertions.sql = GUC_POSTGRADE_SYSTEM\BefLast.DataInsertions.sql
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{861DABFC-9A71-47C6-9E01-1D7455E7AB89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{861DABFC-9A71-47C6-9E01-1D7455E7AB89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{861DABFC-9A71-47C6-9E01-1D7455E7AB89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{861DABFC-9A71-47C6-9E01-1D7455E7AB89}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {479ED9C4-CE66-4BD5-B4C7-8333EAEBA313}
+	EndGlobalSection
+EndGlobal
