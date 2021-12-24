@@ -30,16 +30,26 @@ namespace GUC_POSTGRADE_SYSTEM
         {
             Response.Redirect("add_progress_report.aspx");
         }
+
+        protected void viewCourses(object sender, EventArgs e)
+        {
+            Response.Redirect("student_courses.aspx");
+        }
+
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             String type = Session["type"].ToString();
-            if (type.Equals( "NonGucianStudent"))
+
+            if (type.ToString().Equals( "NonGucianStudent"))
             {
-                Button b = new Button();
-                b.Text = "View Courses";
+                course.Attributes.CssStyle.Add("display", "visible");
+                typeRow.Attributes.CssStyle.Add("display", "visible");
+
+
 
             }
-                String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
+            String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
                 SqlConnection conn = new SqlConnection(connStr);
                 //viewMyProfile
                 int id = Int16.Parse(Session["id"].ToString());
@@ -50,27 +60,39 @@ namespace GUC_POSTGRADE_SYSTEM
             SqlDataReader rdr = profile.ExecuteReader(CommandBehavior.CloseConnection);
             while (rdr.Read())
             {
-                Label label = new Label();
 
-                String firstName = rdr.GetString(rdr.GetOrdinal("firstName"));
-                String lastName = rdr.GetString(rdr.GetOrdinal("lastName"));
-                String careerType = rdr.GetString(rdr.GetOrdinal("type"));
-                String faculty = rdr.GetString(rdr.GetOrdinal("faculty"));
-                String address = rdr.GetString(rdr.GetOrdinal("address"));
-                String GPA = rdr.GetString(rdr.GetOrdinal("address"));
-                if (type.Equals("GucianStudent"))
+                String firstNameDB = rdr.GetString(rdr.GetOrdinal("firstName"));
+                String lastNameDB = rdr.GetString(rdr.GetOrdinal("lastName"));
+                String facultyDB = rdr.GetString(rdr.GetOrdinal("faculty"));
+                String addressDB = rdr.GetString(rdr.GetOrdinal("address"));
+                Decimal GPADB = rdr.GetDecimal(rdr.GetOrdinal("GPA"));
+                String typeDP = rdr.GetString(rdr.GetOrdinal("type"));
+
+                gpa.Text=GPADB.ToString();
+                fname.Text=firstNameDB.ToString();
+                lname.Text=lastNameDB.ToString();
+                address.Text=addressDB.ToString();
+                faculty.Text=facultyDB.ToString();
+
+
+
+
+                if (type.ToString().Equals("GucianStudent"))
                 {
                     String undergradID = rdr.GetString(rdr.GetOrdinal("undergradID"));
-                    label.Text = undergradID;
+                    underGradeIDRow.Attributes.CssStyle.Add("display", "visible");
+                    underGradeID.Text = undergradID.ToString();   
                 }
 
+                if (typeDP.ToString().Equals("-1")) {
+                    typeCell.Text ="Not Specified";
+                }
+                else {
 
+                    typeCell.Text = typeDP.ToString();
 
-                //label.Attributes["class"]=""
-                label.Text = firstName;
-                label.Text = lastName;
-                
-                profileForm.Controls.Add(label);
+                }
+
 
 
             }

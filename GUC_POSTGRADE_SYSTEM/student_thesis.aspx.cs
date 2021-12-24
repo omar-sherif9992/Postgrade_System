@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,7 +14,142 @@ namespace GUC_POSTGRADE_SYSTEM
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+        
+            String type = Session["type"].ToString();
+            String username = Session["user"].ToString();
+            pageTitle.Text = username.ToString() + "'s Thesises";
+
+            TableHeaderRow tableHeaderRow = new TableHeaderRow();
+            TableHeaderCell headerCell = new TableHeaderCell();
+            headerCell.Text = "Serial Number"; 
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Title";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Field";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Type";
+            tableHeaderRow.Cells.Add(headerCell);
+           
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Start Date";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "End Date";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Defence Date";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Years";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "grade";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "No Of Extensions";
+            tableHeaderRow.Cells.Add(headerCell);
+
+            mainTable.Rows.Add(tableHeaderRow);
+
+
+
+
+            String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
+            SqlConnection conn = new SqlConnection(connStr);
+            //viewMyProfile
+            int id = Int16.Parse(Session["id"].ToString());
+            SqlCommand studentViewThesis = new SqlCommand("STUDENTVIEWTHESIS", conn);
+            studentViewThesis.CommandType = CommandType.StoredProcedure;
+            studentViewThesis.Parameters.Add(new SqlParameter("@SID", id));
+
+
+
+            conn.Open();
+            SqlDataReader rdr = studentViewThesis.ExecuteReader(CommandBehavior.CloseConnection);
+            while (rdr.Read())
+            {
+
+                TableRow tableRow = new TableRow();
+
+                TableCell cell = new TableCell();
+                Int32 serialNumberDB = rdr.GetInt32(rdr.GetOrdinal("serialNumber"));
+                cell.Text = serialNumberDB.ToString();
+                tableRow.Cells.Add(cell);
+
+
+                cell=new TableCell();
+                String titleDB = rdr.GetString(rdr.GetOrdinal("title"));
+                cell.Text = titleDB;
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                String fieldDB = rdr.GetString(rdr.GetOrdinal("field"));
+                cell.Text = fieldDB.ToString();
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                String typeDB= rdr.GetString(rdr.GetOrdinal("type"));
+                cell.Text = typeDB;
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                DateTime startDateDB = rdr.GetDateTime(rdr.GetOrdinal("startDate"));
+                cell.Text = startDateDB.ToString();
+                tableRow.Cells.Add(cell);
+
+
+                cell = new TableCell();
+                DateTime endDateDB = rdr.GetDateTime(rdr.GetOrdinal("endDate"));
+                cell.Text = endDateDB.ToString();
+                tableRow.Cells.Add(cell);
+
+
+
+                cell = new TableCell();
+                DateTime defenceDateDB = rdr.GetDateTime(rdr.GetOrdinal("defenceDate"));
+                cell.Text = defenceDateDB.ToString();
+                tableRow.Cells.Add(cell);
+
+
+                cell = new TableCell();
+                Int32 yearsDB = rdr.GetInt32(rdr.GetOrdinal("years"));
+                cell.Text = yearsDB.ToString();
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                Decimal gradeDB = rdr.GetDecimal(rdr.GetOrdinal("grade"));
+
+                if (gradeDB.ToString().Equals("-1"))
+                {
+                    cell.Text = "Not Specified";
+                }
+                else
+                {
+                    cell.Text = gradeDB.ToString();
+                }
+                tableRow.Cells.Add(cell);
+
+
+                cell = new TableCell();
+                Int32 noExtensionsDB = rdr.GetInt32(rdr.GetOrdinal("noExtension"));
+                cell.Text =noExtensionsDB.ToString();
+                tableRow.Cells.Add(cell);
+
+              mainTable.Rows.Add(tableRow); 
+
+
+
+
+            }
+
+
+
+
+
 
         }
-    }
+        }
 }

@@ -82,7 +82,6 @@
     <Content Include="supervisor_page.aspx" />
     <Content Include="supervisor_register.aspx" />
     <Content Include="Web.config" />
-    <Content Include="student_view_profile.aspx" />
     <Content Include="add_progress_report.aspx" />
     <Content Include="add_publication.aspx" />
     <Content Include="student_register.aspx" />
@@ -116,13 +115,6 @@
     </Compile>
     <Compile Include="student_profile.aspx.designer.cs">
       <DependentUpon>student_profile.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="student_view_profile.aspx.cs">
-      <DependentUpon>student_view_profile.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="student_view_profile.aspx.designer.cs">
-      <DependentUpon>student_view_profile.aspx</DependentUpon>
     </Compile>
     <Compile Include="add_progress_report.aspx.cs">
       <DependentUpon>add_progress_report.aspx</DependentUpon>

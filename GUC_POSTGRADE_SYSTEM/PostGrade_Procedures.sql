@@ -3,9 +3,23 @@
 
 USE GUC_POSTGRADE_SYSTEM
 GO
-select *
-from NonGucianStudent N inner join PostGradUser P on N.id =P.id
+
+SELECT serialNumber,field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
+from thesis t inner join GUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
 go
+create PROCEDURE STUDENTVIEWTHESIS
+@SID INT
+AS
+(SELECT serialNumber,field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
+from thesis t inner join GUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
+where g.sid=@SID)
+Union
+(SELECT serialNumber,field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
+from thesis t inner join NonGUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
+where  g.sid=@SID)
+
+go
+
 
 -- 1a.1 Registering Student in the System
 create PROCEDURE StudentRegister 

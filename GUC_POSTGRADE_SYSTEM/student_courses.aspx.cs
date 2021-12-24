@@ -19,24 +19,78 @@ namespace GUC_POSTGRADE_SYSTEM
             String type =Session["type"].ToString();
             if (type == "NonGucianStudent")
             {
+                String username = Session["user"].ToString();
+                pageTitle.Text =username.ToString()+"'s Courses";
+
                 String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
                 SqlConnection conn = new SqlConnection(connStr);
 
                 int id = Int16.Parse(Session["id"].ToString());
 
+                TableHeaderRow tableHeaderRow = new TableHeaderRow();
+
+                TableHeaderCell headerCell = new TableHeaderCell();
+                headerCell.Text = "Course Code";
+                tableHeaderRow.Cells.Add(headerCell);
+
+                headerCell = new TableHeaderCell();
+                headerCell.Text = "Grade";
+                tableHeaderRow.Cells.Add(headerCell);
+
+
+                headerCell = new TableHeaderCell();
+                headerCell.Text = "Course Credit Hours";
+                tableHeaderRow.Cells.Add(headerCell);
+
+                mainTable.Rows.Add(tableHeaderRow);
+
+
+
+
 
                 SqlCommand courses = new SqlCommand("ViewCoursesGrades", conn);
                 courses.CommandType = CommandType.StoredProcedure;
+                courses.Parameters.Add(new SqlParameter("@studentID", id));
                 conn.Open();
                 SqlDataReader rdr = courses.ExecuteReader(CommandBehavior.CloseConnection);
                 while (rdr.Read())
                 {
+
+                    TableRow tableRow = new TableRow();
+
+                    TableCell cell = new TableCell();
+
+
+
                     String courseCode = rdr.GetString(rdr.GetOrdinal("Course_Code"));
-                    String courseGrade = rdr.GetString(rdr.GetOrdinal("Grade"));
-                    Label label = new Label();
-                    label.Text = courseCode;
-                    label.Text = courseGrade;
-                    courseForm.Controls.Add(label);
+                    cell.Text = courseCode.ToString();
+                    tableRow.Cells.Add(cell);
+
+
+
+                    cell = new TableCell();
+                    Decimal courseGrade = rdr.GetDecimal(rdr.GetOrdinal("Grade"));
+
+                    if (courseGrade.ToString().Equals("-1"))
+                    {
+                        cell.Text = "Not Specified";
+                    }
+                    else
+                    {
+                        cell.Text = courseGrade.ToString();
+                    }
+
+                    tableRow.Cells.Add(cell);
+
+
+
+                    cell = new TableCell();
+                    Int32 creditHours = rdr.GetInt32(rdr.GetOrdinal("creditHours"));
+                    cell.Text = creditHours.ToString();
+                    tableRow.Cells.Add(cell);
+
+                    mainTable.Rows.Add(tableRow);
+
 
                 }
 

@@ -18,7 +18,6 @@ namespace GUC_POSTGRADE_SYSTEM
         {
 
         }
-
         protected void login(object sender, EventArgs e)
         {
             String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
@@ -67,10 +66,8 @@ namespace GUC_POSTGRADE_SYSTEM
             }
             else
             { 
-                Label label = new Label();
-                label.Text = "Incorrect Username/Password";
-                label.Attributes.CssStyle.Add("color","red");
-                form1.Controls.Add(label);            
+              
+                userDoesnotExist.Attributes.CssStyle.Add("display","visible");
               
             }
        
