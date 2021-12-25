@@ -14,8 +14,14 @@ namespace GUC_POSTGRADE_SYSTEM
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-        
             String type = Session["type"].ToString();
+
+            if (type.ToString().Equals("NonGucianStudent"))
+            {
+
+                courses.Attributes.CssStyle.Add("display", "visible");
+            }
+
             String username = Session["user"].ToString();
             pageTitle.Text="Thesises";
 

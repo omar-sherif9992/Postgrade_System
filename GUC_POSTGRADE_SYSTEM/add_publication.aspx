@@ -8,30 +8,130 @@
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We' 		     crossorigin='anonymous'>
     <script src='https://kit.fontawesome.com/cc3cb258ce.js' crossorigin='anonymous'></script>
     <title>PostGrade Office</title>
+    <style>
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #8f8f8f #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #8f8f8f;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
+
+        li > a{color:white !important;
+          text-decoration:underline !important;
+        }
+
+
+    </style>
 </head>
 <body>
-   <main class="form-signin">
-             <h1 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline">Add Publo</h1> 
+     <main class="form-signin">
+         <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:#808080ff">
+  <a class="navbar-brand" href="#" style="color:white !important;font-weight:700;">PostGrade Office <i class="fas fa-graduation-cap"></i></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item active" >
+        <a class="nav-link" href="student_profile.aspx">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="add_publication.aspx">Add & Link Publication <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="add_progress_report.aspx">Add & Fill Progress Report</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="student_thesis.aspx">View Thesis</a>
+      </li>
 
-            <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
+          <li class="nav-item">
+             <asp:Label ID="courses" runat="server" Text="" style="display:none">
+                         <a class="nav-link" href="student_courses.aspx" style="color:white !important;
+          text-decoration:underline !important;">View Courses<a>
+             </asp:Label>
+      </li>
+
+    </ul>
+  </div>
+</nav>
+
+ <h1 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline">Add & Link Publication</h1> 
+             <h2 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline">Add Publication</h2> 
+
 
     <form id="form1" runat="server">
-       <p style="text-align:left">
-        Enter your Email :</p><p>
-            <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your Email" ></asp:TextBox>
-        </p>
+                    <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
         <p style="text-align:left">
-            Enter your Password :</p>
-        <p>
-            <asp:TextBox class="form-control" ID="password" runat="server"  type="password"  placeholder="Enter Your Password" ></asp:TextBox>
+        Enter Publication Title :</p>
+         <p>
+            <asp:TextBox class="form-control" ID="addTitle" runat="server" placeholder="Enter  Publication Title" ></asp:TextBox>
         </p>
-            <p>
-                <asp:Button  ID="signin"  runat="server" OnClick="login" Text="log in" class="btn btn-outline-primary btn-lg" />
-        </p>          
-      
-   
+                <br />
+
+        <p style="text-align:left">
+            Enter Date :</p>
+     
+        <asp:Calendar ID="addDate" runat="server"></asp:Calendar>
+
+                          <p style="text-align:left">
+        Enter Host :</p>
+         <p>
+            <asp:TextBox class="form-control" ID="addHost" runat="server" placeholder="Enter Publication Host" ></asp:TextBox>
+        </p>
+                          <p style="text-align:left">
+        Enter Place:</p>
+         <p>
+            <asp:TextBox class="form-control" ID="addPlace" runat="server" placeholder="Enter Publication Place" ></asp:TextBox>
+        </p>
+        <p>
+    <asp:Label ID="addMessage" runat="server" Text="" style="display:none;"></asp:Label></p>
+
+               <p style=" display: inline-flex;flex-wrap: wrap; gap: 12px;justify-content:center;align-items:center">
+                <asp:Button  ID="addaccept"  runat="server" OnClick="addAccepted" Text="Acceepted" class="btn btn-outline-primary btn-lg"  />
+
+                 <asp:Button  ID="addnotaccept"  runat="server" OnClick="addNotAccepted" Text="Not Accepted" class="btn btn-outline-secondary btn-lg"  />
+
+        </p>
+                                                                </div>
+                     <h2 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline">Link Publication</h2> 
+                     <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
+
+        <p style="text-align:left">
+            Enter Thesis Serial Number :</p>
+     
+           <p>
+            <asp:TextBox class="form-control" ID="linkThesis" runat="server"    placeholder="Enter Your Thesis Serial Number" ></asp:TextBox>
+        </p>
+                         <p style="text-align:left">
+            Enter Publication ID :</p>
+     
+           <p>
+            <asp:TextBox class="form-control" ID="linkPub" runat="server"    placeholder="Enter Publication ID" ></asp:TextBox>
+        </p>
+     <p>
+    <asp:Label ID="linkMessage" runat="server" Text="" style="display:none;"></asp:Label>
+
+                             </p>
+           <p>
+                <asp:Button  ID="link"  runat="server" OnClick="linkPublication" Text="Link" class="btn btn-outline-primary btn-lg" />
+        </p>
+                                                                                                </div>
+
     </form>
-                </div>
         </main>
 </body>
 </html>

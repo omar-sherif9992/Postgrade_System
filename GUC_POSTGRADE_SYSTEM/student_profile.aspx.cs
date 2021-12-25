@@ -43,9 +43,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
             if (type.ToString().Equals( "NonGucianStudent"))
             {
-                course.Attributes.CssStyle.Add("display", "visible");
-                typeRow.Attributes.CssStyle.Add("display", "visible");
-
+            
+                courses.Attributes.CssStyle.Add("display", "visible");
 
 
             }

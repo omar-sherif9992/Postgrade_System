@@ -8,7 +8,31 @@
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We' 		     crossorigin='anonymous'>
     <script src='https://kit.fontawesome.com/cc3cb258ce.js' crossorigin='anonymous'></script>
     <style>
-       
+         * {
+    scrollbar-width: auto;
+    scrollbar-color: #8f8f8f #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #8f8f8f;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
+
+
+        
+        li > a{color:white !important;
+          text-decoration:underline !important;
+        }
         table {
         width:100%;
         }
@@ -31,6 +55,37 @@
 </head>
 <body>
     <form id="courseForm" runat="server">
+              <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:#808080ff">
+  <a class="navbar-brand" href="#" style="color:white !important;font-weight:700;">PostGrade Office <i class="fas fa-graduation-cap"></i></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav me-auto">
+      <li class="nav-item active" >
+        <a class="nav-link" href="student_profile.aspx">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="add_publication.aspx">Add & Link Publication <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="add_progress_report.aspx">Add & Fill Progress Report</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="student_thesis.aspx">View Thesis</a>
+      </li>
+          <li class="nav-item">
+             <asp:Label ID="courses1" runat="server" Text="" style="display:none">
+                         <a class="nav-link" href="student_courses.aspx" style="color:white !important;
+          text-decoration:underline !important;">View Courses<a>
+             </asp:Label>
+      </li>
+
+
+    </ul>
+  </div>
+</nav><br />
+        <br />
         <div class="container">
                          <h1 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline">
     <asp:Label ID="pageTitle" runat="server"></asp:Label>

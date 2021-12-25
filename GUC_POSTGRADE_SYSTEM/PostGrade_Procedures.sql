@@ -1,4 +1,4 @@
-﻿
+﻿--mom
 
 
 USE GUC_POSTGRADE_SYSTEM
@@ -756,7 +756,9 @@ else print('You Can not Show Non paid installments of wrong Student ID')
 GO
 --6f.1 Add and fill my progress report(s).
 create proc AddProgressReport
-@thesisSerialNo int,@progressReportDate date
+@thesisSerialNo int,@progressReportDate date,
+@Success_bit int output,
+@progress_num int output
 AS
 declare @prgNUM int
 declare @StdID int
@@ -774,7 +776,10 @@ set @prgNUM1 = @prgNUM + 1
 
 insert into GUCianProgressReport (sid,no,date,eval,state,thesisSerialNumber,supid)
 values (@StdID,@prgNUM1,@progressReportDate,NULL,NULL,@thesisSerialNo,@SupID)
+set @Success_bit=1
+set @progress_num =@prgNum1
 end
+
 else if(exists(select * from NonGUCianStudentRegisterThesis where serial_no = @thesisSerialNo))
 begin
 select @StdID = sid , @SupID = supid
@@ -784,8 +789,15 @@ select @prgNUM = max(no) from NonGUCianProgressReport where sid = @StdID and sup
 set @prgNUM1 = @prgNUM+1
 insert into NonGUCianProgressReport (sid,no,date,eval,state,thesisSerialNumber,supid)
 values (@StdID,@prgNUM1,@progressReportDate,NULL,NULL,@thesisSerialNo,@SupID)
+set @Success_bit=1
+set @progress_num =@prgNum1
 end
-else print('You Can not add a progress report for non Registered Thesis')
+
+else
+begin
+set @progress_num =-1
+set @Success_bit=0
+end
 
 GO
 
@@ -793,17 +805,34 @@ GO
 --ProgressReport has a missing attribute description varchar(200)
 --we added description in the table 
 create proc FillProgressReport
-@thesisSerialNo int,@progressReportNo int,@state int,@description varchar(200)
+@thesisSerialNo int,@progressReportNo int,@state int,@description varchar(200),
+@Success_bit int output
 AS
 declare @StdID int
 declare @SupID int
 if(exists(select * from GUCianProgressReport where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo))
+begin
 update GUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo
 and no = @progressReportNo
-else
+set @Success_bit=1
+
+end
+else if(exists(select * from NonGUCianProgressReport where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo))
+begin
 update NonGUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo
 and no = @progressReportNo
+set @Success_bit=1
+end
+else
+set @Success_bit=0
+
+
 GO
+
+
+
+
+
 --6g  View my progress report(s) evaluations.
 create proc ViewEvalProgressReport
 @thesisSerialNo int,@progressReportNo int
@@ -817,24 +846,41 @@ else print('You can not view evaluation of non existing progress report')
 GO
 --6h Add publication.
 create proc addPublication
-@title varchar(50),@pubDate datetime,@host varchar(50),@place varchar(50),@accepted bit
+@title varchar(50),@pubDate datetime,@host varchar(50),@place varchar(50),@accepted bit,
+@Success_bit int output,
+@pub_id int output
 AS
 insert into Publication (title,date,place,accepted,host)
 values(@title,@pubDate,@place,@accepted,@host)
+set @Success_bit =1
+select @pub_id=max(id)
+from Publication
 
 go
+
 --6i Link publication to my thesis.
 create proc linkPubThesis
-@PubID int,@thesisSerialNo int
+@PubID int,@thesisSerialNo int,
+@Success_bit int output,
+@thesis_title varchar(50) output,
+@publication_title varchar(50) output
 AS
 if(not exists(select * from Thesis where serialNumber = @thesisSerialNo)
 or
 not exists(select * from Publication where id = @PubID) )
-print('Wrong Input Values which Dont Exist')
+set @Success_bit =0
 else 
 begin
 insert into ThesisHasPublication (serialNo,pubid)
 values (@thesisSerialNo,@PubID)
+set @Success_bit =1
+select @thesis_title=title
+from Thesis
+where serialNumber=@thesisSerialNo
+select @publication_title=title
+from Publication
+where id=@PubID
+
 end
 GO
 

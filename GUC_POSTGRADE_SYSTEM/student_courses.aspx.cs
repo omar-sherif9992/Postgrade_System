@@ -19,6 +19,12 @@ namespace GUC_POSTGRADE_SYSTEM
             String type =Session["type"].ToString();
             if (type == "NonGucianStudent")
             {
+
+              courses1.Attributes.CssStyle.Add("display", "visible");
+
+
+            
+
                 pageTitle.Text ="Courses";
 
                 String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();

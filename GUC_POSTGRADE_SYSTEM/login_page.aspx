@@ -19,12 +19,12 @@
     <form id="form1" runat="server">
        <p style="text-align:left">
         Enter your Email :</p><p>
-            <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your Email" ></asp:TextBox>
+            <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your Email" required></asp:TextBox>
         </p>
         <p style="text-align:left">
             Enter your Password :</p>
         <p>
-            <asp:TextBox class="form-control" ID="password" runat="server"  type="password"  placeholder="Enter Your Password" ></asp:TextBox>
+            <asp:TextBox class="form-control" ID="password" runat="server"  type="password"  placeholder="Enter Your Password" required ></asp:TextBox>
         </p>
             <p>
                 <asp:Button  ID="signin"  runat="server" OnClick="login" Text="log in" class="btn btn-outline-primary btn-lg" />
