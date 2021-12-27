@@ -34,6 +34,23 @@
         }
 
 
+
+
+      
+       Label > Table > th {
+  background-color: #04AA6D;
+  color: white;
+}
+        Label > Table >   th, td {
+  padding: 15px;
+  text-align: left;
+    border-bottom: 1px solid #ddd;
+
+}
+
+         label > table >  tr:nth-child(even) {background-color: #f2f2f2;}
+          label > table > tr:hover {background-color: yellow;}
+
     </style>
 </head>
 <body>
@@ -98,7 +115,7 @@
             <asp:TextBox class="form-control" ID="addPlace" runat="server" placeholder="Enter Publication Place" ></asp:TextBox>
         </p>
         <p>
-    <asp:Label ID="addMessage" runat="server" Text="" style="display:none;"></asp:Label></p>
+    <asp:Label ID="addMessage" runat="server" Text=""></asp:Label></p>
 
                <p style=" display: inline-flex;flex-wrap: wrap; gap: 12px;justify-content:center;align-items:center">
                 <asp:Button  ID="addaccept"  runat="server" OnClick="addAccepted" Text="Acceepted" class="btn btn-outline-primary btn-lg"  />
@@ -114,13 +131,29 @@
             Enter Thesis Serial Number :</p>
      
            <p>
-            <asp:TextBox class="form-control" ID="linkThesis" runat="server"    placeholder="Enter Your Thesis Serial Number" ></asp:TextBox>
+            <asp:TextBox class="form-control" ID="linkThesis" runat="server"    placeholder="Enter Your Thesis Serial Number" type="number"  ></asp:TextBox>
         </p>
-                         <p style="text-align:left">
+                  <div>    
+         <p style="text-align:left;display:inline-block;float:left">
             Enter Publication ID :</p>
+     <asp:Button  runat="server" type="button" style="display:inline-block;float:right" Class="btn btn-outline-primary btn-sm"  OnClick="showPublications" Text="show available publications" />
+
+                  </div>   
      
            <p>
-            <asp:TextBox class="form-control" ID="linkPub" runat="server"    placeholder="Enter Publication ID" ></asp:TextBox>
+             
+                                <asp:Label  runat="server"  ID="viewPublications1" Text="" style="display:none;margin-top:10%" >
+
+                 <asp:Button  runat="server" type="button"  style="float:right;" Class="btn btn-secondary btn-sm" OnClick="closePublications" Text="X"  />
+                                  </asp:Label>
+                                               <asp:Label  runat="server"  ID="viewPublications2" Text="" style="display:none;margin-top:10%" >
+
+                                    <asp:Table ID="mainTable" runat="server" style="margin:auto;width:50%;display:none"></asp:Table>
+
+                
+                                              </asp:Label>
+
+            <asp:TextBox class="form-control" ID="linkPub" runat="server" type="number"    placeholder="Enter Publication ID" ></asp:TextBox>
         </p>
      <p>
     <asp:Label ID="linkMessage" runat="server" Text="" style="display:none;"></asp:Label>

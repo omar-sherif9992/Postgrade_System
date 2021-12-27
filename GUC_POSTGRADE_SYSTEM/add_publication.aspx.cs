@@ -23,6 +23,136 @@ namespace GUC_POSTGRADE_SYSTEM
             }
 
         }
+        protected void closePublications(object sender, EventArgs e)
+        {
+            viewPublications1.Attributes.CssStyle.Add("display", "none");
+            viewPublications2.Attributes.CssStyle.Add("display", "none");
+
+        }
+        protected void showPublications(object sender, EventArgs e)
+        {
+           viewPublications1.Attributes.CssStyle.Add("display", "visible");
+            viewPublications2.Attributes.CssStyle.Add("display", "visible");
+
+            mainTable.Attributes.CssStyle.Add("display", "visible");
+            TableHeaderRow tableHeaderRow = new TableHeaderRow();
+            TableHeaderCell headerCell = new TableHeaderCell();
+            headerCell.Text = "ID";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Title";
+            tableHeaderRow.Cells.Add(headerCell);
+
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Host";
+            tableHeaderRow.Cells.Add(headerCell);
+
+
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Date";
+            tableHeaderRow.Cells.Add(headerCell);
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "place";
+            tableHeaderRow.Cells.Add(headerCell);
+
+            headerCell = new TableHeaderCell();
+            headerCell.Text = "Accepted";
+            tableHeaderRow.Cells.Add(headerCell);
+         
+            mainTable.Rows.Add(tableHeaderRow);
+            String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
+            SqlConnection conn = new SqlConnection(connStr);
+            //viewMyProfile
+            int id = Int16.Parse(Session["id"].ToString());
+            SqlCommand studentViewThesis = new SqlCommand("viewAllPublications", conn);
+            studentViewThesis.CommandType = CommandType.StoredProcedure;
+            conn.Open();
+            SqlDataReader rdr = studentViewThesis.ExecuteReader(CommandBehavior.CloseConnection);
+            while (rdr.Read())
+            {
+
+                TableRow tableRow = new TableRow();
+
+                TableCell cell = new TableCell();
+                Int32 idDB = rdr.GetInt32(rdr.GetOrdinal("id"));
+                cell.Text = idDB.ToString();
+                tableRow.Cells.Add(cell);
+
+
+                cell = new TableCell();
+                if (!rdr.IsDBNull(rdr.GetOrdinal("title")))
+                {
+                    String titleDB = rdr.GetString(rdr.GetOrdinal("title"));
+                    if(titleDB!="-1")
+                    cell.Text = titleDB;
+                    else
+                     cell.Text = "Not Specified";
+
+
+                }
+                else
+                {
+                    cell.Text = "Not Specified";
+                }
+                tableRow.Cells.Add(cell);
+
+
+
+                cell = new TableCell();
+                if (!rdr.IsDBNull(rdr.GetOrdinal("host")))
+                {  String hostDB = rdr.GetString(rdr.GetOrdinal("host"));
+                    if (hostDB != "-1")
+                        cell.Text = hostDB;
+                    else
+                        cell.Text = "Not Specified";
+                }
+                else
+                {
+                    cell.Text = "Not Specified";
+                }
+                tableRow.Cells.Add(cell);
+
+              
+
+
+
+                cell = new TableCell();
+                DateTime startDateDB = rdr.GetDateTime(rdr.GetOrdinal("date"));
+                cell.Text = startDateDB.ToString();
+                tableRow.Cells.Add(cell);
+
+
+                cell = new TableCell();
+                String placeDB = rdr.GetString(rdr.GetOrdinal("place"));
+                cell.Text = placeDB;
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                bool acceptedDB = rdr.GetBoolean(rdr.GetOrdinal("accepted"));
+                if (acceptedDB )
+                 {
+                     cell.Text = "Accepted";
+
+                 }
+
+                 else
+                 {
+                     cell.Text = "Not Accepted";
+                 }
+                tableRow.Cells.Add(cell);
+
+
+
+
+                mainTable.Rows.Add(tableRow);
+
+
+
+
+            }
+
+        }
+
         protected void addAccepted(object sender, EventArgs e)
         {
             addPublication(1);
@@ -35,21 +165,47 @@ namespace GUC_POSTGRADE_SYSTEM
         {
             try
             {
-
                 String title = addTitle.Text;
                 String host = addHost.Text;
                 String place = addPlace.Text;
                 DateTime date = addDate.SelectedDate;
                 DateTime today = DateTime.Now;
-            
-                if (DateTime.Compare(date, today) < 0)
+                if (host.Length < 1)
+                {
+                    addMessage.Attributes.CssStyle.Add("display", "visible");
+                    addMessage.Attributes.CssStyle.Add("color", "red");
+                    addMessage.Text = "Host is Missing !!";
+                    return;
+                }
+                else if (place.Length < 1
+)
+                {
+                    addMessage.Attributes.CssStyle.Add("display", "visible");
+                    addMessage.Attributes.CssStyle.Add("color", "red");
+                    addMessage.Text = "Place is Missing !!";
+                    return;
+                }
+                else if (date == null)
+                {
+                    addMessage.Attributes.CssStyle.Add("display", "visible");
+                    addMessage.Attributes.CssStyle.Add("color", "red");
+                    addMessage.Text = "Date is Missing !!";
+                    return;
+                }
+
+                else if (DateTime.Compare(date, today) < 0)
                 {
                     addMessage.Attributes.CssStyle.Add("display", "visible");
                     addMessage.Attributes.CssStyle.Add("color", "red");
                     addMessage.Text = "Incorrect Date , choose another Present or Future date";
                     return;
                 }
-
+                else if (title.Length < 1) {
+                    addMessage.Attributes.CssStyle.Add("display", "visible");
+                    addMessage.Attributes.CssStyle.Add("color", "red");
+                    addMessage.Text = "Title is Missing !!";
+                    return;
+                }
                 String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
                 SqlConnection conn = new SqlConnection(connStr);
 

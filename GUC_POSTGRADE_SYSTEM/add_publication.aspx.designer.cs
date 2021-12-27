@@ -105,6 +105,33 @@ namespace GUC_POSTGRADE_SYSTEM
         protected global::System.Web.UI.WebControls.TextBox linkThesis;
 
         /// <summary>
+        /// viewPublications1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label viewPublications1;
+
+        /// <summary>
+        /// viewPublications2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label viewPublications2;
+
+        /// <summary>
+        /// mainTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Table mainTable;
+
+        /// <summary>
         /// linkPub control.
         /// </summary>
         /// <remarks>

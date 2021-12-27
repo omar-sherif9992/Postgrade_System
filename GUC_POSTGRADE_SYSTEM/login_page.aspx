@@ -24,8 +24,9 @@
         <p style="text-align:left">
             Enter your Password :</p>
         <p>
-            <asp:TextBox class="form-control" ID="password" runat="server"  type="password"  placeholder="Enter Your Password" required ></asp:TextBox>
-        </p>
+           <div> <asp:TextBox class="form-control" ID="password" runat="server"  type="password"  placeholder="Enter Your Password" required ></asp:TextBox>
+      <i class="far fa-eye" id="togglePassword" style="margin-left:-35px;margin-top:-25px;float:right;position:relative;z-index:2;cursor:pointer;"></i>
+               </div></p>
             <p>
                 <asp:Button  ID="signin"  runat="server" OnClick="login" Text="log in" class="btn btn-outline-primary btn-lg" />
         </p>          
@@ -52,5 +53,16 @@
     </form>
                 </div>
         </main>
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function (e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye slash icon
+            this.classList.toggle('fa-eye-slash');
+        })    </script>
 </body>
 </html>

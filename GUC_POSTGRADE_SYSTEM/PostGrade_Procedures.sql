@@ -3,6 +3,14 @@
 USE GUC_POSTGRADE_SYSTEM
 GO
 
+alter procedure viewAllPublications
+as
+select *
+from Publication
+
+
+
+
 go
 --New Added Procedures
 --omar
@@ -28,6 +36,13 @@ select @ExaminerID=id from PostGradUser where id = (select max(id) from PostGrad
 insert into Examiner values(@ExaminerID,@name,@fieldofwork,@isNational)
 
 go
+
+
+
+
+
+
+
 
 --husseinyasser
 create procedure findThesisInSup
