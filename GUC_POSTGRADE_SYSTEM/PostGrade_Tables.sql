@@ -1,4 +1,7 @@
-﻿create database GUC_POSTGRADE_SYSTEM;
+﻿drop database GUC_POSTGRADE_SYSTEM;
+
+
+create database GUC_POSTGRADE_SYSTEM
 GO
 USE GUC_POSTGRADE_SYSTEM
 GO

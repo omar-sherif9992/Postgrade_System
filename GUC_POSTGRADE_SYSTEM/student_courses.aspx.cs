@@ -74,15 +74,24 @@ namespace GUC_POSTGRADE_SYSTEM
 
 
                     cell = new TableCell();
-                    Decimal courseGrade = rdr.GetDecimal(rdr.GetOrdinal("Grade"));
+                    if (!rdr.IsDBNull(rdr.GetOrdinal("Grade"))) {
+                        Decimal courseGrade = rdr.GetDecimal(rdr.GetOrdinal("Grade"));
 
-                    if (courseGrade.ToString().Equals("-1"))
-                    {
-                        cell.Text = "Not Specified";
+                        if (courseGrade.ToString().Equals("-1"))
+                        {
+                            cell.Text = "Not Specified";
+                        }
+                        else
+                        {
+                            cell.Text = courseGrade.ToString();
+
+                        }
+
                     }
                     else
                     {
-                        cell.Text = courseGrade.ToString();
+                        cell.Text = "Not Specified";
+
                     }
 
                     tableRow.Cells.Add(cell);

@@ -93,7 +93,7 @@ select @sid10 = max(id) from GucianStudent
 
 
 
-
+--my user
 insert into PostGradUser values('k','1')
 declare @uid11 int
 set @uid11 = SCOPE_IDENTITY()
@@ -194,7 +194,7 @@ select @exid21 = max(id) from Examiner
 
 
 
-insert into GUCStudentPhoneNumber values(@sid8,'01012062866')
+insert into GUCStudentPhoneNumber values(@sid11,'01012062866')
 insert into GUCStudentPhoneNumber values(@sid8,'01006625353')
 insert into GUCStudentPhoneNumber values(@sid9,'01008877651')
 insert into GUCStudentPhoneNumber values(@sid10,'01220400050')
@@ -518,13 +518,12 @@ insert into NonGucianStudentPayForCourse values(@sid13,@pid22,@cid7)
 
 insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid3)
 insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid4)
-insert into NonGucianStudentTakeCourse(sid,cid) values(@sid12,@cid6)
-insert into NonGucianStudentTakeCourse(sid,cid) values(@sid13,@cid6)
-insert into NonGucianStudentTakeCourse(sid,cid) values(@sid13,@cid7)
+insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid6)
+insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid6)
+insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid7)
 
 
 
-insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid8,@supid3,@serNum1)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid8,@supid3,@serNum2)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid9,@supid3,@serNum9)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid10,@supid4,@serNum3)
@@ -534,12 +533,12 @@ insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid9,@supi
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid9,@supid3,@serNum12)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid10,@supid4,@serNum6)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid20,@supid5,@serNum11)
-insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid20,@supid4,@serNum5)
 
 
 
+--omar fixed
+insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid11,@supid5,@serNum1)
 
-insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid11,@supid5,@serNum8)
 insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid11,@supid6,@serNum13)
 insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid11,@supid5,@serNum10)
 insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid12,@supid6,@serNum14)

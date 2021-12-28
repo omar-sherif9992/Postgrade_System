@@ -74,7 +74,7 @@
                     <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
         <p style="text-align:left">
         Enter Thesis Serial number :</p><p>
-            <asp:TextBox class="form-control" ID="addThesis" runat="server" placeholder="Enter Your Thesis serial number" ></asp:TextBox>
+            <asp:TextBox class="form-control" ID="addThesis" runat="server" type="number" min="1"  placeholder="Enter Your Thesis serial number" ></asp:TextBox>
         </p>
                 <br />
 
@@ -96,13 +96,13 @@
             Enter Thesis Serial Number :</p>
      
            <p>
-            <asp:TextBox class="form-control" ID="fillThesis" runat="server"    placeholder="Enter Your Thesis Serial Number" ></asp:TextBox>
+            <asp:TextBox class="form-control" ID="fillThesis" runat="server" type="number" min="1"    placeholder="Enter Your Thesis Serial Number" ></asp:TextBox>
         </p>
                          <p style="text-align:left">
             Enter Progress Report Number :</p>
      
            <p>
-            <asp:TextBox class="form-control" ID="fillProgress" runat="server"    placeholder="Enter Progress Report Number" ></asp:TextBox>
+            <asp:TextBox class="form-control" ID="fillProgress" runat="server" type="number" min="1"     placeholder="Enter Progress Report Number" ></asp:TextBox>
         </p>
 
           <p style="text-align:left">

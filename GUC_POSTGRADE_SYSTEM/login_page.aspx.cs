@@ -64,6 +64,11 @@ namespace GUC_POSTGRADE_SYSTEM
             {
                 Response.Redirect("student_profile.aspx");
             }
+            else if(success.Value.ToString() == "1" && type.Value.ToString() == "Examiner")
+            {
+                Response.Redirect("examiner_profile.aspx");
+
+            }
             else
             { 
               

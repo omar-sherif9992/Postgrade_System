@@ -3,7 +3,7 @@
 USE GUC_POSTGRADE_SYSTEM
 GO
 
-alter procedure viewAllPublications
+create procedure viewAllPublications
 as
 select *
 from Publication
@@ -13,15 +13,15 @@ from Publication
 
 go
 --New Added Procedures
---omar
-CREATE PROCEDURE STUDENTVIEWTHESIS
+--omar fixed
+create PROCEDURE STUDENTVIEWTHESIS
 @SID INT
 AS
-(SELECT field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
+(SELECT t.serialNumber as 'serialNumber',field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
 from thesis t inner join GUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
 where g.sid=@SID)
 Union
-(SELECT field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
+(SELECT t.serialNumber as 'serialNumber',field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
 from thesis t inner join NonGUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
 where  g.sid=@SID)
 GO
@@ -130,6 +130,11 @@ SELECT *
 FROM Supervisor
 WHERE id=@TEMP_ID ))
 SET @TYPE='Supervisor'
+ELSE IF(EXISTS(
+SELECT *
+FROM Examiner
+WHERE id=@TEMP_ID ))
+SET @TYPE='Examiner'
 END
 ELSE
 begin
@@ -780,8 +785,7 @@ WHERE sid=@studentID))
 SELECT C.code as 'Course_Code',G.grade as 'Grade', C.creditHours
 FROM NonGucianStudentTakeCourse  G INNER JOIN COURSE C ON G.cid=C.id
 WHERE sid=@studentID
-ELSE
-PRINT('There is no a student with that ID')
+
 
 GO
 
