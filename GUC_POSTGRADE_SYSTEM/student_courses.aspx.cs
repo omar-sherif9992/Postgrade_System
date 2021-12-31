@@ -65,10 +65,12 @@ namespace GUC_POSTGRADE_SYSTEM
 
                     TableCell cell = new TableCell();
 
-
-
-                    String courseCode = rdr.GetString(rdr.GetOrdinal("Course_Code"));
-                    cell.Text = courseCode.ToString();
+                    cell.Text = "Not Specified";
+                    if (!rdr.IsDBNull(rdr.GetOrdinal("Course_Code")))
+                    {
+                        String courseCode = rdr.GetString(rdr.GetOrdinal("Course_Code"));
+                        cell.Text = courseCode.ToString();
+                    }
                     tableRow.Cells.Add(cell);
 
 
@@ -99,8 +101,12 @@ namespace GUC_POSTGRADE_SYSTEM
 
 
                     cell = new TableCell();
-                    Int32 creditHours = rdr.GetInt32(rdr.GetOrdinal("creditHours"));
-                    cell.Text = creditHours.ToString();
+                    cell.Text = "Not Specified";
+                    if (!rdr.IsDBNull(rdr.GetOrdinal("creditHours")))
+                    {
+                        Int32 creditHours = rdr.GetInt32(rdr.GetOrdinal("creditHours"));
+                        cell.Text = creditHours.ToString();
+                    }
                     tableRow.Cells.Add(cell);
 
                     mainTable.Rows.Add(tableRow);

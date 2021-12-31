@@ -25,7 +25,7 @@ lastName varchar(20) not null,
 type varchar(10) default null,
 faculty varchar(50) not null,
 address varchar(50) not null,
-GPA numeric(3,2), 
+GPA decimal(3,2), 
 undergradID varchar(10) default null, 
 foreign key(id) references PostGradUser on delete cascade on update cascade
 )

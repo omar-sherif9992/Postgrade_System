@@ -165,7 +165,7 @@ go
 
 --2b add mobile numbers to the student according 
 GO
-CREATE PROCEDURE addMobile
+CREATE PROCEDURE addMobile1
 @ID INT ,
 @mobile_number VARCHAR(20)
 AS
@@ -192,6 +192,10 @@ ELSE
 PRINT('Error the ID is not registered as a Student addMobile')
 
 go
+
+go
+
+
 
 --3a List all SuperVisors in The System
 CREATE PROCEDURE AdminListSup
@@ -1055,13 +1059,13 @@ set @Success_bit =0
 set @publication_title=null
 set @thesis_title=null
 end
-if(not exists(select * from GUCianStudentRegisterThesis where serial_no=@thesisSerialNo and sid=@sid)and not Exists(select * from NonGUCianStudentRegisterThesis where serial_no=@thesisSerialNo and sid=@sid))
+else if(not exists(select * from GUCianStudentRegisterThesis where serial_no=@thesisSerialNo and sid=@sid)and not Exists(select * from NonGUCianStudentRegisterThesis where serial_no=@thesisSerialNo and sid=@sid))
 begin
 set @Success_bit =100
 set @publication_title=null
 set @thesis_title=null
 end
-if(exists(select * from ThesisHasPublication where serialNo=@thesisSerialNo and pubid=@PubID))
+else if(exists(select * from ThesisHasPublication where serialNo=@thesisSerialNo and pubid=@PubID))
 begin
 set @Success_bit =200
 set @publication_title=null
@@ -1070,7 +1074,7 @@ end
 
 else 
 begin
-if(exists(select * from Thesis where serialNumber=@thesisSerialNo and CURRENT_TIMESTAMP<=endDate and CURRENT_TIMESTAMP>=startDate))
+if(exists(select * from Thesis  where serialNumber=@thesisSerialNo and CURRENT_TIMESTAMP<=endDate and CURRENT_TIMESTAMP>=startDate))
 begin
 
 insert into ThesisHasPublication (serialNo,pubid)
@@ -1087,7 +1091,9 @@ where id=@PubID
 end 
 else
 begin
-if(exists(select * from Thesis where serialNumber=@thesisSerialNo))
+if(exists(select * from Thesis t inner join GUCianStudentRegisterThesis g on g.serial_no=t.serialNumber where sid=@sid and serialNumber=@thesisSerialNo)
+or exists(select * from Thesis t inner join NonGUCianStudentRegisterThesis g on g.serial_no=t.serialNumber where sid=@sid and serialNumber=@thesisSerialNo)
+)
 begin
 set @Success_bit =-1
 set @publication_title=null

@@ -60,20 +60,17 @@ namespace GUC_POSTGRADE_SYSTEM
             while (rdr.Read())
             {
 
-                String firstNameDB = rdr.GetString(rdr.GetOrdinal("firstName"));
-                String lastNameDB = rdr.GetString(rdr.GetOrdinal("lastName"));
-                String facultyDB = rdr.GetString(rdr.GetOrdinal("faculty"));
-                String addressDB = rdr.GetString(rdr.GetOrdinal("address"));
                 Decimal GPADB = 0;
                 if (!rdr.IsDBNull(rdr.GetOrdinal("GPA")))
                 {
-                    gpa.Text = "Not Specified";
+                    GPADB = rdr.GetDecimal(rdr.GetOrdinal("GPA"));
+                    gpa.Text = GPADB.ToString();
 
                 }
                 else
                 {
-                    GPADB = rdr.GetDecimal(rdr.GetOrdinal("GPA"));
-                    gpa.Text = GPADB.ToString();
+
+                    gpa.Text = "Not Specified";
 
                 }
                 String typeDP = "Not Specified";
@@ -82,22 +79,39 @@ namespace GUC_POSTGRADE_SYSTEM
                 if (!rdr.IsDBNull(rdr.GetOrdinal("type")))
                 {
                      typeDP = rdr.GetString(rdr.GetOrdinal("type"));
-                    if (typeDP.ToString().Equals("-1"))
-                    {
-                        typeCell.Text = "Not Specified";
-                    }
-                    else
-                    {
+                                          typeCell.Text = typeDP.ToString();
 
-                        typeCell.Text = typeDP.ToString();
-
-                    }
+                    
                 }
-               
-                fname.Text=firstNameDB.ToString();
-                lname.Text=lastNameDB.ToString();
-                address.Text=addressDB.ToString();
-                faculty.Text=facultyDB.ToString();
+                fname.Text = "Not Specified";
+                if(!rdr.IsDBNull(rdr.GetOrdinal("firstName")))
+                {
+                    String firstNameDB = rdr.GetString(rdr.GetOrdinal("firstName"));
+                    fname.Text = firstNameDB.ToString();
+
+                }
+                lname.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("lastName")))
+                {
+                    String lastNameDB = rdr.GetString(rdr.GetOrdinal("lastName"));
+                    lname.Text = lastNameDB.ToString();
+
+                }
+                faculty.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("faculty")))
+                {
+                    String facultyDB = rdr.GetString(rdr.GetOrdinal("faculty"));
+                    faculty.Text = facultyDB.ToString();
+
+                }
+                address.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("address")))
+                {
+                    String addressDB = rdr.GetString(rdr.GetOrdinal("address"));
+                    address.Text = addressDB.ToString();
+                }
+
+              
                 idk.Text = id.ToString();
 
 
@@ -112,17 +126,11 @@ namespace GUC_POSTGRADE_SYSTEM
                     if (!rdr.IsDBNull(rdr.GetOrdinal("undergradID")))
                     {
                          undergradID = rdr.GetString(rdr.GetOrdinal("undergradID"));
-                        underGradeID.Text = "Not Specified";
+                        underGradeID.Text = undergradID.ToString();
 
                     }
 
-                    
-                    if (undergradID.ToString().Equals("-1") || rdr.IsDBNull(rdr.GetOrdinal("undergradID"))){
-                        underGradeID.Text = "Not Specified";
-                    }
-                    else {
-                        String undergradIDDB = rdr.GetString(rdr.GetOrdinal("undergradID"));
-                        underGradeID.Text = undergradID.ToString(); }
+                
                 }
 
              

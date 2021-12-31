@@ -4,6 +4,12 @@ from NonGUCianStudentRegisterThesis t inner join NonGucianStudent ts on t.sid =t
 
 
 select *
+from GUCianStudentRegisterThesis
+
+select *
+from GucianStudent
+
+select *
 from NonGUCianProgressReport t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id
 
 
@@ -93,7 +99,7 @@ select @sid8 = max(id) from GucianStudent
 insert into PostGradUser values('guc','guc')
 declare @uid9 int
 set @uid9 = SCOPE_IDENTITY()
-insert into GucianStudent values(@uid9,'hussein','hussein',null,'Media Engineering','Helwan',2.3,null)
+insert into GucianStudent values(@uid9,'hussein','hussein','master','Media Engineering','Helwan',2.3,'49-3344')
 declare @sid9 int
 select @sid9 = max(id) from GucianStudent
 

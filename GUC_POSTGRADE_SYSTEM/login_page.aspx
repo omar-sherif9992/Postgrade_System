@@ -46,18 +46,16 @@
             <br />
             <br />
 
-        <div style=" display: inline-flex;flex-wrap: wrap; gap: 12px;">
+        <div class="container" style="display: inline-flex;flex-wrap: wrap; gap: 12px;">
             <br />
           Don't Have an Account?
         <br/>
         Register Now:
         <br />
         <br />
-            <div class="container">
         <asp:Button ID="StdReg" runat="server" OnClick="StudentRegister" Text="Student" class="btn btn-outline-secondary btn-sm" />
         <asp:Button ID="SupReg" runat="server" OnClick="SupervisorRegister" Text="Supervisor" class="btn btn-outline-secondary btn-sm" />
         <asp:Button ID="ExamReg" runat="server" OnClick="ExaminerRegister" Text="Examiner" class="btn btn-outline-secondary btn-sm" />
-       </div>
             </div>
 
     </form>

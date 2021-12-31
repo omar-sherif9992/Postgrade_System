@@ -22,6 +22,7 @@ namespace GUC_POSTGRADE_SYSTEM
         }
         protected void login(object sender, EventArgs e)
         {
+            //try{
             String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
             String username = email.Text;
@@ -77,7 +78,15 @@ namespace GUC_POSTGRADE_SYSTEM
                 userDoesnotExist.Attributes.CssStyle.Add("display","visible");
               
             }
-       
+
+            /*
+             }
+            catch(exception ex){
+                            userDoesnotExist.Attributes.CssStyle.Add("display","visible");
+
+            
+            }*/
+
         }
 
         protected void StudentRegister(object sender, EventArgs e)

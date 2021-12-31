@@ -75,8 +75,12 @@ namespace GUC_POSTGRADE_SYSTEM
                 TableRow tableRow = new TableRow();
 
                 TableCell cell = new TableCell();
-                Int32 idDB = rdr.GetInt32(rdr.GetOrdinal("id"));
-                cell.Text = idDB.ToString();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("id")))
+                {
+                    Int32 idDB = rdr.GetInt32(rdr.GetOrdinal("id"));
+                    cell.Text = idDB.ToString();
+                }
                 tableRow.Cells.Add(cell);
 
 
@@ -118,28 +122,41 @@ namespace GUC_POSTGRADE_SYSTEM
 
 
                 cell = new TableCell();
-                DateTime startDateDB = rdr.GetDateTime(rdr.GetOrdinal("date"));
-                cell.Text = startDateDB.ToString();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("date")))
+                {
+                    DateTime startDateDB = rdr.GetDateTime(rdr.GetOrdinal("date"));
+                    cell.Text = startDateDB.ToString();
+                }
                 tableRow.Cells.Add(cell);
 
 
                 cell = new TableCell();
-                String placeDB = rdr.GetString(rdr.GetOrdinal("place"));
-                cell.Text = placeDB;
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("place")))
+                {
+                    String placeDB = rdr.GetString(rdr.GetOrdinal("place"));
+                    cell.Text = placeDB;
+                }
                 tableRow.Cells.Add(cell);
 
                 cell = new TableCell();
-                bool acceptedDB = rdr.GetBoolean(rdr.GetOrdinal("accepted"));
-                if (acceptedDB )
-                 {
-                     cell.Text = "Accepted";
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("accepted")))
+                {
 
-                 }
+                    bool acceptedDB = rdr.GetBoolean(rdr.GetOrdinal("accepted"));
+                    if (acceptedDB)
+                    {
+                        cell.Text = "Accepted";
 
-                 else
-                 {
-                     cell.Text = "Not Accepted";
-                 }
+                    }
+
+                    else
+                    {
+                        cell.Text = "Not Accepted";
+                    }
+                }
                 tableRow.Cells.Add(cell);
 
 
@@ -178,8 +195,7 @@ namespace GUC_POSTGRADE_SYSTEM
                     addMessage.Text = "Host is Missing !!";
                     return;
                 }
-                else if (place.Length < 1
-)
+                else if (place.Length < 1)
                 {
                     addMessage.Attributes.CssStyle.Add("display", "visible");
                     addMessage.Attributes.CssStyle.Add("color", "red");

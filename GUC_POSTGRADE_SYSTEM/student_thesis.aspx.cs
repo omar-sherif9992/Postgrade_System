@@ -14,6 +14,7 @@ namespace GUC_POSTGRADE_SYSTEM
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            //try{
             String type = Session["type"].ToString();
 
             if (type.ToString().Equals("NonGucianStudent"))
@@ -81,67 +82,106 @@ namespace GUC_POSTGRADE_SYSTEM
                 TableRow tableRow = new TableRow();
 
                 TableCell cell = new TableCell();
-                Int32 serialNumberDB = rdr.GetInt32(rdr.GetOrdinal("serialNumber"));
-                cell.Text = serialNumberDB.ToString();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("serialNumber")))
+                {
+                    Int32 serialNumberDB = rdr.GetInt32(rdr.GetOrdinal("serialNumber"));
+                    cell.Text = serialNumberDB.ToString();
+                }
                 tableRow.Cells.Add(cell);
 
 
                 cell=new TableCell();
-                String titleDB = rdr.GetString(rdr.GetOrdinal("title"));
-                cell.Text = titleDB;
-                tableRow.Cells.Add(cell);
-
-                cell = new TableCell();
-                String fieldDB = rdr.GetString(rdr.GetOrdinal("field"));
-                cell.Text = fieldDB.ToString();
-                tableRow.Cells.Add(cell);
-
-                cell = new TableCell();
-                String typeDB= rdr.GetString(rdr.GetOrdinal("type"));
-                cell.Text = typeDB;
-                tableRow.Cells.Add(cell);
-
-                cell = new TableCell();
-                DateTime startDateDB = rdr.GetDateTime(rdr.GetOrdinal("startDate"));
-                cell.Text = startDateDB.ToString();
-                tableRow.Cells.Add(cell);
-
-
-                cell = new TableCell();
-                DateTime endDateDB = rdr.GetDateTime(rdr.GetOrdinal("endDate"));
-                cell.Text = endDateDB.ToString();
-                tableRow.Cells.Add(cell);
-
-
-
-                cell = new TableCell();
-                DateTime defenceDateDB = rdr.GetDateTime(rdr.GetOrdinal("defenceDate"));
-                cell.Text = defenceDateDB.ToString();
-                tableRow.Cells.Add(cell);
-
-
-                cell = new TableCell();
-                Int32 yearsDB = rdr.GetInt32(rdr.GetOrdinal("years"));
-                cell.Text = yearsDB.ToString();
-                tableRow.Cells.Add(cell);
-
-                cell = new TableCell();
-                Decimal gradeDB = rdr.GetDecimal(rdr.GetOrdinal("grade"));
-
-                if (gradeDB.ToString().Equals("-1"))
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("title")))
                 {
-                    cell.Text = "Not Specified";
+                    String titleDB = rdr.GetString(rdr.GetOrdinal("title"));
+                    cell.Text = titleDB;
                 }
-                else
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("field")))
                 {
-                    cell.Text = gradeDB.ToString();
+                    String fieldDB = rdr.GetString(rdr.GetOrdinal("field"));
+                    cell.Text = fieldDB.ToString();
+                }
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("type")))
+                {
+                    String typeDB = rdr.GetString(rdr.GetOrdinal("type"));
+                    cell.Text = typeDB;
+                }
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("startDate")))
+                {
+                    DateTime startDateDB = rdr.GetDateTime(rdr.GetOrdinal("startDate"));
+                    cell.Text = startDateDB.ToString();
                 }
                 tableRow.Cells.Add(cell);
 
 
                 cell = new TableCell();
-                Int32 noExtensionsDB = rdr.GetInt32(rdr.GetOrdinal("noExtension"));
-                cell.Text =noExtensionsDB.ToString();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("endDate")))
+                {
+
+                    DateTime endDateDB = rdr.GetDateTime(rdr.GetOrdinal("endDate"));
+                    cell.Text = endDateDB.ToString();
+                }
+                tableRow.Cells.Add(cell);
+
+
+
+                cell = new TableCell();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("defenceDate"))){
+                    DateTime defenceDateDB = rdr.GetDateTime(rdr.GetOrdinal("defenceDate"));
+
+                    cell.Text = defenceDateDB.ToString();
+                }
+
+                tableRow.Cells.Add(cell);
+
+
+                cell = new TableCell();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("years"))) {
+                    Int32 yearsDB = rdr.GetInt32(rdr.GetOrdinal("years"));
+                    cell.Text = yearsDB.ToString();
+                }
+                tableRow.Cells.Add(cell);
+
+                cell = new TableCell();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("grade")))
+                {
+                    Decimal gradeDB = rdr.GetDecimal(rdr.GetOrdinal("grade"));
+
+                    if (gradeDB.ToString().Equals("-1"))
+                    {
+                        cell.Text = "Not Specified";
+                    }
+                    else
+                    {
+                        cell.Text = gradeDB.ToString();
+                    }
+                }
+                tableRow.Cells.Add(cell);
+
+
+                cell = new TableCell();
+                cell.Text = "Not Specified";
+                if (!rdr.IsDBNull(rdr.GetOrdinal("noExtension"))) {
+                    Int32 noExtensionsDB = rdr.GetInt32(rdr.GetOrdinal("noExtension"));
+                    cell.Text = noExtensionsDB.ToString(); }
                 tableRow.Cells.Add(cell);
 
               mainTable.Rows.Add(tableRow); 
@@ -153,7 +193,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
 
 
-
+            /*}
+             catch(Exception ex){}*/
 
 
         }
