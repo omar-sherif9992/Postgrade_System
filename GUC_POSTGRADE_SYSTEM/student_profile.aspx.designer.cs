@@ -42,13 +42,13 @@ namespace GUC_POSTGRADE_SYSTEM
         protected global::System.Web.UI.WebControls.Table Table1;
 
         /// <summary>
-        /// id control.
+        /// idk control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell id;
+        protected global::System.Web.UI.WebControls.TableCell idk;
 
         /// <summary>
         /// fname control.

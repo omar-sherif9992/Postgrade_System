@@ -1,4 +1,20 @@
 ﻿
+select *
+from NonGUCianStudentRegisterThesis t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id inner join Thesis td on t.serial_no=td.serialNumber
+
+
+select *
+from NonGUCianProgressReport t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id
+
+
+select *
+from NonGucianStudentTakeCourse t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id inner join Course c on c.id=t.cid
+
+
+select *
+from PostGradUser
+
+
 GO
 
 USE GUC_POSTGRADE_SYSTEM
@@ -68,16 +84,16 @@ select @supid7 = max(id) from Supervisor
 insert into PostGradUser values('ziad.ziad@gmail.com','12334')
 declare @uid8 int
 set @uid8 = SCOPE_IDENTITY()
-insert into GucianStudent values(@uid8,'ziad','ziad','-1','Computer Engineering','Maadi',1.7,'-1')
+insert into GucianStudent values(@uid8,'ziad','ziad',null,'Computer Engineering','Maadi',1.7,null)
 declare @sid8 int
 select @sid8 = max(id) from GucianStudent
 
 
 
-insert into PostGradUser values('hussein.hussein@gmail.com','12344')
+insert into PostGradUser values('guc','guc')
 declare @uid9 int
 set @uid9 = SCOPE_IDENTITY()
-insert into GucianStudent values(@uid9,'hussein','hussein','-1','Media Engineering','Helwan',2.3,'-1')
+insert into GucianStudent values(@uid9,'hussein','hussein',null,'Media Engineering','Helwan',2.3,null)
 declare @sid9 int
 select @sid9 = max(id) from GucianStudent
 
@@ -87,35 +103,34 @@ insert into PostGradUser values('hussein.sarnagawy@gmail.com','123004')
 declare @uid10 int
 set @uid10 = SCOPE_IDENTITY()
 print (@uid10)
-insert into GucianStudent values(@uid10,'hussein','sarnagawy','-1','Mechatronics Engineering','Heliopolis',2,'-1') 
+insert into GucianStudent values(@uid10,'hussein','sarnagawy',null,'Mechatronics Engineering','Heliopolis',2,null) 
 declare @sid10 int
 select @sid10 = max(id) from GucianStudent
 
 
 
---my user
+
 insert into PostGradUser values('k','1')
 declare @uid11 int
 set @uid11 = SCOPE_IDENTITY()
-insert into NonGucianStudent values(@uid11,'ziad','elmeteny','-1','Networks Engineering','Maadi',1.3)
+insert into NonGucianStudent values(@uid11,'ziad','elmeteny',null,'Networks Engineering','Maadi',1.3)
 declare @sid11 int
 select @sid11 = max(id) from NonGucianStudent
-
 
 
 insert into PostGradUser values('omar.yasser@gmail.com','1234281')
 declare @uid12 int
 set @uid12 = SCOPE_IDENTITY()
-insert into NonGucianStudent values(@uid12,'omar','yasser','-1','Management','El-Sheikh Zayed',2) 
+insert into NonGucianStudent values(@uid12,'omar','yasser',null,'Management','El-Sheikh Zayed',2) 
 declare @sid12 int
 select @sid12 = max(id) from NonGucianStudent
 
 
 
-insert into PostGradUser values('k','1')
+insert into PostGradUser values('nonguc','nonguc')
 declare @uid13 int
 set @uid13 = SCOPE_IDENTITY()
-insert into NonGucianStudent values(@uid13,'ali','elmeteny','-1','Law and Legal studies','Zamalek',2)
+insert into NonGucianStudent values(@uid13,'ali','elmeteny',null,'Law and Legal studies','Zamalek',2)
 declare @sid13 int
 select @sid13 = max(id) from NonGucianStudent
 
@@ -169,7 +184,7 @@ select @exid18 = max(id) from Examiner
 insert into PostGradUser values('ali.gamal@gmail.com','1234281')
 declare @uid19 int
 set @uid19 = SCOPE_IDENTITY()
-insert into NonGucianStudent values(@uid19,'ali','gamal','-1','Law and Legal studies','Zamalek',2)
+insert into NonGucianStudent values(@uid19,'ali','gamal',null,'Law and Legal studies','Zamalek',2)
 declare @sid19 int
 select @sid19 = max(id) from NonGucianStudent
 
@@ -178,7 +193,7 @@ select @sid19 = max(id) from NonGucianStudent
 insert into PostGradUser values('ahmed.gamal@gmail.com','1234281')
 declare @uid20 int
 set @uid20 = SCOPE_IDENTITY()
-insert into GucianStudent values(@uid20,'ahmed','gamal','-1','Computer Engineering','Maadi',2,'-1')
+insert into GucianStudent values(@uid20,'ahmed','gamal',null,'Computer Engineering','Maadi',2,null)
 declare @sid20 int
 select @sid20 = max(id) from GucianStudent
 
@@ -194,7 +209,7 @@ select @exid21 = max(id) from Examiner
 
 
 
-insert into GUCStudentPhoneNumber values(@sid11,'01012062866')
+insert into GUCStudentPhoneNumber values(@sid8,'01012062866')
 insert into GUCStudentPhoneNumber values(@sid8,'01006625353')
 insert into GUCStudentPhoneNumber values(@sid9,'01008877651')
 insert into GUCStudentPhoneNumber values(@sid10,'01220400050')
@@ -489,21 +504,21 @@ insert into Defense(serialNumber,date,location) values(@serNum7,'2018-10-22','GU
 
 
 
-insert into GUCianProgressReport values(@sid8,1,'2017-11-07',2,'-1',@serNum1,@supid3,'-1')
-insert into GUCianProgressReport values(@sid8,2,'2020-07-07',1,'-1',@serNum2,@supid3,'-1')
-insert into GUCianProgressReport values(@sid9,1,'2019-11-07',3,'-1',@serNum9,@supid3,'-1')
-insert into GUCianProgressReport values(@sid9,2,'2020-11-07',0,'-1',@serNum9,@supid3,'-1')
-insert into GUCianProgressReport values(@sid10,1,'2019-11-07',2,'-1',@serNum3,@supid4,'-1')
-insert into GUCianProgressReport values(@sid10,2,'2020-11-07',1,'-1',@serNum3,@supid4,'-1')
+insert into GUCianProgressReport values(@sid8,1,'2017-11-07',2,null,@serNum1,@supid3,null)
+insert into GUCianProgressReport values(@sid8,2,'2020-07-07',1,null,@serNum2,@supid3,null)
+insert into GUCianProgressReport values(@sid9,1,'2019-11-07',3,null,@serNum9,@supid3,null)
+insert into GUCianProgressReport values(@sid9,2,'2020-11-07',0,null,@serNum9,@supid3,null)
+insert into GUCianProgressReport values(@sid10,1,'2019-11-07',2,null,@serNum3,@supid4,null)
+insert into GUCianProgressReport values(@sid10,2,'2020-11-07',1,null,@serNum3,@supid4,null)
 
 
 
-insert into NonGUCianProgressReport values(@sid11,1,'2019-06-07',1,'-1',@serNum5,@supid5,'-1')
-insert into NonGUCianProgressReport values(@sid11,2,'2020-01-07',3,'-1',@serNum5,@supid5,'-1')
-insert into NonGUCianProgressReport values(@sid11,3,'2020-06-07',1,'-1',@serNum6,@supid5,'-1')
-insert into NonGUCianProgressReport values(@sid12,1,'2019-11-07',0,'-1',@serNum13,@supid6,'-1')
-insert into NonGUCianProgressReport values(@sid19,1,'2020-11-07',2,'-1',@serNum1,@supid6,'-1')
-insert into NonGUCianProgressReport values(@sid13,1,'2019-11-07',2,'-1',@serNum15,@supid7,'-1')
+insert into NonGUCianProgressReport values(@sid11,1,'2019-06-07',1,null,@serNum8,@supid5,null)
+insert into NonGUCianProgressReport values(@sid11,2,'2020-01-07',3,null,@serNum10,@supid5,null)
+insert into NonGUCianProgressReport values(@sid11,3,'2020-06-07',1,null,@serNum13,@supid5,null)
+insert into NonGUCianProgressReport values(@sid12,1,'2019-11-07',0,null,@serNum14,@supid6,null)
+insert into NonGUCianProgressReport values(@sid19,1,'2020-11-07',2,null,@serNum1,@supid6,null)
+insert into NonGUCianProgressReport values(@sid13,1,'2019-11-07',2,null,@serNum15,@supid7,null)
 										   								
 
 
@@ -518,12 +533,13 @@ insert into NonGucianStudentPayForCourse values(@sid13,@pid22,@cid7)
 
 insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid3)
 insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid4)
-insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid6)
-insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid6)
-insert into NonGucianStudentTakeCourse(sid,cid) values(@sid11,@cid7)
+insert into NonGucianStudentTakeCourse(sid,cid) values(@sid12,@cid6)
+insert into NonGucianStudentTakeCourse(sid,cid) values(@sid13,@cid6)
+insert into NonGucianStudentTakeCourse(sid,cid) values(@sid13,@cid7)
 
 
 
+insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid8,@supid3,@serNum1)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid8,@supid3,@serNum2)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid9,@supid3,@serNum9)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid10,@supid4,@serNum3)
@@ -533,12 +549,12 @@ insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid9,@supi
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid9,@supid3,@serNum12)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid10,@supid4,@serNum6)
 insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid20,@supid5,@serNum11)
+insert into GUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid20,@supid4,@serNum5)
 
 
 
---omar fixed
-insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid11,@supid5,@serNum1)
 
+insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid11,@supid5,@serNum8)
 insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid11,@supid6,@serNum13)
 insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid11,@supid5,@serNum10)
 insert into NonGUCianStudentRegisterThesis (sid,supid,serial_no) values(@sid12,@supid6,@serNum14)

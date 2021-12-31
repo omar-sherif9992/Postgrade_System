@@ -23,6 +23,7 @@ namespace GUC_POSTGRADE_SYSTEM
             }
 
         }
+     
         protected void closePublications(object sender, EventArgs e)
         {
             viewPublications1.Attributes.CssStyle.Add("display", "none");
@@ -291,11 +292,23 @@ namespace GUC_POSTGRADE_SYSTEM
                     linkMessage.Attributes.CssStyle.Add("color", "green");
                     linkMessage.Text = "Successfully Added thesis " + thesis_title.Value.ToString() + " to Publication " + pub_title.Value.ToString();
                 }
+                else if (success.Value.ToString() == "-2") {
+                    linkMessage.Attributes.CssStyle.Add("display", "visible");
+                    linkMessage.Attributes.CssStyle.Add("color", "red");
+                    linkMessage.Text = "Thesis doesn't Exists";
+
+                }
+                else if (success.Value.ToString() == "-1")
+                {
+                    linkMessage.Attributes.CssStyle.Add("display", "visible");
+                    linkMessage.Attributes.CssStyle.Add("color", "red");
+                    linkMessage.Text = "Outdated Thesis";
+                }
                 else
                 {
                     linkMessage.Attributes.CssStyle.Add("display", "visible");
                     linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Incorrect Thesis Serial Number/Progress Report";
+                    linkMessage.Text = "Incorrect Thesis Serial Number";
                 }
 
 

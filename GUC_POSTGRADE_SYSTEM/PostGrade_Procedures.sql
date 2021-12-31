@@ -1,5 +1,4 @@
 ﻿
-
 USE GUC_POSTGRADE_SYSTEM
 GO
 
@@ -9,7 +8,18 @@ select *
 from Publication
 
 
-
+go
+create procedure ViewMyPhone
+@Sid int
+as
+(select phone
+from NonGUCStudentPhoneNumber
+where id=@sid
+)
+union 
+(select phone
+from GUCStudentPhoneNumber
+where id=@sid)
 
 go
 --New Added Procedures
@@ -17,13 +27,22 @@ go
 create PROCEDURE STUDENTVIEWTHESIS
 @SID INT
 AS
+if(exists
 (SELECT t.serialNumber as 'serialNumber',field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
 from thesis t inner join GUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
-where g.sid=@SID)
-Union
+where g.sid=@SID))
+
+SELECT t.serialNumber as 'serialNumber',field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
+from thesis t inner join GUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
+where g.sid=@SID
+
+else if(exists
 (SELECT t.serialNumber as 'serialNumber',field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
 from thesis t inner join NonGUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
-where  g.sid=@SID)
+where  g.sid=@SID))
+SELECT t.serialNumber as 'serialNumber',field,type,title,startDate,endDate,defenceDate,years,grade,noExtension
+from thesis t inner join NonGUCianStudentRegisterThesis  g on  g.serial_no=t.serialNumber
+where  g.sid=@SID
 GO
 
 --husseinYasser
@@ -68,9 +87,9 @@ SELECT @lastID = max(id)
 FROM PostGradUser  
 IF(@Gucian = '1')
 INSERT INTO GucianStudent (id,firstName,lastName,type,faculty,address,GPA,undergradID)
-VALUES (@lastID,@first_name,@last_name,'-1',@faculty,@address,-1,-1);
+VALUES (@lastID,@first_name,@last_name,null,@faculty,@address,null,null);
 ELSE INSERT INTO NonGucianStudent (id,firstName,lastName,type,faculty,address,GPA)
-VALUES (@lastID,@first_name,@last_name,'-1',@faculty,@address,-1);
+VALUES (@lastID,@first_name,@last_name,null,@faculty,@address,null);
 END
 GO
 
@@ -353,7 +372,7 @@ GO
 create procedure linkCourseStudent
 @courseId int , @studentID int
 AS
-insert into NonGucianStudentTakeCourse(sid,cid,grade) values(@studentID,@courseId,-1)
+insert into NonGucianStudentTakeCourse(sid,cid,grade) values(@studentID,@courseId,null)
 GO
 
 --3l.3 add student course grade 
@@ -482,7 +501,7 @@ set @Success = 0;
 end
 else
 begin
-insert into Defense values(@ThesisSerialNo,@DefenseDate,@DefenseLocation,-1)
+insert into Defense values(@ThesisSerialNo,@DefenseDate,@DefenseLocation,null)
 Set @Success=1
 end
 GO
@@ -508,7 +527,7 @@ else if(50 < (select NGSTC.grade
 from Thesis T inner join NonGUCianStudentRegisterThesis NGSRT on T.serialNumber = NGSRT.serial_no
 inner join NonGucianStudentTakeCourse NGSTC on NGSRT.sid = NGSTC.sid))
 begin
-insert into Defense values(@ThesisSerialNo,@DefenseDate,@DefenseLocation,-1)
+insert into Defense values(@ThesisSerialNo,@DefenseDate,@DefenseLocation,null)
 set @Success=1
 set @Success50 = 1;
 end
@@ -567,7 +586,7 @@ else set @SuccessDate=0
 if(@SuccessDate=1 and @SuccessThesis=1)
 begin
 set @Success=1
-insert into ExaminerEvaluateDefense values(@DefenseDate,@ExaminerID,@ThesisSerialNo,'-1')
+insert into ExaminerEvaluateDefense values(@DefenseDate,@ExaminerID,@ThesisSerialNo,null)
 end
 end
 else
@@ -580,7 +599,7 @@ else set @SuccessDate=0
 if(@SuccessDate=1 and @SuccessThesis=1)
 begin
 set @Success=1
-insert into ExaminerEvaluateDefense values(@DefenseDate,@ExaminerID,@ThesisSerialNo,'-1')
+insert into ExaminerEvaluateDefense values(@DefenseDate,@ExaminerID,@ThesisSerialNo,null)
 end
 end
 else set @SuccessThesis =0
@@ -886,71 +905,112 @@ GO
 --ProgressReport has a missing attribute description varchar(200)
 --we added description in the table 
 create proc FillProgressReport
-@thesisSerialNo int,@progressReportNo int,@state int,@description varchar(200),
+@thesisSerialNo int,@progressReportNo int,@state int,@description varchar(200),@sid int,
 @Success_bit int output
 AS
 declare @StdID int
 declare @SupID int
-if(exists(select * from GUCianProgressReport where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo))
+if(exists(select * from GUCianProgressReport g inner join thesis t on g.thesisSerialNumber=t.serialNumber
+where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid and t.startDate>=CURRENT_TIMESTAMP and t.endDate<=CURRENT_TIMESTAMP))
 begin
-update GUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo
+update GUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and sid=@sid
 and no = @progressReportNo
 set @Success_bit=1
 
 end
-else if(exists(select * from NonGUCianProgressReport where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo))
+else if(exists(select * from NonGUCianProgressReport g inner join thesis t on g.thesisSerialNumber=t.serialNumber
+where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid  and t.startDate>=CURRENT_TIMESTAMP and t.endDate<=CURRENT_TIMESTAMP))
 begin
-update NonGUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo
-and no = @progressReportNo
+update NonGUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid
 set @Success_bit=1
+end
+else
+begin
+if(exists(select * from NonGUCianProgressReport g inner join thesis t on g.thesisSerialNumber=t.serialNumber
+where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid)
+or exists(select * from GUCianProgressReport g inner join thesis t on g.thesisSerialNumber=t.serialNumber
+where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid ))
+begin
+set @Success_bit=-1
 end
 else
 set @Success_bit=0
 
+
+end
 go
 
 create proc AddProgressReport
 @thesisSerialNo int,@progressReportDate date,
+@StdID int,
 @Success_bit int output,
 @progress_num int output
 AS
 declare @prgNUM int
-declare @StdID int
 declare @SupID int
 declare @prgNUM1 int
-if(exists(select * from GUCianStudentRegisterThesis where serial_no = @thesisSerialNo))
+if(exists(select * from GUCianStudentRegisterThesis gst inner join Thesis t 
+on t.serialNumber=gst.serial_no 
+where serial_no = @thesisSerialNo and gst.sid=@StdID and  CURRENT_TIMESTAMP>=startDate and CURRENT_TIMESTAMP<=endDate))
 begin
-select @StdID = sid,@SupID = supid
+select @SupID = supid
 from GUCianStudentRegisterThesis
 where serial_no = @thesisSerialNo
 
-select @prgNUM=max(no) from GUCianProgressReport where sid = @StdID and supid = @SupID
+select @prgNUM=max(no)
+from GUCianProgressReport gr inner join GUCianStudentRegisterThesis gt
+on gr.sid=gt.sid 
+where gt.sid = @StdID  
 
+if(@prgNUM is null)
+set @prgNum1=1
+else
 set @prgNUM1 = @prgNUM + 1
 
 insert into GUCianProgressReport (sid,no,date,eval,state,thesisSerialNumber,supid)
-values (@StdID,@prgNUM1,@progressReportDate,-1,-1,@thesisSerialNo,@SupID)
+values (@StdID,@prgNUM1,@progressReportDate,null,null,@thesisSerialNo,@SupID)
 set @Success_bit=1
 set @progress_num =@prgNum1
 end
 
-else if(exists(select * from NonGUCianStudentRegisterThesis where serial_no = @thesisSerialNo))
+else if(exists(select * from NonGUCianStudentRegisterThesis ngst  inner join Thesis t
+on t.serialNumber=ngst.serial_no  
+where ngst.sid=@StdID and serial_no = @thesisSerialNo and  CURRENT_TIMESTAMP>=startDate and CURRENT_TIMESTAMP<=endDate))
 begin
-select @StdID = sid , @SupID = supid
+select @SupID = supid
 from NonGUCianStudentRegisterThesis
 where serial_no = @thesisSerialNo
-select @prgNUM = max(no) from NonGUCianProgressReport where sid = @StdID and supid = @SupID
-set @prgNUM1 = @prgNUM+1
+
+select @prgNUM = max(no)
+from NonGUCianProgressReport gr inner join NonGUCianStudentRegisterThesis gt
+on gr.sid=gt.sid
+where gt.sid = @StdID  
+
+if(@prgNUM is null)
+set @prgNum1=1
+else
+set @prgNUM1 = @prgNUM + 1
 insert into NonGUCianProgressReport (sid,no,date,eval,state,thesisSerialNumber,supid)
-values (@StdID,@prgNUM1,@progressReportDate,NULL,NULL,@thesisSerialNo,@SupID)
+values (@StdID,@prgNUM1,@progressReportDate,null,null,@thesisSerialNo,@SupID)
 set @Success_bit=1
 set @progress_num =@prgNum1
 end
 
 else
 begin
+if(exists(select * from GUCianStudentRegisterThesis gst inner join Thesis t 
+on t.serialNumber=gst.serial_no  where serial_no = @thesisSerialNo and gst.sid=@StdID) or
+exists(select * from NonGUCianStudentRegisterThesis gst inner join Thesis t 
+on t.serialNumber=gst.serial_no  where serial_no = @thesisSerialNo and gst.sid=@StdID) )
+begin
 set @progress_num =-1
 set @Success_bit=0
+end
+else
+begin
+set @progress_num =-1
+set @Success_bit=-1
+end
 end
 
 go
@@ -989,21 +1049,43 @@ create proc linkPubThesis
 @thesis_title varchar(50) output,
 @publication_title varchar(50) output
 AS
-if(not exists(select * from Thesis where serialNumber = @thesisSerialNo)
-or
-not exists(select * from Publication where id = @PubID) )
+if(not exists(select * from Publication where id = @PubID) )
+begin
 set @Success_bit =0
+set @publication_title=null
+set @thesis_title=null
+end
 else 
 begin
+if(exists(select * from Thesis where serialNumber=@thesisSerialNo and CURRENT_TIMESTAMP<=endDate and CURRENT_TIMESTAMP>=startDate))
+begin
+
 insert into ThesisHasPublication (serialNo,pubid)
 values (@thesisSerialNo,@PubID)
 set @Success_bit =1
+
 select @thesis_title=title
 from Thesis
 where serialNumber=@thesisSerialNo
+
 select @publication_title=title
 from Publication
 where id=@PubID
-
+end 
+else
+begin
+if(exists(select * from Thesis where serialNumber=@thesisSerialNo))
+begin
+set @Success_bit =-1
+set @publication_title=null
+set @thesis_title=null
+end
+else
+begin
+set @Success_bit =-2
+set @publication_title=null
+set @thesis_title=null
+end
+end
 end
 

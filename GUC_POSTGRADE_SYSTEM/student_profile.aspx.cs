@@ -36,7 +36,7 @@ namespace GUC_POSTGRADE_SYSTEM
             Response.Redirect("student_courses.aspx");
         }
 
-        
+    
         protected void Page_Load(object sender, EventArgs e)
         {
             String type = Session["type"].ToString();
@@ -64,33 +64,68 @@ namespace GUC_POSTGRADE_SYSTEM
                 String lastNameDB = rdr.GetString(rdr.GetOrdinal("lastName"));
                 String facultyDB = rdr.GetString(rdr.GetOrdinal("faculty"));
                 String addressDB = rdr.GetString(rdr.GetOrdinal("address"));
-                Decimal GPADB = rdr.GetDecimal(rdr.GetOrdinal("GPA"));
-                String typeDP = rdr.GetString(rdr.GetOrdinal("type"));
+                Decimal GPADB = 0;
+                if (!rdr.IsDBNull(rdr.GetOrdinal("GPA")))
+                {
+                    gpa.Text = "Not Specified";
 
-                gpa.Text=GPADB.ToString();
+                }
+                else
+                {
+                    GPADB = rdr.GetDecimal(rdr.GetOrdinal("GPA"));
+                    gpa.Text = GPADB.ToString();
+
+                }
+                String typeDP = "Not Specified";
+
+
+                if (!rdr.IsDBNull(rdr.GetOrdinal("type")))
+                {
+                     typeDP = rdr.GetString(rdr.GetOrdinal("type"));
+                    if (typeDP.ToString().Equals("-1"))
+                    {
+                        typeCell.Text = "Not Specified";
+                    }
+                    else
+                    {
+
+                        typeCell.Text = typeDP.ToString();
+
+                    }
+                }
+               
                 fname.Text=firstNameDB.ToString();
                 lname.Text=lastNameDB.ToString();
                 address.Text=addressDB.ToString();
                 faculty.Text=facultyDB.ToString();
+                idk.Text = id.ToString();
 
 
 
 
                 if (type.ToString().Equals("GucianStudent"))
                 {
-                    String undergradID = rdr.GetString(rdr.GetOrdinal("undergradID"));
                     underGradeIDRow.Attributes.CssStyle.Add("display", "visible");
-                    underGradeID.Text = undergradID.ToString();   
+
+                    String undergradID ="Not Specified";
+
+                    if (!rdr.IsDBNull(rdr.GetOrdinal("undergradID")))
+                    {
+                         undergradID = rdr.GetString(rdr.GetOrdinal("undergradID"));
+                        underGradeID.Text = "Not Specified";
+
+                    }
+
+                    
+                    if (undergradID.ToString().Equals("-1") || rdr.IsDBNull(rdr.GetOrdinal("undergradID"))){
+                        underGradeID.Text = "Not Specified";
+                    }
+                    else {
+                        String undergradIDDB = rdr.GetString(rdr.GetOrdinal("undergradID"));
+                        underGradeID.Text = undergradID.ToString(); }
                 }
 
-                if (typeDP.ToString().Equals("-1")) {
-                    typeCell.Text ="Not Specified";
-                }
-                else {
-
-                    typeCell.Text = typeDP.ToString();
-
-                }
+             
 
 
 

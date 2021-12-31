@@ -85,6 +85,7 @@
     <Content Include="add_progress_report.aspx" />
     <Content Include="add_publication.aspx" />
     <Content Include="student_register.aspx" />
+    <Content Include="student_phone.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="student_courses.aspx.cs">
@@ -157,6 +158,13 @@
     </Compile>
     <Compile Include="supervisor_register.aspx.designer.cs">
       <DependentUpon>supervisor_register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="student_phone.aspx.cs">
+      <DependentUpon>student_phone.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="student_phone.aspx.designer.cs">
+      <DependentUpon>student_phone.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

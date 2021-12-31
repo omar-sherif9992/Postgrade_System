@@ -1,8 +1,5 @@
-﻿drop database GUC_POSTGRADE_SYSTEM;
-
-
-create database GUC_POSTGRADE_SYSTEM
-GO
+﻿create database GUC_POSTGRADE_SYSTEM
+go
 USE GUC_POSTGRADE_SYSTEM
 GO
 create table PostGradUser (
@@ -25,11 +22,11 @@ create table GucianStudent (
 id int primary key,
 firstName varchar(20) not null,
 lastName varchar(20) not null,
-type varchar(10) default '-1',
+type varchar(10) default null,
 faculty varchar(50) not null,
 address varchar(50) not null,
 GPA numeric(3,2), 
-undergradID varchar(10) default '-1', 
+undergradID varchar(10) default null, 
 foreign key(id) references PostGradUser on delete cascade on update cascade
 )
 
@@ -39,10 +36,10 @@ create table NonGucianStudent (
 id int primary key,
 firstName varchar(20) not null,
 lastName varchar(20) not null,
-type varchar(10) default '-1',
+type varchar(10) default null,
 faculty varchar(50) not null,
 address varchar(50) not null,
-GPA decimal(3,2) default -1, 
+GPA decimal(3,2) default null, 
 foreign key(id) references PostGradUser on delete cascade on update cascade
 )
 
@@ -70,8 +67,7 @@ create table Course (
 id int primary key identity,
 fees decimal not null,
 creditHours int not null,
-code varchar(10) not null
-)
+code varchar(10) not null)
 
 go
 
@@ -111,9 +107,9 @@ type varchar(10) not null,
 title varchar(50) not null,
 startDate datetime not null default current_timestamp,
 endDate datetime not null,
-defenceDate datetime default '-1',
+defenceDate datetime default null,
 years as (year(endDate) - year(startDate)),
-grade decimal default -1,
+grade decimal default null,
 payment_id int unique references Payment on delete cascade on update cascade,
 noExtension int default 0 check (noExtension>= 0)
 )
@@ -137,7 +133,7 @@ create table Defense (
 serialNumber int,
 date datetime,
 location varchar(15) not null,
-grade decimal default -1,  
+grade decimal default null,  
 primary key(serialNumber,date),
 foreign key(serialNumber) references Thesis on delete cascade on update cascade
 )
@@ -149,10 +145,10 @@ sid int,
 no int, 
 date datetime not null,
 eval int check(eval between 0 and 3), --user stories evaluate progressreport
-state int default -1, 
+state int default null, 
 thesisSerialNumber int,
 supid int,
-description varchar(200) default '-1',
+description varchar(200) default null,
 primary key(sid,no),
 foreign key(sid) references GucianStudent on delete cascade on update cascade,
 foreign key(thesisSerialNumber) references Thesis on delete cascade on update cascade,
@@ -167,10 +163,10 @@ sid int,
 no int, 
 date datetime not null,
 eval int check(eval between 0 and 3),
-state int default -1, 
+state int default null, 
 thesisSerialNumber int,
 supid int,
-description varchar(200) default '-1',
+description varchar(200) default null,
 primary key(sid,no),
 foreign key(sid) references NonGucianStudent on delete cascade on update cascade,
 foreign key(thesisSerialNumber) references Thesis on delete cascade on update cascade,
@@ -205,7 +201,7 @@ go
 create table NonGucianStudentTakeCourse (
 sid int,
 cid int,
-grade decimal default -1, 
+grade decimal default null, 
 primary key (sid,cid),
 foreign key(sid) references NonGucianStudent on delete cascade on update cascade,
 foreign key(cid) references Course on delete cascade on update cascade,
@@ -238,10 +234,10 @@ foreign key (serial_no) references Thesis on delete cascade on update cascade
 go
 
 create table ExaminerEvaluateDefense (
-date datetime default '-1',
+date datetime default null,
 serialNo int ,
 examinerId int , 
-comment varchar(300) default '-1', 
+comment varchar(300) default null, 
 primary key(date,serialNo,examinerId),
 foreign key(serialNo,date) references Defense on delete cascade on update cascade,
 foreign key(examinerId) references Examiner on delete cascade on update cascade

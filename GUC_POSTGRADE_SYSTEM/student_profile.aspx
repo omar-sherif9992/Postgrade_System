@@ -70,12 +70,24 @@
       <li class="nav-item">
         <a class="nav-link" href="student_thesis.aspx">View Thesis</a>
       </li>
+           <li class="nav-item active" >
+      </li>
+           <li class="nav-item active" >
+        <a class="nav-link" href="student_phone.aspx" style="text-decoration:underline">My Phones</a>
+      </li>
+      
           <li class="nav-item">
              <asp:Label ID="courses" runat="server" Text="" style="display:none">
                          <a class="nav-link" href="student_courses.aspx" style="color:white !important;
           text-decoration:underline !important;">View Courses<a>
              </asp:Label>
       </li>
+      
+             <li class="nav-item" style="color:greenyellow !important;float:right !important;margin-left:500px">
+        <a class="nav-link" href="login_page.aspx" style="color:greenyellow !important;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </li>
+        
+           
     </ul>
   </div>
 </nav>
@@ -99,7 +111,7 @@
                     <asp:TableCell>
                       ID :
                     </asp:TableCell>
-                    <asp:TableCell ID="id"  >
+                    <asp:TableCell ID="idk"  >
                         49-3324
                     </asp:TableCell>
                 </asp:TableRow>

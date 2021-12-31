@@ -55,13 +55,19 @@
       <li class="nav-item">
         <a class="nav-link" href="student_thesis.aspx">View Thesis</a>
       </li>
-
+           <li class="nav-item active" >
+        <a class="nav-link" href="student_phone.aspx">My Phones</a>
+      </li>
          <li class="nav-item">
              <asp:Label ID="courses" runat="server" Text="" style="display:none">
                          <a class="nav-link" href="student_courses.aspx" style="color:white !important;
           text-decoration:underline !important;">View Courses<a>
              </asp:Label>
       </li>
+          <li class="nav-item" style="color:greenyellow !important;float:right !important;margin-left:480px">
+        <a class="nav-link" href="login_page.aspx" style="color:greenyellow !important;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </li>
+
     </ul>
   </div>
 </nav>
@@ -109,8 +115,9 @@
             Enter State :</p>
      
            <p>
-            <asp:TextBox class="form-control" ID="fillState" runat="server"    placeholder="Enter State" ></asp:TextBox>
+            <asp:TextBox class="form-control" ID="fillState" runat="server"  type="number"  placeholder="Enter State" ></asp:TextBox>
         </p>
+
         <br />
         <p style="text-align:left">
             Enter Description :</p>

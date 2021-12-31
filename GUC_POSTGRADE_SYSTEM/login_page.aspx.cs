@@ -16,6 +16,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Session.Clear();
+
 
         }
         protected void login(object sender, EventArgs e)
@@ -46,7 +48,7 @@ namespace GUC_POSTGRADE_SYSTEM
                 Session["user"] = username;
                 Session["type"] = type.Value.ToString();
                 Session["id"] = Int16.Parse(id.Value.ToString());
-                //Response.Write(type);
+               
             }
 
             if (success.Value.ToString() == "1" && type.Value.ToString() == "Admin") {
