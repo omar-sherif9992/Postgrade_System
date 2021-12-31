@@ -1044,7 +1044,7 @@ go
 --modified omar version
 --6i Link publication to my thesis.
 create proc linkPubThesis
-@PubID int,@thesisSerialNo int,
+@PubID int,@thesisSerialNo int,@sid int,
 @Success_bit int output,
 @thesis_title varchar(50) output,
 @publication_title varchar(50) output
@@ -1055,6 +1055,19 @@ set @Success_bit =0
 set @publication_title=null
 set @thesis_title=null
 end
+if(not exists(select * from GUCianStudentRegisterThesis where serial_no=@thesisSerialNo and sid=@sid)and not Exists(select * from NonGUCianStudentRegisterThesis where serial_no=@thesisSerialNo and sid=@sid))
+begin
+set @Success_bit =100
+set @publication_title=null
+set @thesis_title=null
+end
+if(exists(select * from ThesisHasPublication where serialNo=@thesisSerialNo and pubid=@PubID))
+begin
+set @Success_bit =200
+set @publication_title=null
+set @thesis_title=null
+end
+
 else 
 begin
 if(exists(select * from Thesis where serialNumber=@thesisSerialNo and CURRENT_TIMESTAMP<=endDate and CURRENT_TIMESTAMP>=startDate))

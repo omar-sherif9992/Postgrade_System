@@ -12,7 +12,7 @@ from NonGucianStudentTakeCourse t inner join NonGucianStudent ts on t.sid =ts.id
 
 
 select *
-from PostGradUser
+from Publication
 
 
 GO

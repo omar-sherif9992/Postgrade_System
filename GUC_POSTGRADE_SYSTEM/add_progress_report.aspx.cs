@@ -39,6 +39,8 @@ namespace GUC_POSTGRADE_SYSTEM
             String serialText = addThesis.Text;
             int ssn;
             if (serialText.Length == 0) {
+                addMessage.Attributes.CssStyle.Add("display", "visible");
+                addMessage.Attributes.CssStyle.Add("color", "red");
                 addMessage.Text = "Serial Number is Missing !";
                 return;
             }
@@ -48,6 +50,8 @@ namespace GUC_POSTGRADE_SYSTEM
             }
             catch (Exception ex)
             {
+                addMessage.Attributes.CssStyle.Add("display", "visible");
+                addMessage.Attributes.CssStyle.Add("color", "red");
                 addMessage.Text = "Serial Number is Missing !";
                 return;
             }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add_publication.aspx.cs" Inherits="GUC_POSTGRADE_SYSTEM.WebForm3" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add_publication.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="GUC_POSTGRADE_SYSTEM.WebForm3" %>
 
 <!DOCTYPE html>
 
@@ -100,7 +100,7 @@
         <p style="text-align:left">
         Enter Publication Title :</p>
          <p>
-            <asp:TextBox class="form-control" ID="addTitle" runat="server" placeholder="Enter  Publication Title" ></asp:TextBox>
+            <asp:TextBox class="form-control" ID="addTitle" runat="server" onkeypress="return /[a-z]/i.test(event.key)" placeholder="Enter  Publication Title" ></asp:TextBox>
         </p>
                 <br />
 
@@ -112,7 +112,7 @@
                           <p style="text-align:left">
         Enter Host :</p>
          <p>
-            <asp:TextBox class="form-control" ID="addHost" runat="server" placeholder="Enter Publication Host" ></asp:TextBox>
+            <asp:TextBox class="form-control" onkeypress="return /[a-z]/i.test(event.key)" ID="addHost" runat="server" placeholder="Enter Publication Host" ></asp:TextBox>
         </p>
                           <p style="text-align:left">
         Enter Place:</p>

@@ -258,19 +258,37 @@ namespace GUC_POSTGRADE_SYSTEM
 
         protected void linkPublication(object sender, EventArgs e)
         {
-            try
-            {
+           /* try
+            {*/
+                if (linkPub.Text.Length == 0) {
+                    linkMessage.Attributes.CssStyle.Add("display", "visible");
+                    linkMessage.Attributes.CssStyle.Add("color", "red");
+                    linkMessage.Text = "Publication ID is Missing !!";
+                    return;
+
+                }
+                if (linkThesis.Text.Length == 0) {
+                    linkMessage.Attributes.CssStyle.Add("display", "visible");
+                    linkMessage.Attributes.CssStyle.Add("color", "red");
+                    linkMessage.Text = "Thesis Serial Number is Missing !!";
+                    return;
+                }
+
+
                 int pub_id = Int16.Parse(linkPub.Text);
                 int thesis_ssn = Int16.Parse(linkThesis.Text);
 
 
                 String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
                 SqlConnection conn = new SqlConnection(connStr);
+                int id = Int16.Parse(Session["id"].ToString());
 
                 SqlCommand login_proc = new SqlCommand("linkPubThesis", conn);
                 login_proc.CommandType = CommandType.StoredProcedure;
                 login_proc.Parameters.Add(new SqlParameter("@thesisSerialNo", thesis_ssn));
                 login_proc.Parameters.Add(new SqlParameter("@PubID", pub_id));
+                login_proc.Parameters.Add(new SqlParameter("@sid", id));
+
 
 
                 SqlParameter success = login_proc.Parameters.Add("@Success_bit", SqlDbType.Int);
@@ -292,6 +310,28 @@ namespace GUC_POSTGRADE_SYSTEM
                     linkMessage.Attributes.CssStyle.Add("color", "green");
                     linkMessage.Text = "Successfully Added thesis " + thesis_title.Value.ToString() + " to Publication " + pub_title.Value.ToString();
                 }
+                else if (success.Value.ToString() == "100")
+                {
+                    linkMessage.Attributes.CssStyle.Add("display", "visible");
+                    linkMessage.Attributes.CssStyle.Add("color", "red");
+                    linkMessage.Text = "Incorrect Thesis Serial Number !! ";
+
+                }
+            else if (success.Value.ToString() == "200")
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "red");
+                linkMessage.Text = "This Thesis Was linked Before to this Publication !!";
+
+            }
+            else if (success.Value.ToString() == "0")
+                {
+                    linkMessage.Attributes.CssStyle.Add("display", "visible");
+                    linkMessage.Attributes.CssStyle.Add("color", "red");
+                    linkMessage.Text = "Publication Doesn't Exist !! ";
+
+
+                }
                 else if (success.Value.ToString() == "-2") {
                     linkMessage.Attributes.CssStyle.Add("display", "visible");
                     linkMessage.Attributes.CssStyle.Add("color", "red");
@@ -302,7 +342,7 @@ namespace GUC_POSTGRADE_SYSTEM
                 {
                     linkMessage.Attributes.CssStyle.Add("display", "visible");
                     linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Outdated Thesis";
+                    linkMessage.Text = "Outdated Thesis can't be linked !!";
                 }
                 else
                 {
@@ -312,7 +352,7 @@ namespace GUC_POSTGRADE_SYSTEM
                 }
 
 
-            }
+            /*}
 
             catch (Exception ex)
             {
@@ -320,7 +360,7 @@ namespace GUC_POSTGRADE_SYSTEM
                 linkMessage.Attributes.CssStyle.Add("color", "red");
                 linkMessage.Text = "Incorrect Information Supplied";
                 return;
-            }
+            }*/
 
                 
         }

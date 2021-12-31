@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add_progress_report.aspx.cs" Inherits="GUC_POSTGRADE_SYSTEM.WebForm2" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add_progress_report.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="GUC_POSTGRADE_SYSTEM.WebForm2" %>
 
 <!DOCTYPE html>
 
@@ -137,5 +137,6 @@
 
     </form>
         </main>
+  
 </body>
 </html>
