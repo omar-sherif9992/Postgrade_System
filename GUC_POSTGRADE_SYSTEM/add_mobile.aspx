@@ -1,5 +1,4 @@
-﻿
-<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add_mobile.aspx.cs" Inherits="GUC_POSTGRADE_SYSTEM.add_mobile" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="add_mobile.aspx.cs" Inherits="GUC_POSTGRADE_SYSTEM.add_mobile" %>
 
 <!DOCTYPE html>
 

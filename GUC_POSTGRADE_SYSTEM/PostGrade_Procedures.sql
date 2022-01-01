@@ -907,17 +907,18 @@ AS
 declare @StdID int
 declare @SupID int
 if(exists(select * from GUCianProgressReport g inner join thesis t on g.thesisSerialNumber=t.serialNumber
-where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid and t.startDate>=CURRENT_TIMESTAMP and t.endDate<=CURRENT_TIMESTAMP))
+where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid and t.startDate<=CURRENT_TIMESTAMP and t.endDate>=CURRENT_TIMESTAMP))
 begin
-update GUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and sid=@sid
-and no = @progressReportNo
+update GUCianProgressReport set state = @state, description = @description
+where thesisSerialNumber = @thesisSerialNo and sid=@sid and no = @progressReportNo
 set @Success_bit=1
 end
 else if(exists(select * from NonGUCianProgressReport g inner join thesis t on g.thesisSerialNumber=t.serialNumber
 where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and
-sid=@sid  and t.startDate>=CURRENT_TIMESTAMP and t.endDate<=CURRENT_TIMESTAMP))
+sid=@sid  and t.startDate<=CURRENT_TIMESTAMP and t.endDate>=CURRENT_TIMESTAMP))
 begin
-update NonGUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid
+update NonGUCianProgressReport set state = @state, description = @description
+where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid
 set @Success_bit=1
 end
 else
