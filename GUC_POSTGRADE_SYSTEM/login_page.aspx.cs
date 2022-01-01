@@ -27,6 +27,26 @@ namespace GUC_POSTGRADE_SYSTEM
             SqlConnection conn = new SqlConnection(connStr);
             String username = email.Text;
             String pass = password.Text;
+
+            if(username.Length<1)
+            {
+
+                userDoesnotExist.Attributes.CssStyle.Add("display", "visible");
+                userDoesnotExist.Text = "Please Enter Your Username !!";
+
+                return;
+            }
+            else if (pass.Length < 1)
+            {
+                userDoesnotExist.Attributes.CssStyle.Add("display", "visible");
+                userDoesnotExist.Text = "Please Enter Your Password !!";
+
+
+                return;
+            }
+
+
+
            // Console.WriteLine(username);
             SqlCommand login_proc = new SqlCommand("userLogin", conn);
             login_proc.CommandType = CommandType.StoredProcedure;
@@ -53,7 +73,8 @@ namespace GUC_POSTGRADE_SYSTEM
             }
 
             if (success.Value.ToString() == "1" && type.Value.ToString() == "Admin") {
-                  
+                Response.Redirect("Admin/admin_page.aspx");
+        
             }
             else if(success.Value.ToString()=="1" && type.Value.ToString() == "Supervisor")
             {

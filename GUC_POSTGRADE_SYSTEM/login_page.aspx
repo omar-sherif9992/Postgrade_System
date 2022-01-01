@@ -8,32 +8,25 @@
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We' 		     crossorigin='anonymous'>
     <link href="signin.css" rel="stylesheet">
     <script src='https://kit.fontawesome.com/cc3cb258ce.js' crossorigin='anonymous'></script>
-    <style>     
-        body {
-            background-image:url("https://m.media-amazon.com/images/I/71fvBXGe15L._AC_SL1000_.jpg");
-        }
-        div{
-            background-color:white;
-        }
-    </style>
+   
     <title>PostGrade Office</title>
 </head>
     
 <body>
     <main class="form-signin">
-             <h1 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline;color:white">Login page</h1> 
+             <h1 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline;color:black">Login page</h1> 
 
             <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
 
     <form id="form1" runat="server">
        <p style="text-align:left">
         Enter your Email :</p><p>
-            <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your Email" required></asp:TextBox>
+            <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your Email" ></asp:TextBox>
         </p>
         <p style="text-align:left">
             Enter your Password :</p>
         <p>
-           <div> <asp:TextBox class="form-control" ID="password" runat="server"  type="password"  placeholder="Enter Your Password" required ></asp:TextBox>
+           <div> <asp:TextBox class="form-control" ID="password" runat="server"  type="password"  placeholder="Enter Your Password"></asp:TextBox>
       <i class="far fa-eye" id="togglePassword" style="margin-left:-35px;margin-top:-25px;float:right;position:relative;z-index:2;cursor:pointer;"></i>
                </div></p>
             <p>

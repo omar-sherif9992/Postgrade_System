@@ -32,7 +32,7 @@ namespace GUC_POSTGRADE_SYSTEM
         }
         protected void addMobile(object sender, EventArgs e)
         {
-            Response.Redirect("/add_mobile.aspx");
+            Response.Redirect("add_mobile.aspx");
         }
 
         protected void viewCourses(object sender, EventArgs e)
