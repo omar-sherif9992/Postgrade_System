@@ -10,7 +10,7 @@ select *
 from GucianStudent
 
 select *
-from NonGUCianProgressReport t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id
+from NonGUCianProgressReport t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id inner join Thesis k on k.serialNumber=t.thesisSerialNumber 
 
 
 select *

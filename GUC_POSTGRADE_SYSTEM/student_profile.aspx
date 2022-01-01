@@ -183,6 +183,13 @@ Not Specified
 
                     </asp:TableCell>
                 </asp:TableRow>
+
+                   <asp:TableRow id="add_mobile">
+              
+                      <asp:TableCell ColumnSpan="2">
+    <asp:Button ID="Button1" runat="server" Text="Add Mobile" Class="btn btn-outline-primary btn-lg" OnClick="addMobile" />
+                    </asp:TableCell>
+                </asp:TableRow>
             </asp:Table>    
                 </div>
                     </div>

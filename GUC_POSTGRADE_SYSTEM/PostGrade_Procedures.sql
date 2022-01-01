@@ -165,9 +165,11 @@ go
 
 --2b add mobile numbers to the student according 
 GO
-CREATE PROCEDURE addMobile1
+create PROCEDURE addMobile
 @ID INT ,
-@mobile_number VARCHAR(20)
+@mobile_number VARCHAR(20),
+@Success_bitM bit output,
+@Success_bitI bit output
 AS
 IF(EXISTS(SELECT *
 FROM NonGUCStudentPhoneNumber 
@@ -175,22 +177,12 @@ WHERE id=@ID AND phone=@mobile_number ) OR EXISTS(
 SELECT *
 FROM GUCStudentPhoneNumber 
 WHERE id=@ID AND phone=@mobile_number) )
+
+begin
 PRINT ('The Phone Number already exists')
-
-ELSE IF(EXISTS(
-		SELECT *
-		FROM NonGucianStudent
-		WHERE id=@ID))
-	INSERT INTO NonGUCStudentPhoneNumber (id,phone) VALUES (@ID,@mobile_number)
-ELSE IF(EXISTS(
-		SELECT *
-		FROM GucianStudent
-		WHERE id=@ID))
-			INSERT INTO GUCStudentPhoneNumber (id,phone) VALUES (@ID,@mobile_number)
-
-ELSE
-PRINT('Error the ID is not registered as a Student addMobile')
-
+set @Success_bitM = '0'
+set @Success_bitI = '1'
+end
 go
 
 go
@@ -920,10 +912,10 @@ begin
 update GUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and sid=@sid
 and no = @progressReportNo
 set @Success_bit=1
-
 end
 else if(exists(select * from NonGUCianProgressReport g inner join thesis t on g.thesisSerialNumber=t.serialNumber
-where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid  and t.startDate>=CURRENT_TIMESTAMP and t.endDate<=CURRENT_TIMESTAMP))
+where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and
+sid=@sid  and t.startDate>=CURRENT_TIMESTAMP and t.endDate<=CURRENT_TIMESTAMP))
 begin
 update NonGUCianProgressReport set state = @state, description = @description where thesisSerialNumber = @thesisSerialNo and no = @progressReportNo and sid=@sid
 set @Success_bit=1
@@ -939,8 +931,6 @@ set @Success_bit=-1
 end
 else
 set @Success_bit=0
-
-
 end
 go
 

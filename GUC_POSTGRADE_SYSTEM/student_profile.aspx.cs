@@ -30,6 +30,10 @@ namespace GUC_POSTGRADE_SYSTEM
         {
             Response.Redirect("add_progress_report.aspx");
         }
+        protected void addMobile(object sender, EventArgs e)
+        {
+            Response.Redirect("/add_mobile.aspx");
+        }
 
         protected void viewCourses(object sender, EventArgs e)
         {

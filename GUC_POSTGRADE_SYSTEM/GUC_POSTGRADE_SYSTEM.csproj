@@ -86,6 +86,7 @@
     <Content Include="add_publication.aspx" />
     <Content Include="student_register.aspx" />
     <Content Include="student_phone.aspx" />
+    <Content Include="add_mobile.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="student_courses.aspx.cs">
@@ -165,6 +166,13 @@
     </Compile>
     <Compile Include="student_phone.aspx.designer.cs">
       <DependentUpon>student_phone.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="add_mobile.aspx.cs">
+      <DependentUpon>add_mobile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="add_mobile.aspx.designer.cs">
+      <DependentUpon>add_mobile.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
