@@ -67,15 +67,34 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="add_mobile.aspx" />
+    <Content Include="Admin\admin_page.aspx" />
+    <Content Include="Admin\issue_installment.aspx" />
+    <Content Include="Admin\issue_thesis_payment.aspx" />
+    <Content Include="Admin\list_supervisors.aspx" />
+    <Content Include="Admin\list_thesis.aspx" />
+    <Content Include="Admin\update_number_of_extensions.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="PostGrade_DataInsertions.sql" />
-    <Content Include="PostGrade_Procedures.sql" />
+    <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="student_courses.aspx" />
     <Content Include="login_page.aspx" />
+    <Content Include="student_phone.aspx" />
     <Content Include="student_thesis.aspx" />
     <Content Include="App_Data\Database1.mdf" />
     <Content Include="App_Data\Database1_log.ldf">
       <DependentUpon>Database1.mdf</DependentUpon>
     </Content>
+    <Content Include="PostGrade_Procedures.sql" />
     <Content Include="PostGrade_Tables.sql" />
     <Content Include="student_profile.aspx" />
     <Content Include="supervisor_list_students.aspx" />
@@ -85,10 +104,62 @@
     <Content Include="add_progress_report.aspx" />
     <Content Include="add_publication.aspx" />
     <Content Include="student_register.aspx" />
-    <Content Include="student_phone.aspx" />
-    <Content Include="add_mobile.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="add_mobile.aspx.cs">
+      <DependentUpon>add_mobile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="add_mobile.aspx.designer.cs">
+      <DependentUpon>add_mobile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\admin_page.aspx.cs">
+      <DependentUpon>admin_page.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\admin_page.aspx.designer.cs">
+      <DependentUpon>admin_page.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\DbFunctions.cs" />
+    <Compile Include="Admin\issue_installment.aspx.cs">
+      <DependentUpon>issue_installment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\issue_installment.aspx.designer.cs">
+      <DependentUpon>issue_installment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\issue_thesis_payment.aspx.cs">
+      <DependentUpon>issue_thesis_payment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\issue_thesis_payment.aspx.designer.cs">
+      <DependentUpon>issue_thesis_payment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\list_supervisors.aspx.cs">
+      <DependentUpon>list_supervisors.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\list_supervisors.aspx.designer.cs">
+      <DependentUpon>list_supervisors.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\list_thesis.aspx.cs">
+      <DependentUpon>list_thesis.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\list_thesis.aspx.designer.cs">
+      <DependentUpon>list_thesis.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\update_number_of_extensions.aspx.cs">
+      <DependentUpon>update_number_of_extensions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\update_number_of_extensions.aspx.designer.cs">
+      <DependentUpon>update_number_of_extensions.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="issuePayment_proc\CommandType.cs" />
     <Compile Include="student_courses.aspx.cs">
       <DependentUpon>student_courses.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -102,6 +173,13 @@
     </Compile>
     <Compile Include="login_page.aspx.designer.cs">
       <DependentUpon>login_page.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="student_phone.aspx.cs">
+      <DependentUpon>student_phone.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="student_phone.aspx.designer.cs">
+      <DependentUpon>student_phone.aspx</DependentUpon>
     </Compile>
     <Compile Include="student_thesis.aspx.cs">
       <DependentUpon>student_thesis.aspx</DependentUpon>
@@ -160,23 +238,11 @@
     <Compile Include="supervisor_register.aspx.designer.cs">
       <DependentUpon>supervisor_register.aspx</DependentUpon>
     </Compile>
-    <Compile Include="student_phone.aspx.cs">
-      <DependentUpon>student_phone.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="student_phone.aspx.designer.cs">
-      <DependentUpon>student_phone.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="add_mobile.aspx.cs">
-      <DependentUpon>add_mobile.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="add_mobile.aspx.designer.cs">
-      <DependentUpon>add_mobile.aspx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

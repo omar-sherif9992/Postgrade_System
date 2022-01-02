@@ -22,7 +22,7 @@ namespace GUC_POSTGRADE_SYSTEM
         protected void addPublication(object sender, EventArgs e)
         {
             Response.Redirect("add_publication.aspx");
-                
+
         }
 
 
@@ -40,25 +40,25 @@ namespace GUC_POSTGRADE_SYSTEM
             Response.Redirect("student_courses.aspx");
         }
 
-    
+
         protected void Page_Load(object sender, EventArgs e)
         {
             String type = Session["type"].ToString();
 
-            if (type.ToString().Equals( "NonGucianStudent"))
+            if (type.ToString().Equals("NonGucianStudent"))
             {
-            
+
                 courses.Attributes.CssStyle.Add("display", "visible");
 
 
             }
             String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
-                SqlConnection conn = new SqlConnection(connStr);
-                //viewMyProfile
-                int id = Int16.Parse(Session["id"].ToString());
+            SqlConnection conn = new SqlConnection(connStr);
+            //viewMyProfile
+            int id = Int16.Parse(Session["id"].ToString());
             SqlCommand profile = new SqlCommand("viewMyProfile", conn);
-                profile.CommandType = CommandType.StoredProcedure;
-                profile.Parameters.Add(new SqlParameter("@studentId", id));
+            profile.CommandType = CommandType.StoredProcedure;
+            profile.Parameters.Add(new SqlParameter("@studentId", id));
             conn.Open();
             SqlDataReader rdr = profile.ExecuteReader(CommandBehavior.CloseConnection);
             while (rdr.Read())
@@ -82,13 +82,13 @@ namespace GUC_POSTGRADE_SYSTEM
 
                 if (!rdr.IsDBNull(rdr.GetOrdinal("type")))
                 {
-                     typeDP = rdr.GetString(rdr.GetOrdinal("type"));
-                                          typeCell.Text = typeDP.ToString();
+                    typeDP = rdr.GetString(rdr.GetOrdinal("type"));
+                    typeCell.Text = typeDP.ToString();
 
-                    
+
                 }
                 fname.Text = "Not Specified";
-                if(!rdr.IsDBNull(rdr.GetOrdinal("firstName")))
+                if (!rdr.IsDBNull(rdr.GetOrdinal("firstName")))
                 {
                     String firstNameDB = rdr.GetString(rdr.GetOrdinal("firstName"));
                     fname.Text = firstNameDB.ToString();
@@ -115,7 +115,7 @@ namespace GUC_POSTGRADE_SYSTEM
                     address.Text = addressDB.ToString();
                 }
 
-              
+
                 idk.Text = id.ToString();
 
 
@@ -125,19 +125,19 @@ namespace GUC_POSTGRADE_SYSTEM
                 {
                     underGradeIDRow.Attributes.CssStyle.Add("display", "visible");
 
-                    String undergradID ="Not Specified";
+                    String undergradID = "Not Specified";
 
                     if (!rdr.IsDBNull(rdr.GetOrdinal("undergradID")))
                     {
-                         undergradID = rdr.GetString(rdr.GetOrdinal("undergradID"));
+                        undergradID = rdr.GetString(rdr.GetOrdinal("undergradID"));
                         underGradeID.Text = undergradID.ToString();
 
                     }
 
-                
+
                 }
 
-             
+
 
 
 

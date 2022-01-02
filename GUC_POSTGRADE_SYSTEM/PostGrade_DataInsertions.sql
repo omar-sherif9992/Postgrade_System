@@ -1,5 +1,8 @@
 ﻿
 select *
+from GUCStudentPhoneNumber
+
+select *
 from NonGUCianStudentRegisterThesis t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id inner join Thesis td on t.serial_no=td.serialNumber
 
 

@@ -12,20 +12,20 @@ namespace GUC_POSTGRADE_SYSTEM
 {
     public partial class all_courses : System.Web.UI.Page
     {
-       
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //ViewCoursesGrades
-            String type =Session["type"].ToString();
+            String type = Session["type"].ToString();
             if (type == "NonGucianStudent")
             {
 
-              courses1.Attributes.CssStyle.Add("display", "visible");
+                courses1.Attributes.CssStyle.Add("display", "visible");
 
 
-            
 
-                pageTitle.Text ="Courses";
+
+                pageTitle.Text = "Courses";
 
                 String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
                 SqlConnection conn = new SqlConnection(connStr);
@@ -76,7 +76,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
 
                     cell = new TableCell();
-                    if (!rdr.IsDBNull(rdr.GetOrdinal("Grade"))) {
+                    if (!rdr.IsDBNull(rdr.GetOrdinal("Grade")))
+                    {
                         Decimal courseGrade = rdr.GetDecimal(rdr.GetOrdinal("Grade"));
 
                         if (courseGrade.ToString().Equals("-1"))

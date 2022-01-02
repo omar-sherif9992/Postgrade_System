@@ -23,7 +23,7 @@ namespace GUC_POSTGRADE_SYSTEM
             }
 
         }
-     
+
         protected void closePublications(object sender, EventArgs e)
         {
             viewPublications1.Attributes.CssStyle.Add("display", "none");
@@ -32,7 +32,7 @@ namespace GUC_POSTGRADE_SYSTEM
         }
         protected void showPublications(object sender, EventArgs e)
         {
-           viewPublications1.Attributes.CssStyle.Add("display", "visible");
+            viewPublications1.Attributes.CssStyle.Add("display", "visible");
             viewPublications2.Attributes.CssStyle.Add("display", "visible");
 
             mainTable.Attributes.CssStyle.Add("display", "visible");
@@ -59,7 +59,7 @@ namespace GUC_POSTGRADE_SYSTEM
             headerCell = new TableHeaderCell();
             headerCell.Text = "Accepted";
             tableHeaderRow.Cells.Add(headerCell);
-         
+
             mainTable.Rows.Add(tableHeaderRow);
             String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
             SqlConnection conn = new SqlConnection(connStr);
@@ -88,10 +88,10 @@ namespace GUC_POSTGRADE_SYSTEM
                 if (!rdr.IsDBNull(rdr.GetOrdinal("title")))
                 {
                     String titleDB = rdr.GetString(rdr.GetOrdinal("title"));
-                    if(titleDB!="-1")
-                    cell.Text = titleDB;
+                    if (titleDB != "-1")
+                        cell.Text = titleDB;
                     else
-                     cell.Text = "Not Specified";
+                        cell.Text = "Not Specified";
 
 
                 }
@@ -105,7 +105,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
                 cell = new TableCell();
                 if (!rdr.IsDBNull(rdr.GetOrdinal("host")))
-                {  String hostDB = rdr.GetString(rdr.GetOrdinal("host"));
+                {
+                    String hostDB = rdr.GetString(rdr.GetOrdinal("host"));
                     if (hostDB != "-1")
                         cell.Text = hostDB;
                     else
@@ -117,7 +118,7 @@ namespace GUC_POSTGRADE_SYSTEM
                 }
                 tableRow.Cells.Add(cell);
 
-              
+
 
 
 
@@ -217,7 +218,8 @@ namespace GUC_POSTGRADE_SYSTEM
                     addMessage.Text = "Incorrect Date , choose another Present or Future date";
                     return;
                 }
-                else if (title.Length < 1) {
+                else if (title.Length < 1)
+                {
                     addMessage.Attributes.CssStyle.Add("display", "visible");
                     addMessage.Attributes.CssStyle.Add("color", "red");
                     addMessage.Text = "Title is Missing !!";
@@ -231,8 +233,8 @@ namespace GUC_POSTGRADE_SYSTEM
                 login_proc.Parameters.Add(new SqlParameter("@title", title));
                 login_proc.Parameters.Add(new SqlParameter("@pubDate", date));
                 login_proc.Parameters.Add(new SqlParameter("@host", host));
-            login_proc.Parameters.Add(new SqlParameter("@place", place));
-            login_proc.Parameters.Add(new SqlParameter("@accepted", acceptence));
+                login_proc.Parameters.Add(new SqlParameter("@place", place));
+                login_proc.Parameters.Add(new SqlParameter("@accepted", acceptence));
 
 
                 SqlParameter success = login_proc.Parameters.Add("@Success_bit", SqlDbType.Int);
@@ -268,71 +270,73 @@ namespace GUC_POSTGRADE_SYSTEM
                 addMessage.Text = "Incorrect Information Supplied";
                 return;
             }
-            
+
 
         }
 
         protected void linkPublication(object sender, EventArgs e)
         {
-           /* try
-            {*/
-                if (linkPub.Text.Length == 0) {
-                    linkMessage.Attributes.CssStyle.Add("display", "visible");
-                    linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Publication ID is Missing !!";
-                    return;
+            /* try
+             {*/
+            if (linkPub.Text.Length == 0)
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "red");
+                linkMessage.Text = "Publication ID is Missing !!";
+                return;
 
-                }
-                if (linkThesis.Text.Length == 0) {
-                    linkMessage.Attributes.CssStyle.Add("display", "visible");
-                    linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Thesis Serial Number is Missing !!";
-                    return;
-                }
-
-
-                int pub_id = Int16.Parse(linkPub.Text);
-                int thesis_ssn = Int16.Parse(linkThesis.Text);
+            }
+            if (linkThesis.Text.Length == 0)
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "red");
+                linkMessage.Text = "Thesis Serial Number is Missing !!";
+                return;
+            }
 
 
-                String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
-                SqlConnection conn = new SqlConnection(connStr);
-                int id = Int16.Parse(Session["id"].ToString());
-
-                SqlCommand login_proc = new SqlCommand("linkPubThesis", conn);
-                login_proc.CommandType = CommandType.StoredProcedure;
-                login_proc.Parameters.Add(new SqlParameter("@thesisSerialNo", thesis_ssn));
-                login_proc.Parameters.Add(new SqlParameter("@PubID", pub_id));
-                login_proc.Parameters.Add(new SqlParameter("@sid", id));
+            int pub_id = Int16.Parse(linkPub.Text);
+            int thesis_ssn = Int16.Parse(linkThesis.Text);
 
 
+            String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
+            SqlConnection conn = new SqlConnection(connStr);
+            int id = Int16.Parse(Session["id"].ToString());
 
-                SqlParameter success = login_proc.Parameters.Add("@Success_bit", SqlDbType.Int);
-                success.Direction = System.Data.ParameterDirection.Output;
+            SqlCommand login_proc = new SqlCommand("linkPubThesis", conn);
+            login_proc.CommandType = CommandType.StoredProcedure;
+            login_proc.Parameters.Add(new SqlParameter("@thesisSerialNo", thesis_ssn));
+            login_proc.Parameters.Add(new SqlParameter("@PubID", pub_id));
+            login_proc.Parameters.Add(new SqlParameter("@sid", id));
 
-                SqlParameter thesis_title = login_proc.Parameters.Add("@thesis_title", SqlDbType.VarChar, 50);
-                thesis_title.Direction = System.Data.ParameterDirection.Output;
 
-                SqlParameter pub_title = login_proc.Parameters.Add("@publication_title", SqlDbType.VarChar, 50);
-                pub_title.Direction = System.Data.ParameterDirection.Output;
 
-                conn.Open();
-                login_proc.ExecuteNonQuery();
-                conn.Close();
+            SqlParameter success = login_proc.Parameters.Add("@Success_bit", SqlDbType.Int);
+            success.Direction = System.Data.ParameterDirection.Output;
 
-                if (success.Value.ToString() == "1")
-                {
-                    linkMessage.Attributes.CssStyle.Add("display", "visible");
-                    linkMessage.Attributes.CssStyle.Add("color", "green");
-                    linkMessage.Text = "Successfully Added thesis " + thesis_title.Value.ToString() + " to Publication " + pub_title.Value.ToString();
-                }
-                else if (success.Value.ToString() == "100")
-                {
-                    linkMessage.Attributes.CssStyle.Add("display", "visible");
-                    linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Incorrect Thesis Serial Number !! ";
+            SqlParameter thesis_title = login_proc.Parameters.Add("@thesis_title", SqlDbType.VarChar, 50);
+            thesis_title.Direction = System.Data.ParameterDirection.Output;
 
-                }
+            SqlParameter pub_title = login_proc.Parameters.Add("@publication_title", SqlDbType.VarChar, 50);
+            pub_title.Direction = System.Data.ParameterDirection.Output;
+
+            conn.Open();
+            login_proc.ExecuteNonQuery();
+            conn.Close();
+
+            if (success.Value.ToString() == "1")
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "green");
+                linkMessage.Text = "Successfully Added thesis " + thesis_title.Value.ToString() + " to Publication " + pub_title.Value.ToString();
+            }
+            else if (success.Value.ToString() == "100")
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "red");
+                linkMessage.Text = "Incorrect Thesis Serial Number !! ";
+
+            }
             else if (success.Value.ToString() == "200")
             {
                 linkMessage.Attributes.CssStyle.Add("display", "visible");
@@ -341,31 +345,32 @@ namespace GUC_POSTGRADE_SYSTEM
 
             }
             else if (success.Value.ToString() == "0")
-                {
-                    linkMessage.Attributes.CssStyle.Add("display", "visible");
-                    linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Publication Doesn't Exist !! ";
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "red");
+                linkMessage.Text = "Publication Doesn't Exist !! ";
 
 
-                }
-                else if (success.Value.ToString() == "-2") {
-                    linkMessage.Attributes.CssStyle.Add("display", "visible");
-                    linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Thesis doesn't Exists";
+            }
+            else if (success.Value.ToString() == "-2")
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "red");
+                linkMessage.Text = "Thesis doesn't Exists";
 
-                }
-                else if (success.Value.ToString() == "-1")
-                {
-                    linkMessage.Attributes.CssStyle.Add("display", "visible");
-                    linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Outdated Thesis can't be linked !!";
-                }
-                else
-                {
-                    linkMessage.Attributes.CssStyle.Add("display", "visible");
-                    linkMessage.Attributes.CssStyle.Add("color", "red");
-                    linkMessage.Text = "Incorrect Thesis Serial Number";
-                }
+            }
+            else if (success.Value.ToString() == "-1")
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "red");
+                linkMessage.Text = "Outdated Thesis can't be linked !!";
+            }
+            else
+            {
+                linkMessage.Attributes.CssStyle.Add("display", "visible");
+                linkMessage.Attributes.CssStyle.Add("color", "red");
+                linkMessage.Text = "Incorrect Thesis Serial Number";
+            }
 
 
             /*}
@@ -378,7 +383,7 @@ namespace GUC_POSTGRADE_SYSTEM
                 return;
             }*/
 
-                
+
         }
 
 

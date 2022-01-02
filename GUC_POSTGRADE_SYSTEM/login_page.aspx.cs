@@ -12,7 +12,7 @@ namespace GUC_POSTGRADE_SYSTEM
 {
     public partial class all_login_page : System.Web.UI.Page
     {
-        
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,7 +28,7 @@ namespace GUC_POSTGRADE_SYSTEM
             String username = email.Text;
             String pass = password.Text;
 
-            if(username.Length<1)
+            if (username.Length < 1)
             {
 
                 userDoesnotExist.Attributes.CssStyle.Add("display", "visible");
@@ -47,16 +47,16 @@ namespace GUC_POSTGRADE_SYSTEM
 
 
 
-           // Console.WriteLine(username);
+            // Console.WriteLine(username);
             SqlCommand login_proc = new SqlCommand("userLogin", conn);
             login_proc.CommandType = CommandType.StoredProcedure;
-            login_proc.Parameters.Add(new SqlParameter("@email",username));
+            login_proc.Parameters.Add(new SqlParameter("@email", username));
             login_proc.Parameters.Add(new SqlParameter("@password", pass));
 
             SqlParameter success = login_proc.Parameters.Add("@Success_bit", SqlDbType.Int);
             SqlParameter id = login_proc.Parameters.Add("@id", SqlDbType.Int);
 
-            SqlParameter type = login_proc.Parameters.Add("@TYPE", SqlDbType.VarChar,40);
+            SqlParameter type = login_proc.Parameters.Add("@TYPE", SqlDbType.VarChar, 40);
             success.Direction = System.Data.ParameterDirection.Output;
             id.Direction = System.Data.ParameterDirection.Output;
             type.Direction = System.Data.ParameterDirection.Output;
@@ -69,18 +69,19 @@ namespace GUC_POSTGRADE_SYSTEM
                 Session["user"] = username;
                 Session["type"] = type.Value.ToString();
                 Session["id"] = Int16.Parse(id.Value.ToString());
-               
+
             }
 
-            if (success.Value.ToString() == "1" && type.Value.ToString() == "Admin") {
+            if (success.Value.ToString() == "1" && type.Value.ToString() == "Admin")
+            {
                 Response.Redirect("Admin/admin_page.aspx");
-        
+
             }
-            else if(success.Value.ToString()=="1" && type.Value.ToString() == "Supervisor")
+            else if (success.Value.ToString() == "1" && type.Value.ToString() == "Supervisor")
             {
                 Response.Redirect("supervisor_page.aspx");
             }
-            else if(success.Value.ToString()=="1" && type.Value.ToString() == "GucianStudent")
+            else if (success.Value.ToString() == "1" && type.Value.ToString() == "GucianStudent")
             {
                 Response.Redirect("student_profile.aspx");
             }
@@ -88,16 +89,16 @@ namespace GUC_POSTGRADE_SYSTEM
             {
                 Response.Redirect("student_profile.aspx");
             }
-            else if(success.Value.ToString() == "1" && type.Value.ToString() == "Examiner")
+            else if (success.Value.ToString() == "1" && type.Value.ToString() == "Examiner")
             {
                 Response.Redirect("examiner_profile.aspx");
 
             }
             else
-            { 
-              
-                userDoesnotExist.Attributes.CssStyle.Add("display","visible");
-              
+            {
+
+                userDoesnotExist.Attributes.CssStyle.Add("display", "visible");
+
             }
 
             /*
@@ -122,7 +123,7 @@ namespace GUC_POSTGRADE_SYSTEM
 
         protected void ExaminerRegister(object sender, EventArgs e)
         {
-           //Response.Redirect("ExaminerRegister.aspx");
+            //Response.Redirect("ExaminerRegister.aspx");
         }
 
 

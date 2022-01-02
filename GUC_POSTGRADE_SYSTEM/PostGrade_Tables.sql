@@ -1,4 +1,5 @@
 ﻿create database GUC_POSTGRADE_SYSTEM
+
 go
 USE GUC_POSTGRADE_SYSTEM
 GO

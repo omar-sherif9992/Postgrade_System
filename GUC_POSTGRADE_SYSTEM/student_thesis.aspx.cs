@@ -24,11 +24,11 @@ namespace GUC_POSTGRADE_SYSTEM
             }
 
             String username = Session["user"].ToString();
-            pageTitle.Text="Thesises";
+            pageTitle.Text = "Thesises";
 
             TableHeaderRow tableHeaderRow = new TableHeaderRow();
             TableHeaderCell headerCell = new TableHeaderCell();
-            headerCell.Text = "Serial Number"; 
+            headerCell.Text = "Serial Number";
             tableHeaderRow.Cells.Add(headerCell);
             headerCell = new TableHeaderCell();
             headerCell.Text = "Title";
@@ -39,7 +39,7 @@ namespace GUC_POSTGRADE_SYSTEM
             headerCell = new TableHeaderCell();
             headerCell.Text = "Type";
             tableHeaderRow.Cells.Add(headerCell);
-           
+
             headerCell = new TableHeaderCell();
             headerCell.Text = "Start Date";
             tableHeaderRow.Cells.Add(headerCell);
@@ -91,7 +91,7 @@ namespace GUC_POSTGRADE_SYSTEM
                 tableRow.Cells.Add(cell);
 
 
-                cell=new TableCell();
+                cell = new TableCell();
                 cell.Text = "Not Specified";
                 if (!rdr.IsDBNull(rdr.GetOrdinal("title")))
                 {
@@ -142,7 +142,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
                 cell = new TableCell();
                 cell.Text = "Not Specified";
-                if (!rdr.IsDBNull(rdr.GetOrdinal("defenceDate"))){
+                if (!rdr.IsDBNull(rdr.GetOrdinal("defenceDate")))
+                {
                     DateTime defenceDateDB = rdr.GetDateTime(rdr.GetOrdinal("defenceDate"));
 
                     cell.Text = defenceDateDB.ToString();
@@ -153,7 +154,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
                 cell = new TableCell();
                 cell.Text = "Not Specified";
-                if (!rdr.IsDBNull(rdr.GetOrdinal("years"))) {
+                if (!rdr.IsDBNull(rdr.GetOrdinal("years")))
+                {
                     Int32 yearsDB = rdr.GetInt32(rdr.GetOrdinal("years"));
                     cell.Text = yearsDB.ToString();
                 }
@@ -179,12 +181,14 @@ namespace GUC_POSTGRADE_SYSTEM
 
                 cell = new TableCell();
                 cell.Text = "Not Specified";
-                if (!rdr.IsDBNull(rdr.GetOrdinal("noExtension"))) {
+                if (!rdr.IsDBNull(rdr.GetOrdinal("noExtension")))
+                {
                     Int32 noExtensionsDB = rdr.GetInt32(rdr.GetOrdinal("noExtension"));
-                    cell.Text = noExtensionsDB.ToString(); }
+                    cell.Text = noExtensionsDB.ToString();
+                }
                 tableRow.Cells.Add(cell);
 
-              mainTable.Rows.Add(tableRow); 
+                mainTable.Rows.Add(tableRow);
 
 
 
@@ -198,8 +202,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
 
         }
-    
-   
-        
-        }
+
+
+
+    }
 }

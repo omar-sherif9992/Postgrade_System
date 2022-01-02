@@ -165,11 +165,10 @@ go
 
 --2b add mobile numbers to the student according 
 GO
-create PROCEDURE addMobile
+ALTER PROCEDURE addMobile
 @ID INT ,
 @mobile_number VARCHAR(20),
-@Success_bitM bit output,
-@Success_bitI bit output
+@Success_bit int output
 AS
 IF(EXISTS(SELECT *
 FROM NonGUCStudentPhoneNumber 
@@ -180,14 +179,39 @@ WHERE id=@ID AND phone=@mobile_number) )
 
 begin
 PRINT ('The Phone Number already exists')
-set @Success_bitM = '0'
-set @Success_bitI = '1'
+set @Success_bit = 0
 end
-go
+
+ELSE IF(EXISTS(
+		SELECT *
+		FROM NonGucianStudent
+		WHERE id=@ID))
+
+begin
+INSERT INTO NonGUCStudentPhoneNumber (id,phone) VALUES (@ID,@mobile_number)
+set @Success_bit = 1
+end
+
+ELSE IF(EXISTS(
+		SELECT *
+		FROM GucianStudent
+		WHERE id=@ID))
+
+begin
+INSERT INTO GUCStudentPhoneNumber (id,phone) VALUES (@ID,@mobile_number)
+set @Success_bit = 1
+end
+
+ELSE
+begin
+PRINT('Error the ID is not registered as a Student addMobile')
+set @Success_bit = 2
+end
 
 go
 
-
+select *
+from GucianStudent
 
 --3a List all SuperVisors in The System
 CREATE PROCEDURE AdminListSup
@@ -257,9 +281,18 @@ GO
 
 --3g ADMIN UPDATES THE EXTENSION BY THESIS SERIAL NUMBER
 CREATE PROCEDURE AdminUpdateExtension
-@ThesisSerialNo INT
+@ThesisSerialNo INT,
+@success bit output
 AS
+if(exists(select *
+from Thesis 
+where serialNumber = @ThesisSerialNo))
+begin
 UPDATE Thesis SET noExtension=noExtension+1 WHERE serialNumber=@ThesisSerialNo
+set @success = '1'
+end
+else set @success = '0'
+
 
 GO
 
@@ -312,7 +345,8 @@ GO
 
 --3j Issue installments as per the number of installments for a certain payment every six months starting from the entered date.
 create procedure AdminIssueInstallPayment
-@paymentID int,@InstallStartDate date
+@paymentID int,@InstallStartDate datetime,
+@success bit output
 AS
 declare @counter int
 set @counter = 1
@@ -335,8 +369,13 @@ values (@InstallStartDate,@paymentID,@val,0)
 set @counter = @counter+1
 select @InstallStartDate = DATEADD(month,6,@InstallStartDate) 
 END
+set @success = '1'
 end
+else set @success = '0'
 
+declare @succ bit
+execute AdminIssueInstallPayment 1,'2021-12-27',@succ output
+print @succ
 
 GO
 
