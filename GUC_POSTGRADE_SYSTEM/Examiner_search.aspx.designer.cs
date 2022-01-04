@@ -11,7 +11,7 @@ namespace GUC_POSTGRADE_SYSTEM
 {
 
 
-    public partial class supervisor_page
+    public partial class Examiner_search
     {
 
         /// <summary>
@@ -24,39 +24,30 @@ namespace GUC_POSTGRADE_SYSTEM
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// Table1 control.
+        /// searchT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Table Table1;
+        protected global::System.Web.UI.WebControls.TextBox searchT;
 
         /// <summary>
-        /// id1 control.
+        /// Search control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell id1;
+        protected global::System.Web.UI.WebControls.Button Search;
 
         /// <summary>
-        /// name1 control.
+        /// SearchTable control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell name1;
-
-        /// <summary>
-        /// faculty1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TableCell faculty1;
+        protected global::System.Web.UI.WebControls.GridView SearchTable;
     }
 }

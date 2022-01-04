@@ -91,7 +91,7 @@ namespace GUC_POSTGRADE_SYSTEM
             }
             else if (success.Value.ToString() == "1" && type.Value.ToString() == "Examiner")
             {
-                Response.Redirect("examiner_profile.aspx");
+                Response.Redirect("Examiner_page.aspx");
 
             }
             else
@@ -99,6 +99,7 @@ namespace GUC_POSTGRADE_SYSTEM
 
                 userDoesnotExist.Attributes.CssStyle.Add("display", "visible");
 
+                userDoesnotExist.Text = "Incorrect Username/Password";
             }
 
             /*
@@ -123,7 +124,7 @@ namespace GUC_POSTGRADE_SYSTEM
 
         protected void ExaminerRegister(object sender, EventArgs e)
         {
-            //Response.Redirect("ExaminerRegister.aspx");
+            Response.Redirect("Examiner_register.aspx");
         }
 
 

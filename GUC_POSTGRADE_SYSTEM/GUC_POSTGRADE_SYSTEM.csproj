@@ -74,6 +74,12 @@
     <Content Include="Admin\list_supervisors.aspx" />
     <Content Include="Admin\list_thesis.aspx" />
     <Content Include="Admin\update_number_of_extensions.aspx" />
+    <Content Include="Examiner_Add_comments.aspx" />
+    <Content Include="Examiner_Add_grades.aspx" />
+    <Content Include="Examiner_List.aspx" />
+    <Content Include="Examiner_page.aspx" />
+    <Content Include="Examiner_register.aspx" />
+    <Content Include="Examiner_search.aspx" />
     <Content Include="Global.asax" />
     <Content Include="PostGrade_DataInsertions.sql" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
@@ -100,6 +106,11 @@
     <Content Include="supervisor_list_students.aspx" />
     <Content Include="supervisor_page.aspx" />
     <Content Include="supervisor_register.aspx" />
+    <Content Include="sup_add_defense.aspx" />
+    <Content Include="sup_cancel.aspx" />
+    <Content Include="sup_eval_report.aspx" />
+    <Content Include="sup_link_exam.aspx" />
+    <Content Include="sup_view_pub.aspx" />
     <Content Include="Web.config" />
     <Content Include="add_progress_report.aspx" />
     <Content Include="add_publication.aspx" />
@@ -155,6 +166,48 @@
     </Compile>
     <Compile Include="Admin\update_number_of_extensions.aspx.designer.cs">
       <DependentUpon>update_number_of_extensions.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Examiner_Add_comments.aspx.cs">
+      <DependentUpon>Examiner_Add_comments.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Examiner_Add_comments.aspx.designer.cs">
+      <DependentUpon>Examiner_Add_comments.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Examiner_Add_grades.aspx.cs">
+      <DependentUpon>Examiner_Add_grades.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Examiner_Add_grades.aspx.designer.cs">
+      <DependentUpon>Examiner_Add_grades.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Examiner_List.aspx.cs">
+      <DependentUpon>Examiner_List.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Examiner_List.aspx.designer.cs">
+      <DependentUpon>Examiner_List.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Examiner_page.aspx.cs">
+      <DependentUpon>Examiner_page.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Examiner_page.aspx.designer.cs">
+      <DependentUpon>Examiner_page.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Examiner_register.aspx.cs">
+      <DependentUpon>Examiner_register.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Examiner_register.aspx.designer.cs">
+      <DependentUpon>Examiner_register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Examiner_search.aspx.cs">
+      <DependentUpon>Examiner_search.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Examiner_search.aspx.designer.cs">
+      <DependentUpon>Examiner_search.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -237,6 +290,41 @@
     </Compile>
     <Compile Include="supervisor_register.aspx.designer.cs">
       <DependentUpon>supervisor_register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sup_add_defense.aspx.cs">
+      <DependentUpon>sup_add_defense.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sup_add_defense.aspx.designer.cs">
+      <DependentUpon>sup_add_defense.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sup_cancel.aspx.cs">
+      <DependentUpon>sup_cancel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sup_cancel.aspx.designer.cs">
+      <DependentUpon>sup_cancel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sup_eval_report.aspx.cs">
+      <DependentUpon>sup_eval_report.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sup_eval_report.aspx.designer.cs">
+      <DependentUpon>sup_eval_report.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sup_link_exam.aspx.cs">
+      <DependentUpon>sup_link_exam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sup_link_exam.aspx.designer.cs">
+      <DependentUpon>sup_link_exam.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="sup_view_pub.aspx.cs">
+      <DependentUpon>sup_view_pub.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="sup_view_pub.aspx.designer.cs">
+      <DependentUpon>sup_view_pub.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

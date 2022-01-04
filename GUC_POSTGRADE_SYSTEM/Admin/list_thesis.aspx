@@ -43,7 +43,7 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
     <ul class="navbar-nav me-auto">
       <li class="nav-item active" >
-        <a class="nav-link" href="/Admin/admin_page.aspx" style="color:white !important;margin:5px">Profile</a>
+        <a class="nav-link" href="/Admin/admin_page.aspx" style="color:white !important;margin:5px">My Profile</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/Admin/list_supervisors.aspx" style="color:white !important;margin:5px">View Supervisors <span class="sr-only">(current)</span></a>
@@ -59,6 +59,9 @@
       </li>
         <li class="nav-item">
         <a class="nav-link" href="/Admin/update_number_of_extensions.aspx" style="color:white !important;margin:5px">Update Number of Thesis Extensions</a>
+      </li>
+        <li class="nav-item" style="color:greenyellow !important;float:right !important;margin-left:450px">
+        <a class="nav-link" href="login_page.aspx" style="color:greenyellow !important;"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </li>
     </ul>
   </div>

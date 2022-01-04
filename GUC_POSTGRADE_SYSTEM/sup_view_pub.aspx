@@ -1,38 +1,32 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="supervisor_page.aspx.cs" Inherits="GUC_POSTGRADE_SYSTEM.supervisor_page" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="sup_view_pub.aspx.cs" Inherits="GUC_POSTGRADE_SYSTEM.sup_view_pub" %>
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <title></title>
     <link rel='icon' type='image/png' sizes='32x32' href="https://camo.githubusercontent.com/195f24feca7dc8575566c0c0d848b8cc5affbaabdbc0cb0a8b776faade01ac86/68747470733a2f2f7777772e6275652e6564752e65672f77702d636f6e74656e742f75706c6f6164732f323031382f30382f67726164756174696f6e2d6361702d333030783330302e706e67">
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We' 		     crossorigin='anonymous'>
     <link href="signin.css" rel="stylesheet">
-    <script src='https://kit.fontawesome.com/cc3cb258ce.js' crossorigin='anonymous'></script>
-    <title>PostGrade Office</title>
     <style>
-        Table {
-     }
-        td {
-            color: grey;
-            font-size: 150%;
+        th, td {
+            padding: 15px;
+            text-align: left;
         }
-        .hide {
-            display:hidden;
+        th, td {
+             border-bottom: 1px solid #ddd;
         }
-        td {
-            color: grey;
-            font-size: 150%;
-            border-bottom: 1px solid #ddd;
+        
+        th {
+            background-color: #04AA6D;
+            color: white; 
         }
-        table {
-            width:50%;
-            position:relative;
-            left:25%;
-        }
-           *{
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:hover {background-color: yellow;}
+           * {
     scrollbar-width: auto;
     scrollbar-color: #8f8f8f #ffffff;
-  }        
+  }
 
   /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
@@ -52,8 +46,6 @@
         li > a{color:white !important;
           text-decoration:underline !important;
         }
-
-        
 
     </style>
 </head>
@@ -96,64 +88,20 @@
                 <br />
         <br />
         <br />
+    <h1 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline">View Student's Publication</h1> 
+    <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
     <form id="form1" runat="server">
-            <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
-
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeu3D3jKzVj7aLLCP5jUDIzuQb6EzfC4wQL7NmtCTQF4gR4qXHC-h2M-Kr07EHOIGtufI&usqp=CAU"
-                    style="border-radius:100%; width:150px; height:150px;position:relative;top:-10%;margin-top:-10%"  /><br />
-                
-            <br />
-                <asp:Table ID="Table1" runat="server" style="border-spacing:200px;">
-
-
-                    <asp:TableRow>
-                    <asp:TableCell>
-                      ID :
-                    </asp:TableCell>
-                    <asp:TableCell id="id1"  >
-                        
-                    </asp:TableCell>
-                </asp:TableRow>
-                <asp:TableRow>
-                    <asp:TableCell>
-                       Name :
-                    </asp:TableCell>
-                    <asp:TableCell id="name1">   
-                        
-                    </asp:TableCell>
-                </asp:TableRow>
-                    <asp:TableRow>
-                    <asp:TableCell>
-                       Faculty :
-                    </asp:TableCell>
-                    <asp:TableCell id="faculty1">
-                        
-                    </asp:TableCell>
-                        </asp:TableRow>
-
-            </asp:Table>
-                </div>
+        <br />
+        <p style="text-align:center">
+        Enter Student ID: 
+        </p>
+        <asp:TextBox ID="student_id" runat="server" placeholder="Student ID" class="form-control" Type ="number"></asp:TextBox>
 
         <br />
         <br />
-
-
-        <br />
-        <br />
-
-
-        <br />
-        <br />
-        
-
-
-
-
-        <br />
-        <br />
-
-
+        <asp:Button ID="view_pub" runat="server" OnClick="view" Text="View Publications" class="btn btn-outline-secondary btn-lg" />
 
     </form>
+        </div>
 </body>
 </html>

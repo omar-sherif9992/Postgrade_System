@@ -11,30 +11,35 @@
 </head>
 <body>
     <form id="form1" runat="server">
+        <h1 style="justify-content:center;font-weight:800;text-align:center;text-decoration:underline">Supervisor's Register page</h1>
+        <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
         <div>
             First Name<br />
-            <asp:TextBox ID="FirstName" runat="server" style="border-radius:7px"></asp:TextBox>
+            <asp:TextBox ID="FirstName" class="form-control" runat="server" style="border-radius:7px"></asp:TextBox>
             <br />
             <br />
             Last Name<br />
-            <asp:TextBox ID="SecondName" runat="server" style="border-radius:7px"></asp:TextBox>
+            <asp:TextBox ID="SecondName" class="form-control" runat="server" style="border-radius:7px"></asp:TextBox>
             <br />
             <br />
             E-Mail<br />
-            <asp:TextBox ID="EMAIL" runat="server" style="border-radius:7px"></asp:TextBox>
+            <asp:TextBox ID="EMAIL" runat="server" class="form-control" style="border-radius:7px"></asp:TextBox>
             <br />
             <br />
             Password<br />
-            <asp:TextBox ID="Password" runat="server" style="border-radius:7px"></asp:TextBox>
+            <asp:TextBox ID="Password" runat="server" class="form-control" style="border-radius:7px"></asp:TextBox>
             <br />
             <br />
             Faculty<br />
-            <asp:TextBox ID="Faculty" runat="server" style="border-radius:7px"></asp:TextBox>
+            <asp:TextBox ID="Faculty" runat="server" class="form-control" style="border-radius:7px"></asp:TextBox>
             <br />
             <br />
-
+            <asp:Button ID="registers" runat="server" Text="Register" OnClick="registerSup" style="border-radius:15px" class="btn btn-outline-primary btn-lr"/>
+            </br>
+            <asp:label ID ="error" runat="server"></asp:label>
+            </div>
         </div>
-        <asp:Button ID="registers" runat="server" Text="Register" OnClick="registerSup" style="border-radius:15px" />
+        
     </form>
 </body>
 </html>

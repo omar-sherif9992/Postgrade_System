@@ -11,7 +11,7 @@ namespace GUC_POSTGRADE_SYSTEM
 {
 
 
-    public partial class supervisor_register
+    public partial class Examiner_register
     {
 
         /// <summary>
@@ -24,58 +24,58 @@ namespace GUC_POSTGRADE_SYSTEM
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// FirstName control.
+        /// email control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox FirstName;
+        protected global::System.Web.UI.WebControls.TextBox email;
 
         /// <summary>
-        /// SecondName control.
+        /// pass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox SecondName;
+        protected global::System.Web.UI.WebControls.TextBox pass;
 
         /// <summary>
-        /// EMAIL control.
+        /// name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox EMAIL;
+        protected global::System.Web.UI.WebControls.TextBox name;
 
         /// <summary>
-        /// Password control.
+        /// fow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Password;
+        protected global::System.Web.UI.WebControls.TextBox fow;
 
         /// <summary>
-        /// Faculty control.
+        /// Button1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Faculty;
+        protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
-        /// registers control.
+        /// Button2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button registers;
+        protected global::System.Web.UI.WebControls.Button Button2;
 
         /// <summary>
         /// error control.

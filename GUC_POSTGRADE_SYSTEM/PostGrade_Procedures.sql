@@ -1,4 +1,10 @@
 ﻿
+
+
+select *
+from PostGradUser U inner join Supervisor S
+on U.id = S.id
+
 USE GUC_POSTGRADE_SYSTEM
 GO
 
@@ -165,7 +171,7 @@ go
 
 --2b add mobile numbers to the student according 
 GO
-ALTER PROCEDURE addMobile
+create PROCEDURE addMobile
 @ID INT ,
 @mobile_number VARCHAR(20),
 @Success_bit int output
@@ -210,14 +216,13 @@ end
 
 go
 
-select *
-from GucianStudent
 
 --3a List all SuperVisors in The System
 CREATE PROCEDURE AdminListSup
 AS
 SELECT *
 FROM Supervisor
+
 
 go
 
@@ -344,7 +349,7 @@ print ('This is not a student ID')
 GO
 
 --3j Issue installments as per the number of installments for a certain payment every six months starting from the entered date.
-create procedure AdminIssueInstallPayment
+alter procedure AdminIssueInstallPayment
 @paymentID int,@InstallStartDate datetime,
 @success bit output
 AS
@@ -361,6 +366,7 @@ from Payment
 where @paymentID = id
 if(@amnt is not null and @num is not null)
 begin
+delete from Installment where paymentId=@paymentID
 set @val = @amnt/@num
 while(@counter <= @num)
 BEGIN
@@ -371,11 +377,16 @@ select @InstallStartDate = DATEADD(month,6,@InstallStartDate)
 END
 set @success = '1'
 end
-else set @success = '0'
+else
+begin
+set @success = '0'
+end
 
 declare @succ bit
-execute AdminIssueInstallPayment 1,'2021-12-27',@succ output
+execute AdminIssueInstallPayment 1,'2019-08-09',@succ output
 print @succ
+
+
 
 GO
 
@@ -606,39 +617,25 @@ go
 --insert into ExaminerEvaluateDefense values(@DefenseDate,@ThesisSerialNo,@xD,NULL) 
 --END */
 
-create proc AddExaminerDefense
+alter proc AddExaminerDefense
 @ThesisSerialNo int , @DefenseDate Datetime,@ExaminerID int,@SupID int,
 @SuccessThesis bit output,@SuccessDate bit output,@Success bit output
 AS
-if(not exists(select * from Examiner where id = @ExaminerID)) begin set @Success = 0 end
+if(not exists(select * From Examiner where id = @ExaminerID)) set @Success = 0
 else
 begin
-if(exists(select * from GUCianStudentRegisterThesis where serial_no = @ThesisSerialNo and supid=@SupID))
-begin
-Set @SuccessThesis=1
-if(exists(select * from Defense where serialNumber=@ThesisSerialNo and date = @DefenseDate)) set @SuccessDate=1
-else set @SuccessDate=0
-if(@SuccessDate=1 and @SuccessThesis=1)
-begin
-set @Success=1
-insert into ExaminerEvaluateDefense values(@DefenseDate,@ExaminerID,@ThesisSerialNo,null)
-end
-end
-else
-begin
-if(exists(select * from NonGUCianStudentRegisterThesis where serial_no=@ThesisSerialNo and supid = @SupID))
-begin
-set @SuccessThesis=1
-if(exists(select * from Defense where serialNumber=@ThesisSerialNo and date = @DefenseDate)) set @SuccessDate=1
-else set @SuccessDate=0
-if(@SuccessDate=1 and @SuccessThesis=1)
-begin
-set @Success=1
-insert into ExaminerEvaluateDefense values(@DefenseDate,@ExaminerID,@ThesisSerialNo,null)
-end
-end
-else set @SuccessThesis =0
-end
+    set @Success = 1
+	exec findThesisInSup @SupID,@ThesisSerialNo,@SuccessThesis out
+	if(@SuccessThesis = 1)
+	begin
+	     if(exists(select date from Defense where serialNumber=@ThesisSerialNo and date=@DefenseDate))
+		 begin
+		      set @SuccessDate = 1
+			  insert into ExaminerEvaluateDefense values(@DefenseDate,@ThesisSerialNo,@ExaminerID,null)
+		 end
+		 else set @SuccessDate=0;
+	end
+	else set @SuccessDate=0
 end
 GO 
 
@@ -1138,3 +1135,160 @@ end
 end
 end
 
+go
+
+CREATE PROCEDURE Update_Examiner
+@ExaminerID int,
+@ExaminerName varchar(20),
+@fieldOfWork varchar(20),
+@success bit output
+AS
+if (not exists(Select * from Examiner where id = @ExaminerID
+)) begin
+       set @success = '0' end
+
+	   else UPDATE Examiner SET name=@ExaminerName , fieldOfWork =@fieldOfWork WHERE id = @ExaminerID
+	        set @success = '1'
+	  
+	  
+
+--                                  (NEW FOR EXAMINER PAGE)
+go
+CREATE PROCEDURE View_Examiner
+@ExaminerID int
+as 
+select * from Examiner where  id = @ExaminerID
+
+go
+
+
+ALTER PROCEDURE AddDefenseGrade
+@ThesisSerialNo int ,
+@DefenseDate Datetime ,
+@grade decimal,
+@success1 bit output,
+@success2 bit output
+AS
+if( exists(Select * from Defense where serialNumber = @ThesisSerialNo and date=@DefenseDate
+)) begin 
+        
+    UPDATE Defense
+    SET grade=@grade
+    WHERE serialNumber=@ThesisSerialNo AND date=@DefenseDate
+      set @success1='1' 
+	  set @success2='1'
+	  end
+else if(exists(Select * from Defense where serialNumber = @ThesisSerialNo and date <>@DefenseDate
+)) begin 
+       set @success1='1' 
+	   set @success2='0'
+	  end
+ else if(exists(Select * from Defense where serialNumber <> @ThesisSerialNo and date =@DefenseDate
+)) begin 
+       set @success1='0' 
+	   set @success2='1'
+	  end
+else set @success1='0' 
+	   set @success2='0'
+
+
+GO
+
+-- 5b) Add comments for a defense. (NEW UPDATES IN THIS  ZIAD)
+ALTER PROCEDURE AddCommentsGrade
+@ThesisSerialNo int ,
+@DefenseDate Datetime ,
+@comments varchar(300),
+@success1 bit output,
+@success2 bit output
+AS
+if( exists(Select * from Defense where serialNumber = @ThesisSerialNo and date=@DefenseDate
+)) begin 
+	UPDATE ExaminerEvaluateDefense
+	SET comment = @comments
+	WHERE serialNo = @ThesisSerialNo AND date = @DefenseDate
+	set @success1='1' 
+	set @success2='1'
+	  end
+else if(exists(Select * from Defense where serialNumber = @ThesisSerialNo and date <>@DefenseDate
+)) begin 
+       set @success1='1' 
+	   set @success2='0'
+	  end
+ else if(exists(Select * from Defense where serialNumber <> @ThesisSerialNo and date =@DefenseDate
+)) begin 
+       set @success1='0' 
+	   set @success2='1'
+	  end
+else set @success1='0' 
+	   set @success2='0'
+
+	   
+
+GO
+create procedure ListAll     --(NEW PROCEDURE ZIAD)
+
+@ExaminerID int
+as 
+select T.title , GS.firstName,GS.lastName,S.name
+from Examiner E inner join ExaminerEvaluateDefense Ex on E.id = Ex.examinerId
+              inner join GUCianStudentRegisterThesis G on Ex.serialNo=G.serial_no
+			  inner join Thesis T on G.serial_no=T.serialNumber
+			  inner join Supervisor S on G.supid=S.id
+			  inner join GucianStudent GS on G.sid=GS.id
+              where E.id=@ExaminerID
+			 
+Union 
+select T.title , GS.firstName,GS.lastName,S.name
+from Examiner E inner join ExaminerEvaluateDefense Ex on E.id = Ex.examinerId
+              inner join NonGUCianStudentRegisterThesis G on Ex.serialNo=G.serial_no
+			  inner join Thesis T on G.serial_no=T.serialNumber
+			  inner join Supervisor S on G.supid=S.id
+			  inner join NonGucianStudent GS on G.sid=GS.id
+			  where E.id=@ExaminerID
+
+
+			
+go
+
+
+
+
+ 
+
+ go
+
+ create PROCEDURE SearchThesis   --(NEW PROCEDURE ZIAD)
+ @word varchar(40)
+As
+select *  from Thesis
+where title like CONCAT('%',@word,'%')
+
+
+go
+create procedure hasDefense @ThesisSerial int,@success bit out
+as
+if(exists(select * from Defense where serialNumber = @ThesisSerial)) set @success=0;
+else set @success=1
+
+go
+
+create procedure getThesisEnd @serial int,@inDate datetime , @x bit output
+as
+if @inDate > (select enddate from Thesis where serialNumber = @serial)
+set @x = 1
+else set @x=0
+
+go
+
+create procedure findEmail @email varchar(80) , @f bit out
+as
+if(exists(select * from PostGradUser where email = @email)) set @f=0
+else set @f=1
+
+go
+
+
+select date from Defense where serialNumber = 4
+select *
+from Thesis

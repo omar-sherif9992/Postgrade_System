@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,37 +13,25 @@ namespace GUC_POSTGRADE_SYSTEM
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Response.Write(Session["user"]);
+            //Label name = new Label();
+            String connStr = WebConfigurationManager.ConnectionStrings["GUC_POSTGRADE"].ToString();
+            SqlConnection conn = new SqlConnection(connStr);
+            SqlCommand vw = new SqlCommand("SupViewProfile", conn);
+            vw.CommandType = System.Data.CommandType.StoredProcedure;
+            vw.Parameters.Add(new SqlParameter("@supervisorID", (Session["id"])));
+            conn.Open();
+            SqlDataReader rdr = vw.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
+            while (rdr.Read())
+            {
+                int id = rdr.GetInt32(rdr.GetOrdinal("id"));
+                string name = rdr.GetString(rdr.GetOrdinal("name"));
+                string faculty = rdr.GetString(rdr.GetOrdinal("faculty"));
+                id1.Text = id.ToString();
+                name1.Text = name;
+                faculty1.Text = faculty;
+            }
         }
 
-        protected void ListThesis(object sender, EventArgs e)
-        {
-            Response.Redirect("supervisor_list_students.aspx");
-        }
-
-        protected void ViewPub(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void AddDefense(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void AddExaminer(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void EvaluateReport(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void CancelThesis(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

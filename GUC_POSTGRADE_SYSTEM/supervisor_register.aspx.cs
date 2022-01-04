@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -29,19 +30,39 @@ namespace GUC_POSTGRADE_SYSTEM
             string fac = Faculty.Text;
             if (firstname == "" || secondname == "" || email == "" || pass == "" || fac == "")
             {
-                Response.Write("You must fill all the information");
+
+                error.Text = "All Information are Required";
+                error.Attributes.CssStyle.Add("color", "red");
             }
             else
             {
-                reg.Parameters.Add(new SqlParameter("@first_name", firstname));
-                reg.Parameters.Add(new SqlParameter("@last_name", secondname));
-                reg.Parameters.Add(new SqlParameter("@password", pass));
-                reg.Parameters.Add(new SqlParameter("@faculty", fac));
-                reg.Parameters.Add(new SqlParameter("@email", email));
+                SqlCommand findEmail = new SqlCommand("findEmail", conn);
+                findEmail.CommandType = CommandType.StoredProcedure;
+                findEmail.Parameters.Add(new SqlParameter("@email", email));
+                SqlParameter ff = findEmail.Parameters.Add(new SqlParameter("@f", SqlDbType.Int));
+                ff.Direction = ParameterDirection.Output;
                 conn.Open();
-                reg.ExecuteNonQuery();
+                findEmail.ExecuteNonQuery();
                 conn.Close();
-                Response.Redirect("login_page.aspx");
+                if (ff.Value.ToString() == "0")
+                {
+                    Label lb = new Label();
+                    lb.Text = "This Email is Already Taken.Choose another One";
+                    lb.Attributes.CssStyle.Add("color", "red");
+                    Form.Controls.Add(lb);
+                }
+                else
+                {
+                    reg.Parameters.Add(new SqlParameter("@first_name", firstname));
+                    reg.Parameters.Add(new SqlParameter("@last_name", secondname));
+                    reg.Parameters.Add(new SqlParameter("@password", pass));
+                    reg.Parameters.Add(new SqlParameter("@faculty", fac));
+                    reg.Parameters.Add(new SqlParameter("@email", email));
+                    conn.Open();
+                    reg.ExecuteNonQuery();
+                    conn.Close();
+                    Response.Redirect("login_page.aspx");
+                }
             }
         }
     }

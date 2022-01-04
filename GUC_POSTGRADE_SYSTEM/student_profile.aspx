@@ -161,7 +161,7 @@ Faculty :                   </asp:TableCell>
                         GPA :
                     </asp:TableCell>
                       <asp:TableCell id="gpa">
-                          4.0
+                        Not Specified
                     </asp:TableCell>
                 </asp:TableRow>
                    <asp:TableRow id="underGradeIDRow" style="display:none;">

@@ -1,31 +1,4 @@
 ﻿
-select *
-from GUCStudentPhoneNumber
-
-select *
-from NonGUCianStudentRegisterThesis t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id inner join Thesis td on t.serial_no=td.serialNumber
-
-
-select *
-from GUCianStudentRegisterThesis
-
-select *
-from GucianStudent
-
-select *
-from NonGUCianProgressReport t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id inner join Thesis k on k.serialNumber=t.thesisSerialNumber 
-
-
-select *
-from NonGucianStudentTakeCourse t inner join NonGucianStudent ts on t.sid =ts.id inner join PostGradUser p on t.sid= p.id inner join Course c on c.id=t.cid
-
-
-select *
-from Publication
-
-
-GO
-
 
 
 USE GUC_POSTGRADE_SYSTEM

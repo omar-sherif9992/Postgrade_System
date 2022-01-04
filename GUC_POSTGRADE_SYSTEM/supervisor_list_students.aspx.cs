@@ -20,7 +20,7 @@ namespace GUC_POSTGRADE_SYSTEM
             list.Parameters.Add(new SqlParameter("@supervisorID", Session["id"]));
             conn.Open();
             SqlDataReader rdr = list.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
-            while(rdr.Read())
+            while (rdr.Read())
             {
                 string name = rdr.GetString(rdr.GetOrdinal("Student Name"));
                 int years = rdr.GetInt32(rdr.GetOrdinal("years spent"));
@@ -28,8 +28,24 @@ namespace GUC_POSTGRADE_SYSTEM
                 Label y = new Label();
                 x.Text = name;
                 y.Text = years.ToString();
-                form1.Controls.Add(x);
-                form1.Controls.Add(y);
+                TableRow tr = new TableRow();
+                Table1.Controls.Add(tr);
+                TableCell tcName = new TableCell();
+                tcName.Text = name;
+                TableCell tcyears = new TableCell();
+                tcyears.Text = years.ToString();
+                tcName.Attributes.CssStyle.Add("border", "2px solid black");
+                tcName.Attributes.CssStyle.Add("padding", "10px");
+                tcName.Attributes.CssStyle.Add("text-align", "left");
+                tcyears.Attributes.CssStyle.Add("border", "2px solid black");
+                tcyears.Attributes.CssStyle.Add("padding", "10px");
+                tcyears.Attributes.CssStyle.Add("text-align", "left");
+                tcyears.Attributes.CssStyle.Add("position", "center");
+                tcyears.Attributes.CssStyle.Add("margin", "auto");
+                tcName.Attributes.CssStyle.Add("position", "center");
+                tcName.Attributes.CssStyle.Add("margin", "auto");
+                tr.Controls.Add(tcName);
+                tr.Controls.Add(tcyears);
             }
         }
 

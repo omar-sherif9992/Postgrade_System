@@ -11,7 +11,7 @@ namespace GUC_POSTGRADE_SYSTEM
 {
 
 
-    public partial class supervisor_register
+    public partial class Examiner_Add_grades
     {
 
         /// <summary>
@@ -24,66 +24,57 @@ namespace GUC_POSTGRADE_SYSTEM
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// FirstName control.
+        /// newGrade control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox FirstName;
+        protected global::System.Web.UI.WebControls.TextBox newGrade;
 
         /// <summary>
-        /// SecondName control.
+        /// date control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox SecondName;
+        protected global::System.Web.UI.WebControls.Calendar date;
 
         /// <summary>
-        /// EMAIL control.
+        /// serialnumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox EMAIL;
+        protected global::System.Web.UI.WebControls.TextBox serialnumber;
 
         /// <summary>
-        /// Password control.
+        /// Label1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Password;
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
-        /// Faculty control.
+        /// Label2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Faculty;
+        protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
-        /// registers control.
+        /// addgrade control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button registers;
-
-        /// <summary>
-        /// error control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label error;
+        protected global::System.Web.UI.WebControls.Button addgrade;
     }
 }
