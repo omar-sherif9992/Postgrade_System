@@ -15,6 +15,10 @@ namespace GUC_POSTGRADE_SYSTEM.Admin
             {
                 Response.Redirect("/login_page.aspx");
             }
+            if (!Page.IsPostBack)
+            {
+                date.SelectedDate = DateTime.Today;
+            }
         }
 
         protected void IssueInstallments(object sender, EventArgs e)
