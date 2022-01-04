@@ -52,8 +52,8 @@ namespace GUC_POSTGRADE_SYSTEM
                 if (ff.Value.ToString() == "0")
                 {
                     Label lb = new Label();
-                    lb.Text = "This Email is Already Taken.Choose another One";
-                    lb.Attributes.CssStyle.Add("color", "red");
+                    error.Text = "This Email is Already Taken.Choose another One";
+                    error.Attributes.CssStyle.Add("color", "red");
                     Form.Controls.Add(lb);
                 }
                 else
@@ -64,7 +64,7 @@ namespace GUC_POSTGRADE_SYSTEM
                     register.Parameters.Add(new SqlParameter("@faculty", faculty));
                     register.Parameters.Add(new SqlParameter("@email", email));
                     register.Parameters.Add(new SqlParameter("@address", address));
-                    register.Parameters.Add(new SqlParameter("@Gucian", 1));
+                    register.Parameters.Add(new SqlParameter("@Gucian", 0));
 
                     conn.Open();
                     register.ExecuteNonQuery();
@@ -86,7 +86,10 @@ namespace GUC_POSTGRADE_SYSTEM
 
             if (firstname == "" || secondname == "" || email == "" || pass == "" || faculty == "" || address == "")
             {
-                Response.Write("You Must Fill all the Information");
+                Label lb = new Label();
+                error.Text = "You must fill all the Information";
+                error.Attributes.CssStyle.Add("color", "red");
+                Form.Controls.Add(lb);
             }
             else
             {
@@ -94,19 +97,37 @@ namespace GUC_POSTGRADE_SYSTEM
                 SqlConnection conn = new SqlConnection(connStr);
                 SqlCommand register = new SqlCommand("StudentRegister", conn);
                 register.CommandType = CommandType.StoredProcedure;
-                register.Parameters.Add(new SqlParameter("@first_name", firstname));
-                register.Parameters.Add(new SqlParameter("@last_name", secondname));
-                register.Parameters.Add(new SqlParameter("@password", pass));
-                register.Parameters.Add(new SqlParameter("@faculty", faculty));
-                register.Parameters.Add(new SqlParameter("@email", email));
-                register.Parameters.Add(new SqlParameter("@address", address));
-                register.Parameters.Add(new SqlParameter("@Gucian", 1));
-
+                SqlCommand findEmail = new SqlCommand("findEmail", conn);
+                findEmail.CommandType = CommandType.StoredProcedure;
+                findEmail.Parameters.Add(new SqlParameter("@email", email));
+                SqlParameter ff = findEmail.Parameters.Add(new SqlParameter("@f", SqlDbType.Int));
+                ff.Direction = ParameterDirection.Output;
                 conn.Open();
-                register.ExecuteNonQuery();
+                findEmail.ExecuteNonQuery();
                 conn.Close();
+                if (ff.Value.ToString() == "0")
+                {
 
-                Response.Redirect("login_page.aspx");
+                    error.Text = "This Email is Already Taken.Choose another One";
+                    error.Attributes.CssStyle.Add("color", "red");
+
+                }
+                else
+                {
+                    register.Parameters.Add(new SqlParameter("@first_name", firstname));
+                    register.Parameters.Add(new SqlParameter("@last_name", secondname));
+                    register.Parameters.Add(new SqlParameter("@password", pass));
+                    register.Parameters.Add(new SqlParameter("@faculty", faculty));
+                    register.Parameters.Add(new SqlParameter("@email", email));
+                    register.Parameters.Add(new SqlParameter("@address", address));
+                    register.Parameters.Add(new SqlParameter("@Gucian", 1));
+
+                    conn.Open();
+                    register.ExecuteNonQuery();
+                    conn.Close();
+
+                    Response.Redirect("login_page.aspx");
+                }
             }
         }
     }

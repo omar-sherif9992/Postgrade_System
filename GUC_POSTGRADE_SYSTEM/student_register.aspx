@@ -24,7 +24,7 @@
             <br />
             <br />
             E-Mail<br />
-            <asp:TextBox ID="EMAIL" class="form-control" runat="server"></asp:TextBox>
+            <asp:TextBox ID="EMAIL" class="form-control" runat="server" type="email"></asp:TextBox>
             <br />
             <br />
             Password<br />
@@ -39,12 +39,14 @@
             <asp:TextBox ID="Address" class="form-control" runat="server"></asp:TextBox>
             <br />
             <br />
+                        <asp:label ID ="error" runat="server"></asp:label>
+            <br />
+
             <asp:Button ID="Guc" runat="server" Text="Gucian" OnClick="GucIan" class="btn btn-outline-primary btn-lr" />
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="NonGuc" runat="server" Text="Non Gucian" OnClick="NonGUC" class="btn btn-outline-primary btn-lr" />
 
             <br />
-            <asp:label ID ="error" runat="server"></asp:label>
 
         </div>
             </div>

@@ -14,6 +14,13 @@ namespace GUC_POSTGRADE_SYSTEM
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["type"] == null)
+            {
+                Response.Redirect("login_page.aspx");
+           
+            }
+
+
             String type = Session["type"].ToString();
 
             if (type.ToString().Equals("NonGucianStudent"))
@@ -276,8 +283,8 @@ namespace GUC_POSTGRADE_SYSTEM
 
         protected void linkPublication(object sender, EventArgs e)
         {
-            /* try
-             {*/
+             try
+            {  
             if (linkPub.Text.Length == 0)
             {
                 linkMessage.Attributes.CssStyle.Add("display", "visible");
@@ -373,7 +380,7 @@ namespace GUC_POSTGRADE_SYSTEM
             }
 
 
-            /*}
+            }
 
             catch (Exception ex)
             {
@@ -381,7 +388,7 @@ namespace GUC_POSTGRADE_SYSTEM
                 linkMessage.Attributes.CssStyle.Add("color", "red");
                 linkMessage.Text = "Incorrect Information Supplied";
                 return;
-            }*/
+            }
 
 
         }

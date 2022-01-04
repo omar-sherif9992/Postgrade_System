@@ -27,7 +27,7 @@ namespace GUC_POSTGRADE_SYSTEM
 
         protected void addProgressReport(object sender, EventArgs e)
         {
-            //try{
+            try{
             DateTime date = addDate.SelectedDate;
             DateTime today = DateTime.Now;
             if (DateTime.Compare(date, today) < 0)
@@ -110,7 +110,7 @@ namespace GUC_POSTGRADE_SYSTEM
             }
 
 
-            /* }
+             }
 
                        catch (Exception ex)
                        {
@@ -119,14 +119,14 @@ namespace GUC_POSTGRADE_SYSTEM
                            addMessage.Text = "Incorrect Information Supplied";
                            return;
                        }
-                  */
+                
         }
 
 
         protected void fillProgressReport(object sender, EventArgs e)
         {
-            /* try
-                {*/
+             try
+                {
             if (fillThesis.Text.Length == 0)
             {
                 fillMessage.Attributes.CssStyle.Add("display", "visible");
@@ -204,7 +204,7 @@ namespace GUC_POSTGRADE_SYSTEM
             }
 
 
-            /* }
+             }
 
                  catch (Exception ex)
                  {
@@ -213,7 +213,7 @@ namespace GUC_POSTGRADE_SYSTEM
                      fillMessage.Text = "Incorrect Information Supplied";
                      return;
                  }
-            */
+            
 
         }
     }

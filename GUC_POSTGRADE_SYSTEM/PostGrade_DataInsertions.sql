@@ -1,6 +1,4 @@
 ﻿
-
-
 USE GUC_POSTGRADE_SYSTEM
 go
 

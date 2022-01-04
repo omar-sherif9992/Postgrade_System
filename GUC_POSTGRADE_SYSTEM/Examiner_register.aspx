@@ -16,7 +16,7 @@
         <div class="container"style="margin:5rem auto;text-align:center; border:3px solid black;padding:2.1rem 10.1rem;border-radius:15% 5%;box-shadow:2px 5px #808080ff">
 
             Enter your E-mail:<br />
-            <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your E-mail"></asp:TextBox>
+            <asp:TextBox class="form-control" ID="email" runat="server" placeholder="Enter Your E-mail" type="email"></asp:TextBox>
             <br />
             Enter your Password<br />
             <asp:TextBox class="form-control" ID="pass" runat="server" placeholder="Enter Your Password"></asp:TextBox>

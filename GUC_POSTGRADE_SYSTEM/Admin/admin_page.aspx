@@ -49,12 +49,13 @@
         <a class="nav-link" href="/Admin/update_number_of_extensions.aspx" style="color:white !important;margin:5px">Update Number of Thesis Extensions</a>
       </li>
         <li class="nav-item" style="color:greenyellow !important;float:right !important;margin-left:450px">
-        <a class="nav-link" href="login_page.aspx" style="color:greenyellow !important;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a class="nav-link" href="../login_page.aspx" style="color:greenyellow !important;"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </li>
     </ul>
   </div>
 </nav>
-    <br />
+    <br />    <br />
+
     <br />
     <br />
     <div class="container">

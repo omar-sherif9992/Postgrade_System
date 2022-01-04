@@ -112,7 +112,7 @@
        <p style="text-align:left">
         Enter Your Mobile Number :</p>
             <p>
-            <asp:TextBox class="form-control" ID="mobileNumber" runat="server" placeholder="Enter Your Mobile Number" minlength="11"></asp:TextBox>
+            <asp:TextBox class="form-control" ID="mobileNumber" runat="server" placeholder="Enter Your Mobile Number" minlength="11" type="number"></asp:TextBox>
             <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="mobileNumber" runat="server" ErrorMessage="Please Enter your Mobile Number" CssClass="invalid-feedback" Display="Dynamic"></asp:RequiredFieldValidator>
             
         </p>   

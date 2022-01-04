@@ -1,10 +1,6 @@
 ﻿
 
 
-select *
-from PostGradUser U inner join Supervisor S
-on U.id = S.id
-
 USE GUC_POSTGRADE_SYSTEM
 GO
 
@@ -349,7 +345,7 @@ print ('This is not a student ID')
 GO
 
 --3j Issue installments as per the number of installments for a certain payment every six months starting from the entered date.
-alter procedure AdminIssueInstallPayment
+create procedure AdminIssueInstallPayment
 @paymentID int,@InstallStartDate datetime,
 @success bit output
 AS
@@ -617,7 +613,7 @@ go
 --insert into ExaminerEvaluateDefense values(@DefenseDate,@ThesisSerialNo,@xD,NULL) 
 --END */
 
-alter proc AddExaminerDefense
+create proc AddExaminerDefense
 @ThesisSerialNo int , @DefenseDate Datetime,@ExaminerID int,@SupID int,
 @SuccessThesis bit output,@SuccessDate bit output,@Success bit output
 AS
@@ -1162,7 +1158,7 @@ select * from Examiner where  id = @ExaminerID
 go
 
 
-ALTER PROCEDURE AddDefenseGrade
+create PROCEDURE AddDefenseGrade
 @ThesisSerialNo int ,
 @DefenseDate Datetime ,
 @grade decimal,
@@ -1195,7 +1191,7 @@ else set @success1='0'
 GO
 
 -- 5b) Add comments for a defense. (NEW UPDATES IN THIS  ZIAD)
-ALTER PROCEDURE AddCommentsGrade
+create PROCEDURE AddCommentsGrade
 @ThesisSerialNo int ,
 @DefenseDate Datetime ,
 @comments varchar(300),

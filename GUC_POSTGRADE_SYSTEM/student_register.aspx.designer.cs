@@ -78,6 +78,15 @@ namespace GUC_POSTGRADE_SYSTEM
         protected global::System.Web.UI.WebControls.TextBox Address;
 
         /// <summary>
+        /// error control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label error;
+
+        /// <summary>
         /// Guc control.
         /// </summary>
         /// <remarks>
@@ -94,14 +103,5 @@ namespace GUC_POSTGRADE_SYSTEM
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button NonGuc;
-
-        /// <summary>
-        /// error control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label error;
     }
 }

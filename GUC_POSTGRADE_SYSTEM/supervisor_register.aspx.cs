@@ -46,10 +46,9 @@ namespace GUC_POSTGRADE_SYSTEM
                 conn.Close();
                 if (ff.Value.ToString() == "0")
                 {
-                    Label lb = new Label();
-                    lb.Text = "This Email is Already Taken.Choose another One";
-                    lb.Attributes.CssStyle.Add("color", "red");
-                    Form.Controls.Add(lb);
+                    error.Text = "This Email is Already Taken.Choose another One";
+                    error.Attributes.CssStyle.Add("color", "red");
+               
                 }
                 else
                 {

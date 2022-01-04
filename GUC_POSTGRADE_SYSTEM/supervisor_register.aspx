@@ -23,7 +23,7 @@
             <br />
             <br />
             E-Mail<br />
-            <asp:TextBox ID="EMAIL" runat="server" class="form-control" style="border-radius:7px"></asp:TextBox>
+            <asp:TextBox ID="EMAIL" runat="server" class="form-control" style="border-radius:7px" type="email"></asp:TextBox>
             <br />
             <br />
             Password<br />

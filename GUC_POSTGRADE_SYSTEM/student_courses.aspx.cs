@@ -16,6 +16,10 @@ namespace GUC_POSTGRADE_SYSTEM
         protected void Page_Load(object sender, EventArgs e)
         {
             //ViewCoursesGrades
+            if (Session["type"] == null) {
+                Response.Redirect("login_page.aspx");
+            }
+
             String type = Session["type"].ToString();
             if (type == "NonGucianStudent")
             {

@@ -31,7 +31,7 @@ namespace GUC_POSTGRADE_SYSTEM
             login_proc.Parameters.Add(new SqlParameter("@password", password));
             login_proc.Parameters.Add(new SqlParameter("@name", ExName));
             login_proc.Parameters.Add(new SqlParameter("@fieldofwork", fiel));
-            login_proc.Parameters.Add(new SqlParameter("@isNational", false));
+            login_proc.Parameters.Add(new SqlParameter("@isNational", 1));
             if (ExName == "" || fiel == "" || mail == "" || password == "")
             {
                 error.Text = "You Have to Fill all the Information";
@@ -41,7 +41,7 @@ namespace GUC_POSTGRADE_SYSTEM
             {
                 SqlCommand findEmail = new SqlCommand("findEmail", conn);
                 findEmail.CommandType = CommandType.StoredProcedure;
-                findEmail.Parameters.Add(new SqlParameter("@email", email));
+                findEmail.Parameters.Add(new SqlParameter("@email", mail));
                 SqlParameter ff = findEmail.Parameters.Add(new SqlParameter("@f", SqlDbType.Int));
                 ff.Direction = ParameterDirection.Output;
                 conn.Open();
@@ -49,10 +49,8 @@ namespace GUC_POSTGRADE_SYSTEM
                 conn.Close();
                 if (ff.Value.ToString() == "0")
                 {
-                    Label lb = new Label();
-                    lb.Text = "This Email is Already Taken.Choose another One";
-                    lb.Attributes.CssStyle.Add("color", "red");
-                    Form.Controls.Add(lb);
+                    error.Text = "This Email is Already Taken.Choose another One";
+                    error.Attributes.CssStyle.Add("color", "red");
                 }
                 else
                 {
@@ -87,11 +85,28 @@ namespace GUC_POSTGRADE_SYSTEM
             else
             {
 
+                SqlCommand findEmail = new SqlCommand("findEmail", conn);
+                findEmail.CommandType = CommandType.StoredProcedure;
+                findEmail.Parameters.Add(new SqlParameter("@email", mail));
+                SqlParameter ff = findEmail.Parameters.Add(new SqlParameter("@f", SqlDbType.Int));
+                ff.Direction = ParameterDirection.Output;
                 conn.Open();
-                login_proc.ExecuteNonQuery();
+                findEmail.ExecuteNonQuery();
                 conn.Close();
-                Response.Redirect("login_page.aspx");
+                if (ff.Value.ToString() == "0")
+                {
+                    error.Text = "This Email is Already Taken.Choose another One";
+                    error.Attributes.CssStyle.Add("color", "red");
+                }
+                else
+                {
+                    conn.Open();
+                    login_proc.ExecuteNonQuery();
+                    conn.Close();
+                    Response.Redirect("login_page.aspx");
+                }
             }
         }
+
     }
 }
