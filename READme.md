@@ -7,13 +7,13 @@
 
 
 
-<h1 align="center">Welcome to Postgrade-System</h1>
+<h1 align="center">Welcome to Postgrad-System</h1>
 
 
 <div align="center">
     <img src="https://camo.githubusercontent.com/195f24feca7dc8575566c0c0d848b8cc5affbaabdbc0cb0a8b776faade01ac86/68747470733a2f2f7777772e6275652e6564752e65672f77702d636f6e74656e742f75706c6f6164732f323031382f30382f67726164756174696f6e2d6361702d333030783330302e706e67" alt="Logo" width="80" height="80">
 
-  <h3 align="center">Postgrade-System</h3>
+  <h3 align="center">Postgrad-System</h3>
 
   <p align="center">
 The aim of the project is to implement a system that provides these features to the parties involved!
