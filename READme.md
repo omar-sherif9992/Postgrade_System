@@ -11,41 +11,32 @@
 
 
 <div align="center">
-
-    <img src="./SVGs/warehouse-icon.png" alt="Logo" width="80" height="80">
+    <img src="https://camo.githubusercontent.com/195f24feca7dc8575566c0c0d848b8cc5affbaabdbc0cb0a8b776faade01ac86/68747470733a2f2f7777772e6275652e6564752e65672f77702d636f6e74656e742f75706c6f6164732f323031382f30382f67726164756174696f6e2d6361702d333030783330302e706e67" alt="Logo" width="80" height="80">
 
   <h3 align="center">Postgrade-System</h3>
 
   <p align="center">
-    An E-commerce API to aid Developers for their E-commerce practice projects!
-    <br />
-    <a href="https://documenter.getpostman.com/view/17286684/UUy65PqF"><strong>Explore the docs »</strong></a>
+The aim of the project is to implement a system that provides these features to the parties involved!
     <br />
     <br />
-    <a href="https://osa-warehouse-api.herokuapp.com/">View The WareHouse API</a>
-    ·
-	     <a href="https://osa-warehouse-api.herokuapp.com/register">Get Your api_key</a>
-    ·
     <a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
    	      ·
-    <a href="mailto:osa.helpme@gmail.com?subject=I%20want%20to%20be%20a%20Contributor%20to%20OSA-WareHouse-API&body=Dear%20Omar%20Sherif%2C%0A%0A%3D%3D%3E%20name%0A%3D%3D%3E%20email%0A%3D%3D%3E%20phone%20number%0A%3D%3D%3E%20github%20link%0A%0A%0A%0ANeeded%20Skills%3A%0A%0A1-Familiar%20with%20Python%0A2-Familiar%20with%20BeautifulSoup%0A3-Familiar%20with%20csv%0A4-Familiar%20with%20pandas%20%0A%0AI%20acquire%20all%20those%20needed%20Skills.%0A%0Aregards">Be a Contributer</a>
+    <a href="mailto:osa.helpme@gmail.com?subject=I%20want%20to%20be%20a%20Contributor%20to%20Postgrade_System&body=Dear%20Omar%20Sherif">Be a Contributer</a>
   </p>
 </div>
 
-<a href="https://osa-warehouse-api.herokuapp.com/register">WareHouse API</a>
 
 ## 💡 Description
 University has a postgrad office responsible for masters and PhD. programs. The postgrad office wants to
 create a system to keep track of students doing their postgrad studies as well as manage the process of
 students taking prerequisite courses for the postgrad studies. Students need to register for their master
 or PhD through this system.
-The aim of the project is to implement a system that provides these features to the parties involved.
+
 
 ## ⚠️ Disclaimer  
 Users who will Use this Data should only use it for Practice and <strong>not for Commercial Purposes !</strong>
 
-
-<a href="https://osa-warehouse-api.herokuapp.com/"><h2>Post Grade System Components</h2></a>
+<h2>Post Grade System Components</h2>
 <ul>
   <li><strong>Student</strong>
     <ul>
