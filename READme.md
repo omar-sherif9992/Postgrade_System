@@ -7,13 +7,13 @@
 
 
 
-<h1 align="center">Welcome to Postgrad-System</h1>
+<h1 align="center">Welcome to Postgraduate-System</h1>
 
 
 <div align="center">
     <img src="https://camo.githubusercontent.com/195f24feca7dc8575566c0c0d848b8cc5affbaabdbc0cb0a8b776faade01ac86/68747470733a2f2f7777772e6275652e6564752e65672f77702d636f6e74656e742f75706c6f6164732f323031382f30382f67726164756174696f6e2d6361702d333030783330302e706e67" alt="Logo" width="80" height="80">
 
-  <h3 align="center">Postgrad-System</h3>
+  <h3 align="center">Postgraduate-System</h3>
 
   <p align="center">
 The aim of the project is to implement a system that provides these features to the parties involved!
@@ -21,15 +21,15 @@ The aim of the project is to implement a system that provides these features to 
     <br />
     <a href="mailto:osa.helpme@gmail.com?subject=UnExpected%20Error%20Occured&body=Sorry%20for%20the%20inconvenience%2C%20Please%20describe%20Your%20situation%20and%20emphasis%20the%20Endpoint%20!%0A">Report Bug</a>
    	      ·
-    <a href="mailto:osa.helpme@gmail.com?subject=I%20want%20to%20be%20a%20Contributor%20to%20Postgrade_System&body=Dear%20Omar%20Sherif">Be a Contributer</a>
+    <a href="mailto:osa.helpme@gmail.com?subject=I%20want%20to%20be%20a%20Contributor%20to%20Postgraduate_System&body=Dear%20Omar%20Sherif">Be a Contributer</a>
   </p>
 </div>
 
 
 ## 💡 Description
-University has a postgrad office responsible for masters and PhD. programs. The postgrad office wants to
-create a system to keep track of students doing their postgrad studies as well as manage the process of
-students taking prerequisite courses for the postgrad studies. Students need to register for their master
+University has a Postgraduate office responsible for masters and PhD. programs. The Postgraduate office wants to
+create a system to keep track of students doing their Postgraduate studies as well as manage the process of
+students taking prerequisite courses for the Postgraduate studies. Students need to register for their master
 or PhD through this system.
 
 
