@@ -36,7 +36,7 @@ or PhD through this system.
 ## ⚠️ Disclaimer  
 Users who will Use this Data should only use it for Practice and <strong>not for Commercial Purposes !</strong>
 
-<h2>Post Grade System Components <a href="https://raw.githubusercontent.com/omar-sherif9992/Postgrade_System/master/Diagram/EntityDiagram.pdf" download>Download Entity Relation Diagram</a></h2>
+<h2>Post Grade System Components <a href="https://raw.githubusercontent.com/omar-sherif9992/Postgraduate_System/master/Diagram/EntityDiagram.pdf" download>Download Entity Relation Diagram</a></h2>
 <ul>
   <li><strong>Student</strong>
     <ul>
